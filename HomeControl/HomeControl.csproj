@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36E940B2-6E25-4D51-8A08-4FFC1FE52CAB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HomeControl</RootNamespace>
+    <AssemblyName>HomeControl</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>HomeControl.HomeControlMain</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\..\..\DLL\Moq.4.0.10827\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5813.39035, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\NUnit.org\framework\3.0.5813.39031\net-4.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Phidget21.NET, Version=2.1.8.222, Culture=neutral, PublicKeyToken=c2b1f2a3594bce52, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LIGHT_COMMON_SOURCES\COMMON_DLL\PHIDGETS\Phidget21.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADVANCED_COMPONENTS\CONFIGURATION\HeaterCommanderConfiguration.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\CONFIGURATION\CommanderConfiguration.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\DeviceSignalSequencer.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\DeviceBlinker.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\HeaterCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\DeviceCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\DeviceControlTimer.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\ExtendedLightCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceSequencer.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IHeaterCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceBlinker.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceControlTimer.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IExtendedLightCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\ILightCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceSecenarioControl.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\LightCommander.cs" />
+    <Compile Include="APPLICATION_SERVICES\Services.cs" />
+    <Compile Include="BASIC_COMPONENTS\DataHandler.cs" />
+    <Compile Include="BASIC_COMPONENTS\Interfaces\IDataHandler.cs" />
+    <Compile Include="BASIC_COMPONENTS\Interfaces\IIOHandler.cs" />
+    <Compile Include="BASIC_COMPONENTS\IOHandler.cs" />
+    <Compile Include="BASIC_COMPONENTS\timerMockable.cs" />
+    <Compile Include="BASIC_CONSTANTS\basicconstants.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\DeviceScenarioControl.cs" />
+    <Compile Include="BASIC_CONSTANTS\basicstringconstants.cs" />
+    <Compile Include="BASIC_CONTROL_LOGIC\controller.cs" />
+    <Compile Include="HARDCONFIG\basichardconfig.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\AnteBathWashRoomConfiguration.cs" />
+    <Compile Include="ROOMS\AnteBathWashRoomController.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\ControllerConfiguration.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\HardwareConfiguration.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\RoomConfiguration.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_datahandling.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_devicesequencer.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_deviceblinker.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_heatercommander.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_devicecommander.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_DeviceScenarioControl.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_lightcommander.cs" />
+    <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_devicecontroltimer.cs" />
+    <Compile Include="UNIT_TESTS\BASIC_COMPONENTS\unittest_testiohandler.cs" />
+    <Compile Include="UNIT_TESTS\BASIC_CONTROL_LOGIC\unittest_devicestepcontrol.cs" />
+    <Compile Include="BASIC_CONTROL_LOGIC\devicestepcontrol.cs" />
+    <Compile Include="HomeControlMain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
