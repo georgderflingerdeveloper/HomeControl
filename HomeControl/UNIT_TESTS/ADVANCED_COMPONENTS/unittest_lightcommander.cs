@@ -648,8 +648,8 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
                                             new DeviceControlTimer( MockTimer_On.Object, MockTimer_Off.Object, MockTimer_FinalOff.Object ),
                                             TestScenarioControl );
 
-            TestCommander.Commando = DeviceCommandos.ScenarioLight;
-            TestCommander.ExtUpdate += TestCommander_EUpdate_AnteRoom;
+            TestCommander.Commando           = DeviceCommandos.ScenarioLight;
+            TestCommander.ExtUpdate         += TestCommander_EUpdate_AnteRoom;
             TestCommander.AvailableScenarios = TestScenarioControl.Scenarios;
         }
 

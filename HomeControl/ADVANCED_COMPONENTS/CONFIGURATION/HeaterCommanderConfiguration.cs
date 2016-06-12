@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using HomeControl.HARDCONFIG;
-using System;
+﻿using System;
 
 namespace HomeControl.ADVANCED_COMPONENTS
 {
