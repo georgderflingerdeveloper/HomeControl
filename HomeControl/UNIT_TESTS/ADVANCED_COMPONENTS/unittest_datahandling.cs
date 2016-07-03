@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Moq;
-using HomeControl.ADVANCED_COMPONENTS;
-using HomeControl.BASIC_CONSTANTS;
-using BASIC_COMPONENTS;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HomeControl.ROOMS;
 using HomeControl.BASIC_COMPONENTS;
 using SystemServices;

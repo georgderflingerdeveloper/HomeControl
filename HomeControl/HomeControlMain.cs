@@ -7,7 +7,6 @@ using SystemServices;
 using HomeControl.ROOMS;
 using BASIC_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS;
-using System.Threading;
 
 namespace HomeControl
 {
@@ -39,7 +38,7 @@ namespace HomeControl
                    case InfoOperationMode.ANTEROOM:
                         AnteRoom( );
                         break;
-                    #endregion
+                   #endregion
             }
 
             Finish( );
