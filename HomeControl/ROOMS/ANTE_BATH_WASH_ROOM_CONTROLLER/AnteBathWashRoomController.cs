@@ -82,11 +82,11 @@ namespace HomeControl.ROOMS
             IdleScenario         = _config.AnteRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlAnteRoom = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
+            _DeviceScenarioControlAnteRoom           = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
             _DeviceScenarioControlAnteRoom.Scenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
 
-            _DeviceControlTimerAnteRoom = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
-            _LightCommanderAnteRoom = new ExtendedLightCommander( _config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom );
+            _DeviceControlTimerAnteRoom        = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
+            _LightCommanderAnteRoom            = new ExtendedLightCommander( _config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom );
             _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
             _LightCommanderAnteRoom.AvailableScenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
 
@@ -102,11 +102,11 @@ namespace HomeControl.ROOMS
             IdleScenario          = _config.BathRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlBathRoom = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
+            _DeviceScenarioControlBathRoom           = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
             _DeviceScenarioControlBathRoom.Scenarios = _config.BathRoom.ScenarioConfiguration.Scenarios;
 
-            _DeviceControlTimerBathRoom = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
-            _LightCommanderBathRoom = new ExtendedLightCommander( _config.BathRoom.LightCommanderConfiguration, _DeviceControlTimerBathRoom, _DeviceScenarioControlBathRoom );
+            _DeviceControlTimerBathRoom        = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
+            _LightCommanderBathRoom            = new ExtendedLightCommander( _config.BathRoom.LightCommanderConfiguration, _DeviceControlTimerBathRoom, _DeviceScenarioControlBathRoom );
             _LightCommanderBathRoom.ExtUpdate += _Commander_ExtUpdate;
             #endregion
 
@@ -120,11 +120,11 @@ namespace HomeControl.ROOMS
             IdleScenario            = _config.WashRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlWashRoom = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
+            _DeviceScenarioControlWashRoom           = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
             _DeviceScenarioControlWashRoom.Scenarios = _config.WashRoom.ScenarioConfiguration.Scenarios;
 
-            _DeviceControlTimerWashRoom = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
-            _LightCommanderWashRoom = new ExtendedLightCommander( _config.WashRoom.LightCommanderConfiguration, _DeviceControlTimerWashRoom, _DeviceScenarioControlWashRoom );
+            _DeviceControlTimerWashRoom        = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
+            _LightCommanderWashRoom            = new ExtendedLightCommander( _config.WashRoom.LightCommanderConfiguration, _DeviceControlTimerWashRoom, _DeviceScenarioControlWashRoom );
             _LightCommanderWashRoom.ExtUpdate += _Commander_ExtUpdate;
             #endregion
 

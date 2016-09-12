@@ -86,8 +86,9 @@
     <Compile Include="BASIC_CONSTANTS\basicstringconstants.cs" />
     <Compile Include="BASIC_CONTROL_LOGIC\controller.cs" />
     <Compile Include="HARDCONFIG\basichardconfig.cs" />
+    <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\INTERFACE\IAnteBathWashRoomController.cs" />
     <Compile Include="ROOMS\CONFIGURATION\AnteBathWashRoomConfiguration.cs" />
-    <Compile Include="ROOMS\AnteBathWashRoomController.cs" />
+    <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\AnteBathWashRoomController.cs" />
     <Compile Include="ROOMS\CONFIGURATION\ControllerConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\HardwareConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\RoomConfiguration.cs" />
@@ -108,7 +109,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\UNIT_TEST\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
