@@ -12,7 +12,6 @@ namespace HomeControl.ADVANCED_COMPONENTS
 
     public class BlinkerConfiguration
     {
-
         int _index;
         StartBlinker _StartMode;
 
@@ -52,8 +51,8 @@ namespace HomeControl.ADVANCED_COMPONENTS
     public class DeviceBlinker : IDeviceBlinker
     {
         public event Update          EUpdate;
-        bool[] _ToggleOutput  = new bool[CommanderConfiguration.NumberOfOutputs];
-        UpdateEventArgs        _UpdateEventArgs = new UpdateEventArgs();
+        bool[] _ToggleOutput              = new bool[CommanderConfiguration.NumberOfOutputs];
+        UpdateEventArgs  _UpdateEventArgs = new UpdateEventArgs();
         ITimer _devicecontroltimer;
         BlinkerConfiguration _config;
 

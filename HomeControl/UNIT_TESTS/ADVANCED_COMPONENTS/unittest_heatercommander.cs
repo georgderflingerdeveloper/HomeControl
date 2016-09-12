@@ -20,8 +20,8 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         {
             TestConfig = new HeaterCommanderConfiguration( )
             {
-                Startindex = 0,
-                Lastindex  = 0,
+                Startindex        = 0,
+                Lastindex         = 0,
                 Modes             = DeviceCommandos.SingleDeviceOnOffFallingEdge,
                 ModesAutomaticoff = DeviceCommanderAutomaticOff.None,
                 Modesdelayedon    = DeviceCommanderDelayedOn.None,
@@ -59,7 +59,7 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             TestCommander.MainTrigger( Edge.Falling );
 
             // EVENT OFF TRIGGERED ( f.e. Window OPENS )
-            TestCommander.EventSwitch(  TurnDevice.OFF );
+            TestCommander.EventSwitch( TurnDevice.OFF );
 
             Assert.IsFalse( TestResult );
             Assert.AreEqual( TestConfig.Startindex, ReportedDeviceIndex );
@@ -97,7 +97,6 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             Assert.IsFalse( TestResult );
             Assert.AreEqual( TestConfig.Startindex, ReportedDeviceIndex );
         }
-
 
         [TestMethod]
         public void Test_Off_On_TurnOff_Event( )

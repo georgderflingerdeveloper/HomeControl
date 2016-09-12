@@ -135,7 +135,7 @@ namespace HomeControl
             Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.LightCommanderConfiguration.Startindex.ToString( ) );
             Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.LightCommanderConfiguration.DeviceRemainOnAfterAutomaticOff.Count.ToString( ));
 
-           Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.ScenarioConfiguration.DelayTimeNextScenario.ToString( ) );
+            Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.ScenarioConfiguration.DelayTimeNextScenario.ToString( ) );
             Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.ScenarioConfiguration.Scenarios.Count.ToString( ) );
         }
 
