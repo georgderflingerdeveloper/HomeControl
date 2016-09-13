@@ -40,9 +40,9 @@
     <Reference Include="Moq">
       <HintPath>..\..\..\DLL\Moq.4.0.10827\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.0.5813.39035, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files (x86)\NUnit.org\framework\3.0.5813.39031\net-4.0\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Phidget21.NET, Version=2.1.8.222, Culture=neutral, PublicKeyToken=c2b1f2a3594bce52, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -87,6 +87,7 @@
     <Compile Include="BASIC_CONTROL_LOGIC\controller.cs" />
     <Compile Include="HARDCONFIG\basichardconfig.cs" />
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\INTERFACE\IAnteBathWashRoomController.cs" />
+    <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\UNIT_TEST\AnteBathWashRoomController_UnitTest.cs" />
     <Compile Include="ROOMS\CONFIGURATION\AnteBathWashRoomConfiguration.cs" />
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\AnteBathWashRoomController.cs" />
     <Compile Include="ROOMS\CONFIGURATION\ControllerConfiguration.cs" />
@@ -108,10 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\UNIT_TEST\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>

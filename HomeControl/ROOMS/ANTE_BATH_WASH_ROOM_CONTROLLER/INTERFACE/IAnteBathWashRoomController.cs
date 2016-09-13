@@ -8,5 +8,8 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE
 {
     interface IAnteBathWashRoomController
     {
+        int ScenarioNumberAnteRoom { set; }
+        int ScenarioNumberBathRoom { set; }
+        int ScenarioNumberWashRoom { set; }
     }
 }

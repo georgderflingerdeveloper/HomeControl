@@ -358,9 +358,9 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         Mock<ITimer> MockTimer_Next         = new Mock<ITimer>();
         Mock<ITimer> MockTimer_Auto         = new Mock<ITimer>();
 
-        ExtendedLightCommander TestCommander;
-        CommanderConfiguration  TestConfig = new CommanderConfiguration();
+        ExtendedLightCommander  TestCommander;
         DeviceScenarioControl   TestScenarioControl;
+        CommanderConfiguration  TestConfig = new CommanderConfiguration();
 
         bool[] TestLightExpectedOn          = new bool[] {true,  true,  true,  true,  true,  true,  true};
         bool[] TestLightGroup               = new bool[] {true,  true,  true,  true,  true,  true,  true};
@@ -629,8 +629,8 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         void TestScenarioAnteRoom()
         {
             TestConfig.DeviceRemainOnAfterAutomaticOff = new List<int>( ) { 2, 3 };
-            TestConfig.Startindex = 0;
-            TestConfig.Lastindex = 3;
+            TestConfig.Startindex        = 0;
+            TestConfig.Lastindex         = 3;
             TestConfig.ModesAutomaticoff = DeviceCommanderAutomaticOff.WithMainAndPresenceTrigger;
 
 

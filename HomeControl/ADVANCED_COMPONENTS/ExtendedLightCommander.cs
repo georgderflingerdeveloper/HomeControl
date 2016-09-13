@@ -30,10 +30,12 @@ namespace HomeControl.ADVANCED_COMPONENTS
         #endregion
 
         #region PUBLIC_METHODS
-        public void ScenarioTrigger( bool edge )
+        public int ScenarioTrigger( bool edge )
         {
             _devicescenariocontrol.WatchForInputValueChange( edge );
             ControlAutomaticOff( );
+            int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber();
+            return ( ActualScenarioNumber );
          }
         #endregion
 

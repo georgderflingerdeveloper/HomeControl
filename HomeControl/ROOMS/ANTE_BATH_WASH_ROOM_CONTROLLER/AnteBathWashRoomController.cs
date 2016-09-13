@@ -4,10 +4,11 @@ using HomeControl.BASIC_COMPONENTS.Interfaces;
 using HomeControl.ADVANCED_COMPONENTS;
 using BASIC_CONTROL_LOGIC;
 using HomeControl.BASIC_CONSTANTS;
+using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
 
 namespace HomeControl.ROOMS
 {
-    class AnteBathWashRoomController : Controller
+    class AnteBathWashRoomController : Controller, IAnteBathWashRoomController
     {
         #region DECLARATION
         AnteBathWashRoomConfiguration  _config;
@@ -37,6 +38,10 @@ namespace HomeControl.ROOMS
         double IdleScenario;
         double NotUsed;
         bool   MultiIOCardsAvailable = false;
+        int _ScenarioNumberAnteRoom;
+        int _ScenarioNumberBathRoom;
+        int _ScenarioNumberWashRoom;
+
         #endregion
 
         #region CONSTRUCTOR
@@ -69,6 +74,47 @@ namespace HomeControl.ROOMS
         }
         #endregion
 
+        #region PROPERTIES
+        public int ScenarioNumberAnteRoom
+        {
+            get
+            {
+                return _ScenarioNumberAnteRoom;
+            }
+
+            set
+            {
+                _ScenarioNumberAnteRoom = value;
+            }
+        }
+
+        public int ScenarioNumberBathRoom
+        {
+            get
+            {
+                return _ScenarioNumberBathRoom;
+            }
+
+            set
+            {
+                _ScenarioNumberBathRoom = value;
+            }
+        }
+
+        public int ScenarioNumberWashRoom
+        {
+            get
+            {
+                return _ScenarioNumberWashRoom;
+            }
+
+            set
+            {
+                _ScenarioNumberWashRoom = value;
+            }
+        }
+        #endregion
+
         #region PRIVATE_METHODS
         void Constructor()
         {
@@ -93,7 +139,7 @@ namespace HomeControl.ROOMS
             #endregion
 
             #region LIGHTCOMMANDER_BATHROOM
-            TimeTurnOn = _config.BathRoom.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn            = _config.BathRoom.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff  = _config.BathRoom.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
             TimeTurnFinalOff      = _config.BathRoom.LightCommanderConfiguration.DelayTimeFinalOff;
             Startindex            = _config.BathRoom.LightCommanderConfiguration.Startindex;
@@ -150,9 +196,9 @@ namespace HomeControl.ROOMS
         {
             if( MultiIOCardsAvailable )
             {
-                if( e.Indexselectedhardware < _IOHandlerMulti?.Length )
+                if( e.IndexSelectedHardware < _IOHandlerMulti?.Length )
                 {
-                    _IOHandlerMulti?[e.Indexselectedhardware]?.UpdateDigitalOutputs( e.Index, e.Value );
+                    _IOHandlerMulti?[e.IndexSelectedHardware]?.UpdateDigitalOutputs( e.Index, e.Value );
                 }
             }
             else
@@ -161,40 +207,45 @@ namespace HomeControl.ROOMS
             }
         }
 
-        private void IOHandler__EDigitalInputChanged( object sender, DigitalInputEventargs e )
+        void RoomController( int index, bool value )
         {
-            switch( e.Index )
+            switch( index )
             {
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputAnteRoomMainButton:
-                     _LightCommanderAnteRoom?.ScenarioTrigger( e.Value );
+                     _ScenarioNumberAnteRoom = (int) _LightCommanderAnteRoom?.ScenarioTrigger( value );
                      break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputBathRoomMainButton:
-                     _LightCommanderBathRoom?.ScenarioTrigger( e.Value );
-                     _HeaterCommanderBathRoom?.MainTrigger( e.Value );
+                     _ScenarioNumberBathRoom = (int) _LightCommanderBathRoom?.ScenarioTrigger( value );
+                     _HeaterCommanderBathRoom?.MainTrigger( value );
                      break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputWashRoomMainButton:
-                     _LightCommanderWashRoom?.ScenarioTrigger( e.Value );
+                     _ScenarioNumberWashRoom = (int) _LightCommanderWashRoom?.ScenarioTrigger( value );
                      break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputAnteRoomPresenceDetector:
-                     _LightCommanderAnteRoom?.PresenceTrigger( e.Value );
-                     _PresenceLight?.PresenceTrigger( e.Value );
+                     _LightCommanderAnteRoom?.PresenceTrigger( value );
+                     _PresenceLight?.PresenceTrigger( value );
                      break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputWindow:
-                     bool WindowIsOpen = (e.Value == true);
+                     bool WindowIsOpen = (value == true);
                      if( WindowIsOpen )
                      {
-                        _HeaterCommanderBathRoom.EventSwitch( TurnDevice.OFF );
+                        _HeaterCommanderBathRoom.EventSwitch( PowerState.OFF );
                      }
                      else
                      {
-                        _HeaterCommanderBathRoom.EventSwitch( TurnDevice.ON );
+                        _HeaterCommanderBathRoom.EventSwitch( PowerState.ON );
                      }
                      break;
             }
+        }
+
+        private void IOHandler__EDigitalInputChanged( object sender, DigitalInputEventargs e )
+        {
+            RoomController( e.Index, e.Value );
         }
         #endregion
     }

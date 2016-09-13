@@ -40,7 +40,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
             }
         }
 
-        public int Indexselectedhardware
+        public int IndexSelectedHardware
         {
             get
             {
@@ -76,7 +76,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
         {
             _config             = config;
             _commando           = _config.Modes;
-            _UpdateEventArgs.Indexselectedhardware = _config.IndexSelectedHardware;
+            _UpdateEventArgs.IndexSelectedHardware = _config.IndexSelectedHardware;
             _devicecontroltimer = devicecontroltimer;
             devicecontroltimer.EControlOff += Devicecontroltimer_EControlOff;
             devicecontroltimer.EControlOn  += Devicecontroltimer_EControlOn;
