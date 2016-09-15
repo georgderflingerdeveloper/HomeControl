@@ -24,22 +24,32 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         AnteBathWashRoomController    _TestAnteBathWashRoomController;
         AnteBathWashRoomConfiguration _TestAnteBathWashRoomConfiguration;
         DeviceBlinker                 _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
-
-        Mock<IIOHandler> _MockTestIOHandler = new Mock<IIOHandler>();
+        DigitalInputEventargs         _TestArgs      = new DigitalInputEventargs();
+        Mock<IIOHandler>              _MockTestIOHandler;
 
         public UnitTest_AnteBathWashRoomController( )
         {
+            _MockTestIOHandler                 = new Mock<IIOHandler>( );
             _TestAnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
             _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object); 
         }
 
-        //_MockTimer.Raise( timer => timer.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
         [Test]
         public void TestBathRoomLight_FirstScenario( )
         {
-           //_MockTestIOHandler.Raise( DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, new EventArgs() as DigitalInputEventargs );
-           Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberBathRoom );
+            // prepare test
+            _TestAnteBathWashRoomController.ScenarioNumberBathRoom = 1;
+            _TestArgs.Index = IOAssignmentControllerAnteBathWashRoom.indDigitalInputBathRoomMainButton;
+            _TestArgs.Value = true;
+
+            // action
+            _MockTestIOHandler.Raise( DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs );
+
+            // proove
+            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberBathRoom );
         }
+
+
     }
 }

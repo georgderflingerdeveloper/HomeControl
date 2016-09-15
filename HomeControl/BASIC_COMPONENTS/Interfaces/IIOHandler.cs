@@ -1,6 +1,4 @@
-﻿using Phidgets;
-using Phidgets.Events;
-using BASIC_COMPONENTS;
+﻿using BASIC_COMPONENTS;
 
 
 namespace HomeControl.BASIC_COMPONENTS.Interfaces
