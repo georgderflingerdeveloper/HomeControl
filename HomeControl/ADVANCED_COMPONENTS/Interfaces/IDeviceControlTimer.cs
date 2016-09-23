@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HomeControl.ADVANCED_COMPONENTS.Interfaces
+﻿namespace HomeControl.ADVANCED_COMPONENTS.Interfaces
 {
     public interface IDeviceControlTimer
     {

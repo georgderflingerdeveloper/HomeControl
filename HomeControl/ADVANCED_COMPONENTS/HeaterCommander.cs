@@ -25,7 +25,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
             }
             else if( _heaterconfig.Options == HOptions.EventSwitchActive )
             {
-                switch( base.State )
+                switch( State )
                 {
                     case DeviceState.Inactive:
                          break;

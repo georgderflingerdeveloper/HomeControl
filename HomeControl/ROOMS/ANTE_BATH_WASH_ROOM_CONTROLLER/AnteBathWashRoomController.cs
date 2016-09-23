@@ -135,7 +135,6 @@ namespace HomeControl.ROOMS
             _LightCommanderAnteRoom            = new ExtendedLightCommander( _config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom );
             _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
             _LightCommanderAnteRoom.AvailableScenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
-
             #endregion
 
             #region LIGHTCOMMANDER_BATHROOM
@@ -230,7 +229,7 @@ namespace HomeControl.ROOMS
                      break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputWindow:
-                     bool WindowIsOpen = (value == true);
+                     bool WindowIsOpen = (value == false);
                      if( WindowIsOpen )
                      {
                         _HeaterCommanderBathRoom.EventSwitch( PowerState.OFF );

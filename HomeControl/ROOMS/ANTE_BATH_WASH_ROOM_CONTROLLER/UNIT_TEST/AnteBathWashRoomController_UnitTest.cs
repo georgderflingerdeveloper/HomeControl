@@ -50,6 +50,17 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
             Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberBathRoom );
         }
 
+        [Test]
+        public void TestAnteRoomLight_FirstScenario( )
+        {
+            _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = 1;
+            _TestArgs.Index = IOAssignmentControllerAnteBathWashRoom.indDigitalInputAnteRoomMainButton;
+            _TestArgs.Value = true;
+
+            _MockTestIOHandler.Raise( DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs );
+
+            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
+        }
 
     }
 }
