@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
-using Phidgets.Events;
-using HomeControl.ROOMS;
-
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 {

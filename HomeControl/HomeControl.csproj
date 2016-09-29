@@ -74,7 +74,10 @@
     <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceCommander.cs" />
     <Compile Include="ADVANCED_COMPONENTS\Interfaces\ILightCommander.cs" />
     <Compile Include="ADVANCED_COMPONENTS\Interfaces\IDeviceSecenarioControl.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\Interfaces\IPwmController.cs" />
     <Compile Include="ADVANCED_COMPONENTS\LightCommander.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\PwmController.cs" />
+    <Compile Include="ADVANCED_COMPONENTS\UNIT_TESTS\UnitTest_PwmController.cs" />
     <Compile Include="APPLICATION_SERVICES\Services.cs" />
     <Compile Include="BASIC_COMPONENTS\DataHandler.cs" />
     <Compile Include="BASIC_COMPONENTS\Interfaces\IDataHandler.cs" />

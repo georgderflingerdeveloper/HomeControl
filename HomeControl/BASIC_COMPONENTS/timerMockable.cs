@@ -11,9 +11,9 @@ namespace BASIC_COMPONENTS
         event ElapsedEventHandler Elapsed;
     }
 
-
     public class Timer_ : ITimer
     {
+
         bool _IsStarted = false;
 
         public void SetIntervall( double intervall )

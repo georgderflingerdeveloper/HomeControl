@@ -38,10 +38,9 @@ namespace HomeControl.ROOMS
         double IdleScenario;
         double NotUsed;
         bool   MultiIOCardsAvailable = false;
-        int _ScenarioNumberAnteRoom;
-        int _ScenarioNumberBathRoom;
-        int _ScenarioNumberWashRoom;
-
+        int    _ScenarioNumberAnteRoom;
+        int    _ScenarioNumberBathRoom;
+        int    _ScenarioNumberWashRoom;
         #endregion
 
         #region CONSTRUCTOR
