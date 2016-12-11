@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 using BASIC_COMPONENTS;
 
@@ -15,12 +16,6 @@ namespace HomeControl.ADVANCED_COMPONENTS
     {
         eOff,
         eOn
-    };
-
-    enum Mode
-    {
-        eStartWithOff,
-        eStartWithOn
     };
 
     public class PwmControllerEventArgs : EventArgs
@@ -89,24 +84,28 @@ namespace HomeControl.ADVANCED_COMPONENTS
     {
         #region DECLARATION
         PwmStatus               _Status;
-        Mode                    _Mode;
         double                  _DurationOn;
         double                  _DurationOff;
         ITimer                  _TimerOn;
         ITimer                  _TimerOff;
         PwmControllerEventArgs  _PwmControllerEventArgs;
+        bool                    _TimerOnIsStarted;
+        bool                    _TimerOffIsStarted;
         #endregion
 
         #region CONSTRUCTOR
-        public PwmController( ITimer TimerOn, ITimer TimerOff, double DurationOn, double DurationOff, Mode Mode_ )
+        public PwmController( ITimer TimerOn, ITimer TimerOff, double DurationOn, double DurationOff )
         {
-            _PwmControllerEventArgs = new PwmControllerEventArgs( );
-            _DurationOn  = DurationOn;
-            _DurationOff = DurationOff;
+            _PwmControllerEventArgs             = new PwmControllerEventArgs( );
+            _DurationOn                         = DurationOn;
+            _DurationOff                        = DurationOff;
             _PwmControllerEventArgs.DurationOn  = _DurationOn;
             _PwmControllerEventArgs.DurationOff = _DurationOff;
-            _Mode = Mode_;
+            _TimerOn = TimerOn;
+            _TimerOn.Elapsed += _TimerOn_Elapsed;
         }
+
+
         #endregion
 
         #region PROPERTIES
@@ -122,24 +121,36 @@ namespace HomeControl.ADVANCED_COMPONENTS
                 _Status = value;
             }
         }
+
+        public bool TimerOnIsStarted
+        {
+            get
+            {
+                return _TimerOnIsStarted;
+            }
+       }
+
+        public bool TimerOffIsStarted
+        {
+            get
+            {
+                return _TimerOffIsStarted;
+            }
+        }
+        #endregion
+
+        #region PRIVATE
         #endregion
 
         #region PUBLIC
         public event AnyStatusChanged EAnyStatusChanged;
         public void Start( )
         {
-            _PwmControllerEventArgs.Status = PwmStatus.eActive;
-
-            switch( _Mode )
-            {
-                case Mode.eStartWithOn:
-                     _PwmControllerEventArgs.SwitchStatus = SwitchStatus.eOn;
-                     EAnyStatusChanged?.Invoke( this, _PwmControllerEventArgs );
-                     break;
-
-                case Mode.eStartWithOff:
-                     break;
-            }
+            _PwmControllerEventArgs.Status       = PwmStatus.eActive;
+            _PwmControllerEventArgs.SwitchStatus = SwitchStatus.eOn;
+            EAnyStatusChanged?.Invoke( this, _PwmControllerEventArgs );
+            _TimerOn.Start( );
+            _TimerOnIsStarted = _TimerOn.IsStarted( );
         }
 
         public void Stop( )
@@ -148,6 +159,14 @@ namespace HomeControl.ADVANCED_COMPONENTS
         }
         #endregion
 
-
+        #region EVENTHANDLERS
+        private void _TimerOn_Elapsed( object sender, ElapsedEventArgs e )
+        {
+            _PwmControllerEventArgs.SwitchStatus = SwitchStatus.eOff;
+            EAnyStatusChanged?.Invoke( this, _PwmControllerEventArgs );
+            _TimerOn.Stop( );
+            _TimerOnIsStarted = _TimerOn.IsStarted( );
+        }
+        #endregion
     }
 }
