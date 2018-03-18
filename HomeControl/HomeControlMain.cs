@@ -7,6 +7,7 @@ using SystemServices;
 using HomeControl.ROOMS;
 using BASIC_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS;
+using System.Threading;
 
 namespace HomeControl
 {
@@ -22,6 +23,13 @@ namespace HomeControl
         static ControllerConfiguration       _Controller = new ControllerConfiguration();
         static object                        _ControllerData;
         static DeviceBlinker                 _HeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( IntervallTimeHeartBeat ) );
+
+        static void WaitUntilKeyPressed()
+        {
+           Console.WriteLine( "Press enter for terminate application" );
+           while (Console.ReadKey( true ).Key != ConsoleKey.Enter)
+           { Thread.Sleep( 1000 ); };
+        }
 
         static void Main( string[] args )
         {
@@ -103,6 +111,7 @@ namespace HomeControl
             }
 
             IOHandler IOHandler_ = new IOHandler( HandlerMode.eHardware );
+
             if( IOHandler_.Attached )
             {
                 IOHandler_.EDigitalInputChanged  += IOHandler__EDigitalInputChanged;
@@ -112,7 +121,7 @@ namespace HomeControl
                 Console.WriteLine( basicstringconstants.OperationMode + _SelectedRoomMode );
                 Console.WriteLine( );
                 _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_ );
-                Console.ReadLine( );
+                WaitUntilKeyPressed( );
                 IOHandler_.SetAllOutputs( false );
                 Environment.Exit( 0 );
             }
