@@ -36,9 +36,12 @@
     <StartupObject>HomeControl.HomeControlMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibUdp">
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Release\LibUdp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
-      <HintPath>..\..\LIGHT\light\bin\Debug\Moq.dll</HintPath>
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Debug\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
@@ -91,6 +94,7 @@
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\UNIT_TEST\AnteBathWashRoomController_UnitTest.cs" />
     <Compile Include="ROOMS\CONFIGURATION\AnteBathWashRoomConfiguration.cs" />
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\AnteBathWashRoomController.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\CommunicationConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\ControllerConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\HardwareConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\RoomConfiguration.cs" />

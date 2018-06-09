@@ -3,6 +3,9 @@ using NUnit.Framework;
 using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
+using LibUdp;
+using LibUdp.BASIC.INTERFACE;
+
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 {
@@ -17,12 +20,14 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         DeviceBlinker                 _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
         DigitalInputEventargs         _TestArgs      = new DigitalInputEventargs();
         Mock<IIOHandler>              _MockTestIOHandler;
+        Mock<IUdpBasic>               _MockUdpCommunicator;
 
         public UnitTest_AnteBathWashRoomController( )
         {
+            _MockUdpCommunicator               = new Mock<IUdpBasic>( );
             _MockTestIOHandler                 = new Mock<IIOHandler>( );
             _TestAnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
-            _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object); 
+            _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object, _MockUdpCommunicator.Object ); 
         }
 
 

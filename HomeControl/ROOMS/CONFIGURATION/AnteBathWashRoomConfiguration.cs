@@ -92,8 +92,23 @@ namespace HomeControl.ROOMS
     }
 
     [Serializable]
-    public class AnteBathWashRoomConfiguration       
+    public class BaseConfiguration
     {
+        public CommunicationConfiguration CommunicationConfig { get; set; }
+    }
+
+    [Serializable]
+    public class AnteBathWashRoomConfiguration : BaseConfiguration
+    {
+        public AnteBathWashRoomConfiguration() : base()
+        {
+            base.CommunicationConfig = new CommunicationConfiguration( ) {};
+        }
+
+        #region COMMUNICATION_CONFIGURATION
+
+        #endregion
+
         #region HARDWARECONFIGURATION 
         HardwareConfiguration _HardwareConfiguration = new HardwareConfiguration()
         {
@@ -267,6 +282,8 @@ namespace HomeControl.ROOMS
             DelayTimeAllOn    = DefaultSettingsHeaterControlBathRoom.DelayTimeAllOn,
             DelayTimeFinalOff = DefaultSettingsHeaterControlBathRoom.DelayTimeFinalOff
         };
+
+ 
         #endregion
 
         #region PROPERTIES

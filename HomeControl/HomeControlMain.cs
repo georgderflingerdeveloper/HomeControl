@@ -8,6 +8,8 @@ using HomeControl.ROOMS;
 using BASIC_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS;
 using System.Threading;
+using LibUdp;
+using LibUdp.BASIC;
 
 namespace HomeControl
 {
@@ -120,7 +122,7 @@ namespace HomeControl
                 Console.WriteLine( );
                 Console.WriteLine( basicstringconstants.OperationMode + _SelectedRoomMode );
                 Console.WriteLine( );
-                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_ );
+                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_, new LibUdp.UdpBasicSenderReceiver() );
                 WaitUntilKeyPressed( );
                 IOHandler_.SetAllOutputs( false );
                 Environment.Exit( 0 );

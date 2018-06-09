@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace HomeControl.ROOMS.CONFIGURATION
 {
-
     [Serializable]
     public class HardwareConfiguration
     {

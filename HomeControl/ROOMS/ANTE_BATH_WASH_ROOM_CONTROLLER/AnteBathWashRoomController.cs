@@ -5,6 +5,8 @@ using HomeControl.ADVANCED_COMPONENTS;
 using BASIC_CONTROL_LOGIC;
 using HomeControl.BASIC_CONSTANTS;
 using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
+using LibUdp.BASIC.INTERFACE;
+
 
 namespace HomeControl.ROOMS
 {
@@ -44,7 +46,7 @@ namespace HomeControl.ROOMS
         #endregion
 
         #region CONSTRUCTOR
-        public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler IOHandler ) : base()
+        public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler IOHandler, IUdpBasic Communicator ) : base()
         {
             _HeartBeat = HeartBeat;
             _config    = config;
