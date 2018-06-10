@@ -36,7 +36,8 @@
     <StartupObject>HomeControl.HomeControlMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibUdp">
+    <Reference Include="LibUdp, Version=1.0.6734.36565, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Release\LibUdp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />

@@ -6,6 +6,7 @@ using BASIC_CONTROL_LOGIC;
 using HomeControl.BASIC_CONSTANTS;
 using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
 using LibUdp.BASIC.INTERFACE;
+using LibUdp.BASIC.RECEIVE;
 
 
 namespace HomeControl.ROOMS
@@ -30,6 +31,7 @@ namespace HomeControl.ROOMS
         IDeviceBlinker                 _HeartBeat;
         LightCommander                 _PresenceLight;
         IDeviceControlTimer            _DeviceControlTimerPresenceLight;
+        IUdpBasic                      _Communicator;
 
         double TimeTurnOn;
         double TimeTurnAutomaticOff;
@@ -54,7 +56,16 @@ namespace HomeControl.ROOMS
             _IOHandler.EDigitalInputChanged += IOHandler__EDigitalInputChanged;
             Constructor( );
             HeartBeat.EUpdate += _Commander_ExtUpdate;
+            _Communicator = Communicator;
+            _Communicator.EDataReceived += _Communicator_EDataReceived;
             HeartBeat.Start( );
+        }
+
+        private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
+        {
+            switch( e.Message )
+            {
+            }
         }
 
         public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler[] IOHandler ) : base( )

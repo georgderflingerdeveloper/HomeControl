@@ -22,6 +22,37 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         Mock<ITimer> _MockIdleScenario = new Mock<ITimer>();
 
         [TestMethod]
+        public void SelectOneScenario_UnitTest()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl.EScenario += TestScenarioControl_EScenario;
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            // TURN OFF
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            Assert.AreEqual( 6, TestIndex );
+        }
+
+
+        [TestMethod]
         public void SingleScenarioOnOff_UnitTest( )
         {
             TestIndex = 0;
@@ -32,7 +63,9 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
             TestScenarioControl.Scenarios = new List<List<int>>( )
             {
+              // scenario 1
               new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
               new List<int> { TestDevice4, TestDevice5, TestDevice6 }
             };
 
@@ -224,7 +257,6 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
                 break;
             }
             TestIndex++;
-
         }
 
         [TestMethod]
@@ -279,7 +311,6 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
                 break;
             }
             TestIndex++;
-
         }
 
         [TestMethod]
