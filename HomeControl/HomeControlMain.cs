@@ -40,9 +40,9 @@ namespace HomeControl
 
             LoadConfigurationData_Controller( );
 
-            _SelectedRoomMode = _Controller.SelectedRoom;
+            _SelectedRoomMode = _Controller?.SelectedRoom;
 
-            switch( _SelectedRoomMode.ToUpper() )  // .ToUpper() is only for TEXT formatting reasons, because I like ROOM NAMES in UPPER CASE ....
+            switch( _SelectedRoomMode?.ToUpper() )  // .ToUpper() is only for TEXT formatting reasons, because I like ROOM NAMES in UPPER CASE ....
             {
                    #region MODEANTEROOM
                    case InfoOperationMode.ANTEROOM:
