@@ -7,6 +7,7 @@ using HomeControl.BASIC_CONSTANTS;
 using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
 using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
+using HomeAutomationProtocoll;
 
 
 namespace HomeControl.ROOMS
@@ -61,13 +62,7 @@ namespace HomeControl.ROOMS
             HeartBeat.Start( );
         }
 
-        private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
-        {
-            switch( e.Message )
-            {
-            }
-        }
-
+ 
         public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler[] IOHandler ) : base( )
         {
             MultiIOCardsAvailable = true;
@@ -258,6 +253,15 @@ namespace HomeControl.ROOMS
         {
             RoomController( e.Index, e.Value );
         }
-        #endregion
+
+        private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
+        {
+            switch( e.Message )
+            {
+                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
+                    break;
+            }
+        }
+       #endregion
     }
 }

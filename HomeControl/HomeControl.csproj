@@ -36,6 +36,9 @@
     <StartupObject>HomeControl.HomeControlMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HomeAutomationProtocoll">
+      <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HomeAutomationProtocoll\obj\Release\netstandard1.4\HomeAutomationProtocoll.dll</HintPath>
+    </Reference>
     <Reference Include="LibUdp, Version=1.0.6734.36565, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Debug\LibUdp.dll</HintPath>
