@@ -5,9 +5,8 @@ using SystemServices;
 
 namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
 {
-
-    [TestClass]
-    public class unittest_datahandling
+   [TestClass]
+   public class unittest_datahandling
     {
         AnteBathWashRoomConfiguration AnteBathWashRoomConfiguration_       = new AnteBathWashRoomConfiguration();
         AnteBathWashRoomConfiguration LoadedAnteBathWashRoomConfiguration_ = new AnteBathWashRoomConfiguration();
