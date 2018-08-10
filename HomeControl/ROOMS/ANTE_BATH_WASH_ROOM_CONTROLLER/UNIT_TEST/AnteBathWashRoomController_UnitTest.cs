@@ -5,6 +5,8 @@ using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
 using LibUdp;
 using LibUdp.BASIC.INTERFACE;
+using LibUdp.BASIC.RECEIVE;
+using HomeAutomationProtocoll;
 
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
@@ -14,20 +16,23 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
     {
         static int                     IndexDigitalOutputReserverdForHeartBeat = 15;
         static double                  TestIntervallTimeHeartBeat              = 500;
+        static int AnyUnknownScenarioNumber = 999;
 
-        AnteBathWashRoomController    _TestAnteBathWashRoomController;
-        AnteBathWashRoomConfiguration _TestAnteBathWashRoomConfiguration;
-        DeviceBlinker                 _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
-        DigitalInputEventargs         _TestArgs      = new DigitalInputEventargs();
-        Mock<IIOHandler>              _MockTestIOHandler;
-        Mock<IUdpBasic>               _MockUdpCommunicator;
+        AnteBathWashRoomController       _TestAnteBathWashRoomController;
+        AnteBathWashRoomConfiguration    _TestAnteBathWashRoomConfiguration;
+        DeviceBlinker                    _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
+        DigitalInputEventargs            _TestArgs      = new DigitalInputEventargs();
+        Mock<IIOHandler>                 _MockTestIOHandler;
+        Mock<IUdpBasic>                  _MockUdpCommunicator;
+        Mock<AnteBathWashRoomController> _MockAnteBathWashRoomController;
 
         public UnitTest_AnteBathWashRoomController( )
         {
             _MockUdpCommunicator               = new Mock<IUdpBasic>( );
             _MockTestIOHandler                 = new Mock<IIOHandler>( );
             _TestAnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
-            _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object, _MockUdpCommunicator.Object ); 
+            _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object, _MockUdpCommunicator.Object );
+            _MockAnteBathWashRoomController    = new Mock<AnteBathWashRoomController>( );
         }
 
 
@@ -55,6 +60,22 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 
             _MockTestIOHandler.Raise( DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs );
 
+            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
+        }
+
+        [Test]
+        public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_ON_Received_( )
+        {
+            _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = AnyUnknownScenarioNumber;
+            _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON } );
+            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
+        }
+
+        [Test]
+        public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_OFF_Received_()
+        {
+            _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = AnyUnknownScenarioNumber;
+            _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF } );
             Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
         }
 

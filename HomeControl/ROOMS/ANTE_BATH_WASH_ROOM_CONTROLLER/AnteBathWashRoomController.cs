@@ -195,6 +195,19 @@ namespace HomeControl.ROOMS
             _HeaterCommanderBathRoom.EUpdate += _Commander_ExtUpdate;
             #endregion
         }
+
+        private void _RemoteControl( DataReceivingEventArgs e )
+        {
+           switch( e.Message )
+            {
+                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
+                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.ON );
+                    break;
+                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF:
+                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.OFF );
+                    break;
+            }
+        }
         #endregion
 
         #region EVENTHANDLERS
@@ -256,12 +269,15 @@ namespace HomeControl.ROOMS
 
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
         {
-            switch( e.Message )
-            {
-                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
-                    break;
-            }
+            _RemoteControl( e );
         }
-       #endregion
+        #endregion
+
+        #region PUBLIC
+        public void RemoteControl( DataReceivingEventArgs e )
+        {
+            _RemoteControl( e );
+        }
+        #endregion
     }
 }
