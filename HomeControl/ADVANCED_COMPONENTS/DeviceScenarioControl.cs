@@ -3,6 +3,7 @@ using HomeControl.BASIC_CONSTANTS;
 using System;
 using System.Timers;
 using System.Collections.Generic;
+using SystemServices;
 
 namespace HomeControl.ADVANCED_COMPONENTS
 {
@@ -393,6 +394,11 @@ namespace HomeControl.ADVANCED_COMPONENTS
         {
             return ( _ActualScenarioNumber );
         }
+
+        public void SetSecenarioNumber( int desiredscenario )
+        {
+           _ActualScenarioNumber = desiredscenario;
+        }
         #endregion
 
         #region PROPERTIES
@@ -431,7 +437,13 @@ namespace HomeControl.ADVANCED_COMPONENTS
 
             set
             {
-                _scenarios = value;
+                try
+                {
+                    _scenarios = value;
+                }catch( Exception ex )
+                {
+                    Services.TraceMessage_( ex.Message );
+                }
             }
         }
 

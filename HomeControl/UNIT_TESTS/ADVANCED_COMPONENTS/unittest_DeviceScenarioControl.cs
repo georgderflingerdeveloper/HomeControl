@@ -1,5 +1,6 @@
 ﻿using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS;
+using System;
 using System.Timers;
 using System.Collections.Generic;
 using Moq;
@@ -478,6 +479,53 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             TestScenarioControl.WatchForInputValueChange( Edge.Falling );
 
             Assert.AreEqual( 0, TestNumber );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetScenarioOutOfRange_UnitTest()
+        {
+            TestIndex = 0;
+            int TestValueFirstScenario = 1;
+            int TestValueSecondScenario = 2;
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            int InvalidScenarioNumber = 99;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, _MockNextScenario.Object, _MockAutoScenario.Object, _MockIdleScenario.Object );
+            TestScenarioControl.Number = InvalidScenarioNumber;
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+                new List<int> { TestValueFirstScenario },
+                new List<int> { TestValueSecondScenario }
+            };
+
+            TestScenarioControl.Scenarios[TestScenarioControl.Number][0] = 1;
+        }
+
+        [TestMethod]
+        public void SetFirstScenario_UnitTest()
+        {
+            TestIndex = 0;
+            int TestValueFirstScenario  = 1;
+            int TestValueSecondScenario = 2;
+            int InvalidScenarioNumber = 99;
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            int TestSelectedScenarioNumber = 0;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, _MockNextScenario.Object, _MockAutoScenario.Object, _MockIdleScenario.Object );
+            TestScenarioControl.Number = InvalidScenarioNumber;
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+                new List<int> { TestValueFirstScenario },
+                new List<int> { TestValueSecondScenario }
+            };
+
+            TestScenarioControl.SetSecenarioNumber( TestSelectedScenarioNumber );
+
+
+            Assert.AreEqual( TestSelectedScenarioNumber, TestScenarioControl.Number );
         }
 
         private void TestScenarioControl_EScenarioEmptyList( object sender, ScenarioEventArgs e )
