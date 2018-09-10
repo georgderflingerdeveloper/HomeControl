@@ -37,9 +37,9 @@ namespace HomeControl.ADVANCED_COMPONENTS
             int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber();
             return ( ActualScenarioNumber );
         }
-        public int ScenarioTriggerPersitent( bool edge )
+        public int ScenarioTriggerPersitent( bool edge, int number )
         {
-            _devicescenariocontrol.WatchForInputValueChange( edge );
+            _devicescenariocontrol.Turn( edge, number );
             int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber( );
             return ( ActualScenarioNumber );
         }

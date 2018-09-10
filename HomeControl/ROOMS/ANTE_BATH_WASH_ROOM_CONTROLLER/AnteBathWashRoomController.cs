@@ -201,10 +201,10 @@ namespace HomeControl.ROOMS
            switch( e.Message )
             {
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
-                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.ON );
+                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.ON, ScenarioConstantsAnteRoom.ScenarioMainLightOnly );
                     break;
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF:
-                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.OFF );
+                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.OFF, ScenarioConstantsAnteRoom.ScenarioMainLightOnly );
                     break;
             }
         }

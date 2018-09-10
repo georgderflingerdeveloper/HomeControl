@@ -524,7 +524,6 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
 
             TestScenarioControl.SetSecenarioNumber( TestSelectedScenarioNumber );
 
-
             Assert.AreEqual( TestSelectedScenarioNumber, TestScenarioControl.Number );
         }
 

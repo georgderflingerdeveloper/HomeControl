@@ -91,6 +91,11 @@ namespace HomeControl.ROOMS
         public const int indBLastLight  = 11;
     }
 
+    static class ScenarioConstantsAnteRoom
+    {
+        public const int ScenarioMainLightOnly = 3;
+    }
+
     [Serializable]
     public class BaseConfiguration
     {
@@ -146,11 +151,13 @@ namespace HomeControl.ROOMS
                 DelayTimeNextScenario               = DefaultSettingsLightControlAnteRoom.DelayTimeNextScenario,
                 Scenarios = new List<List<int>>
                 {
+                    // scenario 0
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight,
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomBackSide
                               },
 
+                    // scenario 1
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight,
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomBackSide,
@@ -158,10 +165,17 @@ namespace HomeControl.ROOMS
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2
                               },
 
+                    // scenario 2
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1,
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2
                               },
+
+                    // scenario 3
+                    new List<int> {
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight,
+                              },
+
                 }
 
             }
