@@ -184,6 +184,8 @@ namespace HomeControl.ADVANCED_COMPONENTS
         int    _beginswithindex;
         int    _endswithindex;
         int    _ActualScenarioNumber;
+        int    _LastSelectedSecenarioNumber;
+        bool   _UsedRemoteControl;
         bool   _value;
         bool   _idlevalue; 
         List<List<int>> _scenarios = new List<List<int>>();
@@ -336,6 +338,18 @@ namespace HomeControl.ADVANCED_COMPONENTS
             }
         }
 
+        void _TurnScenario( bool command, int number )
+        {
+            UpdateScenario( false );
+            if( !_UsedRemoteControl )
+            {
+                _LastSelectedSecenarioNumber = _ActualScenarioNumber;
+                _UsedRemoteControl = true;
+            }
+            _ActualScenarioNumber = number;
+            UpdateScenario( command );
+        }
+
         #endregion
 
         #region PUBLIC_METHODS
@@ -344,9 +358,30 @@ namespace HomeControl.ADVANCED_COMPONENTS
             _Turn(  command,  number );
         }
 
+        public void TurnScenario( bool command, int number )
+        {
+            _TurnScenario( command, number );
+        }
+
         public void WatchForInputValueChange( bool trigger )
         {
-            Watcher( trigger );
+            if (_UsedRemoteControl)
+            {
+                 _ActualScenarioNumber = _LastSelectedSecenarioNumber;
+                if (trigger)
+                {
+                    UpdateScenario( true );
+                }
+                else
+                {
+                    _UsedRemoteControl = false;
+                    return;
+                }
+            }
+            else
+            {
+                Watcher( trigger );
+            }
         }
 
         public void ProceedCommandos( ScenarioCntrl scenario, int scenarionumber )

@@ -106,11 +106,16 @@ namespace HomeControl
         {
             _AnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
             _RoomConfiguration = LoadConfigurationData_Room( _SelectedRoomMode.ToLower( ), _AnteBathWashRoomConfiguration );
-
-            if( _RoomConfiguration != null )
+            if ( _RoomConfiguration != null )
             {
                 _AnteBathWashRoomConfiguration = (_RoomConfiguration as AnteBathWashRoomConfiguration);
             }
+            LibUdp.UdpBasicSenderReceiver SenderReceiver
+                = new UdpBasicSenderReceiver(
+                                              _AnteBathWashRoomConfiguration.CommunicationConfig.PortFromWhereDataIsReceived,
+                                              _AnteBathWashRoomConfiguration.CommunicationConfig.IpAdressWhereDataIsSent,
+                                              _AnteBathWashRoomConfiguration.CommunicationConfig.PortWhereDataIsSentTo
+                                             );
 
             IOHandler IOHandler_ = new IOHandler( HandlerMode.eHardware );
 
@@ -122,7 +127,7 @@ namespace HomeControl
                 Console.WriteLine( );
                 Console.WriteLine( basicstringconstants.OperationMode + _SelectedRoomMode );
                 Console.WriteLine( );
-                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_, new LibUdp.UdpBasicSenderReceiver() );
+                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_, SenderReceiver );
                 WaitUntilKeyPressed( );
                 IOHandler_.SetAllOutputs( false );
                 Environment.Exit( 0 );

@@ -52,7 +52,6 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             Assert.AreEqual( 6, TestIndex );
         }
 
-
         [TestMethod]
         public void SingleScenarioOnOff_UnitTest( )
         {
@@ -531,5 +530,56 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         {
             TestNumber = e.Number;
         }
+
+        [TestMethod]
+        public void TurnScenarioDevicesOnVia_HardwareWatcher_UnitTest()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            bool TestValue1=false, TestValue2=false, TestValue3=false;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl.EScenario += ( sender, e ) =>
+            {
+                TestIndex = e.Index;
+                switch( TestIndex )
+                {
+                    case 1:
+                        TestValue1 = e.Value;
+                        break;
+                    case 2:
+                        TestValue2 = e.Value;
+                        break;
+                    case 3:
+                        TestValue3 = e.Value;
+                        break;
+                }
+            };
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            //// TURN OFF
+            //TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            //TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            Assert.IsTrue( TestValue1 );
+            Assert.IsTrue( TestValue2 );
+            Assert.IsTrue( TestValue3 );
+
+        }
+
+
     }
 }

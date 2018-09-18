@@ -6,6 +6,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
     {
         void  WatchForInputValueChange( bool trigger );
         void  Turn( bool command, int number );
+        void  TurnScenario( bool command, int number );
         void  ProceedCommandos( ScenarioCntrl scenario, int scenarionumber );
         void  Reset( );
         void  PresetDeviceOff( );
