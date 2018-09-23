@@ -16,7 +16,7 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         int TestIndex = 0;
         int TestFirstScenario_ON_OFF = 0;
         int TestSecondScenario_ON_OFF = 1;
-        int TestDevice1=1, TestDevice2=2, TestDevice3=3, TestDevice4=4, TestDevice5=5, TestDevice6=6;
+        const int TestDevice1=1, TestDevice2=2, TestDevice3=3, TestDevice4=4, TestDevice5=5, TestDevice6=6;
 
         Mock<ITimer> _MockNextScenario = new Mock<ITimer>();
         Mock<ITimer> _MockAutoScenario = new Mock<ITimer>();
@@ -570,14 +570,156 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
             TestScenarioControl.WatchForInputValueChange( Edge.Rising );
             TestScenarioControl.WatchForInputValueChange( Edge.Falling );
 
-            //// TURN OFF
-            //TestScenarioControl.WatchForInputValueChange( Edge.Rising );
-            //TestScenarioControl.WatchForInputValueChange( Edge.Falling );
-
             Assert.IsTrue( TestValue1 );
             Assert.IsTrue( TestValue2 );
             Assert.IsTrue( TestValue3 );
 
+        }
+
+        [TestMethod]
+        public void TurnScenarioDevicesOffVia_HardwareWatcher_UnitTest()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            bool TestValue1 = true, TestValue2 = true, TestValue3 = true;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl.EScenario += ( sender, e ) =>
+            {
+                TestIndex = e.Index;
+                switch (TestIndex)
+                {
+                    case 1:
+                        TestValue1 = e.Value;
+                        break;
+                    case 2:
+                        TestValue2 = e.Value;
+                        break;
+                    case 3:
+                        TestValue3 = e.Value;
+                        break;
+                }
+            };
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            // TURN OFF
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            Assert.IsFalse( TestValue1 );
+            Assert.IsFalse( TestValue2 );
+            Assert.IsFalse( TestValue3 );
+        }
+
+        [TestMethod]
+        public void TurnScenarioDevicesOnVia_HardwareWatcher_OffViaRemoteControl_UnitTest()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            bool TestValue1 = false, TestValue2 = false, TestValue3 = false;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl.EScenario += ( sender, e ) =>
+            {
+                TestIndex = e.Index;
+                switch (TestIndex)
+                {
+                    case TestDevice1:
+                        TestValue1 = e.Value;
+                        break;
+                    case TestDevice2:
+                        TestValue2 = e.Value;
+                        break;
+                    case TestDevice3:
+                        TestValue3 = e.Value;
+                        break;
+                }
+            };
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            // TURN OFF
+            TestScenarioControl.TurnScenario( false, 1 );
+
+            Assert.IsFalse( TestValue1 );
+            Assert.IsFalse( TestValue2 );
+            Assert.IsFalse( TestValue3 );
+        }
+
+        [TestMethod]
+        public void TurnScenarioDevicesOnVia_HardwareWatcher_OffViaRemoteControl_OnAgainViaHardwareWatch_UnitTest()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            bool TestValue1Scenario1 = false, TestValue2Scenario1 = false, TestValue3 = false;
+
+            TestScenarioControl = new DeviceScenarioControl( FirstIndex, LastIndex, new Timer_( 1 ), new Timer_( 1 ), new Timer_( 1 ) );
+            TestScenarioControl.Scenarios = new List<List<int>>( )
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl.EScenario += ( sender, e ) =>
+            {
+                TestIndex = e.Index;
+                switch (TestIndex)
+                {
+                    case TestDevice1:
+                        TestValue1Scenario1 = e.Value;
+                        break;
+                    case TestDevice2:
+                        TestValue2Scenario1 = e.Value;
+                        break;
+                    case TestDevice3:
+                        TestValue3 = e.Value;
+                        break;
+                }
+            };
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            // TURN OFF
+            TestScenarioControl.TurnScenario( false, 1 );
+
+            // TURN ON
+            TestScenarioControl.WatchForInputValueChange( Edge.Rising );
+            TestScenarioControl.WatchForInputValueChange( Edge.Falling );
+
+            Assert.IsTrue( TestValue1Scenario1 );
+            Assert.IsTrue( TestValue2Scenario1 );
+            Assert.IsTrue( TestValue3 );
         }
 
 
