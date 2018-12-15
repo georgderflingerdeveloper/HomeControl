@@ -51,13 +51,17 @@ namespace HomeControl.ROOMS
          public const int indDigitalOutputWashRoomDimLight                          = 6;
         #endregion
 
-        public static Dictionary<int, string> IoDictionary = new Dictionary<int, string>
+        public static Dictionary<int, string> DigitalInputDictionary = new Dictionary<int, string>
         {
                 {indDigitalInputAnteRoomMainButton,                         nameof(indDigitalInputAnteRoomMainButton)                                   },
                 {indDigitalInputAnteRoomPresenceDetector,                   nameof(indDigitalInputAnteRoomPresenceDetector)                             },
                 {indDigitalInputWashRoomMainButton,                         nameof(indDigitalInputWashRoomMainButton)                                   },
                 {indDigitalInputBathRoomMainButton,                         nameof(indDigitalInputBathRoomMainButton)                                   },
                 {indDigitalInputWindow,                                     nameof(indDigitalInputWindow)                                               },
+        };
+
+        public static Dictionary<int, string> DigitalOutputDictionary = new Dictionary<int, string>
+        {
                 {indDigitalOutputAnteRoomMainLight,                         nameof(indDigitalOutputAnteRoomMainLight)                                   },
                 {indDigitalOutputAnteRoomBackSide,                          nameof(indDigitalOutputAnteRoomBackSide)                                    },
                 {indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1, nameof(indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1)           },
@@ -73,11 +77,22 @@ namespace HomeControl.ROOMS
                 {indDigitalOutputWashRoomDimLight,                          nameof(indDigitalOutputWashRoomDimLight)                                    },
         };
 
-        public static string GetDeviceName( int key )
+        static string GetDeviceName( Dictionary<int, string> IoDictionary, int key )
         {
-            IoDictionary.TryGetValue( key, out string devicename );
-            return ( devicename );
+             IoDictionary.TryGetValue( key, out string devicename );
+             return ( devicename );
         }
+
+        public static string GetInputDeviceName( int key )
+        {
+            return ( GetDeviceName( DigitalInputDictionary, key ) );
+        }
+
+        public static string GetOutputDeviceName( int key )
+        {
+            return ( GetDeviceName( DigitalOutputDictionary, key ) );
+        }
+
         #endregion
     }
 

@@ -10,7 +10,7 @@ using LibUdp.BASIC.RECEIVE;
 using HomeAutomationProtocoll;
 using System;
 using SystemServices;
-using HardConfig.COMMON;
+using HardConfig;
 
 
 
@@ -270,7 +270,9 @@ namespace HomeControl.ROOMS
         {
             RoomController( e.Index, e.Value );
 
-            Console.WriteLine( TimeUtil.GetTimestamp_( ) +
+            try
+            {
+             Console.WriteLine( TimeUtil.GetTimestamp_( ) +
                     HardConfig.COMMON.Seperators.WhiteSpace +
                     InfoString.DeviceDigitalInput +
                     HardConfig.COMMON.Seperators.WhiteSpace +
@@ -278,12 +280,18 @@ namespace HomeControl.ROOMS
                     e.Index.ToString( ) +
                     InfoString.BraceClose +
                     HardConfig.COMMON.Seperators.WhiteSpace +
-                    IOAssignmentControllerAnteBathWashRoom.GetDeviceName( e.Index ) +
+                    IOAssignmentControllerAnteBathWashRoom.GetInputDeviceName( e.Index ) +
                     HardConfig.COMMON.Seperators.WhiteSpace +
                     InfoString.Is +
                     HardConfig.COMMON.Seperators.WhiteSpace +
                     e.Value.ToString( ) );
-        }
+            }
+            catch (Exception LogException )
+            {
+                Console.WriteLine( TimeUtil.GetTimestamp_( ) + LogException.ToString( ) );
+            }
+
+         }
 
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
         {
