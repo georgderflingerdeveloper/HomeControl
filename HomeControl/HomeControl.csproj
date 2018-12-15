@@ -36,6 +36,9 @@
     <StartupObject>HomeControl.HomeControlMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HardConfig">
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Release\HardConfig.dll</HintPath>
+    </Reference>
     <Reference Include="HomeAutomationProtocoll, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HomeAutomationProtocoll\bin\Release\netstandard1.4\HomeAutomationProtocoll.dll</HintPath>

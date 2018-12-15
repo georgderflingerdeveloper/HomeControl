@@ -8,6 +8,10 @@ using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
 using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
 using HomeAutomationProtocoll;
+using System;
+using SystemServices;
+using HardConfig.COMMON;
+
 
 
 namespace HomeControl.ROOMS
@@ -265,6 +269,20 @@ namespace HomeControl.ROOMS
         private void IOHandler__EDigitalInputChanged( object sender, DigitalInputEventargs e )
         {
             RoomController( e.Index, e.Value );
+
+            Console.WriteLine( TimeUtil.GetTimestamp_( ) +
+                    HardConfig.COMMON.Seperators.WhiteSpace +
+                    InfoString.DeviceDigitalInput +
+                    HardConfig.COMMON.Seperators.WhiteSpace +
+                    InfoString.BraceOpen +
+                    e.Index.ToString( ) +
+                    InfoString.BraceClose +
+                    HardConfig.COMMON.Seperators.WhiteSpace +
+                    IOAssignmentControllerAnteBathWashRoom.GetDeviceName( e.Index ) +
+                    HardConfig.COMMON.Seperators.WhiteSpace +
+                    InfoString.Is +
+                    HardConfig.COMMON.Seperators.WhiteSpace +
+                    e.Value.ToString( ) );
         }
 
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )

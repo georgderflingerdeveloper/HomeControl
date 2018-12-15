@@ -6,6 +6,7 @@ using HomeControl.ROOMS.CONFIGURATION;
 
 namespace HomeControl.ROOMS
 {
+ 
     static class IOAssignmentControllerAnteBathWashRoom
     {
         #region INPUTS
@@ -38,8 +39,8 @@ namespace HomeControl.ROOMS
 
         #region DIGITAL_OUTPUTS_BATHROOM
          public const int indDigitalOutputBathRoomCenterLight                       = 7;  // BAD LICHT MITTE
-         public const int indDigitalOutputBathRoomCornerLeftLight                   = 8; // BAD LICHT ECKE LINKS
-         public const int indDigitalOutputBathRoomShowerLight                       = 9; // BAD LICHT DUSCHE
+         public const int indDigitalOutputBathRoomCornerLeftLight                   = 8;  // BAD LICHT ECKE LINKS
+         public const int indDigitalOutputBathRoomShowerLight                       = 9;  // BAD LICHT DUSCHE
          public const int indDigitalOutputBathRoomWindowLight                       = 10; // BAD LICHT FENSTER
          public const int indDigitalOutputBathRoomRBGPanelOverBathTub               = 11; // BAD RGB LED PANEL
          public const int indDigitalOutputBathRoomHeater                            = 12;
@@ -50,6 +51,33 @@ namespace HomeControl.ROOMS
          public const int indDigitalOutputWashRoomDimLight                          = 6;
         #endregion
 
+        public static Dictionary<int, string> IoDictionary = new Dictionary<int, string>
+        {
+                {indDigitalInputAnteRoomMainButton,                         nameof(indDigitalInputAnteRoomMainButton)                                   },
+                {indDigitalInputAnteRoomPresenceDetector,                   nameof(indDigitalInputAnteRoomPresenceDetector)                             },
+                {indDigitalInputWashRoomMainButton,                         nameof(indDigitalInputWashRoomMainButton)                                   },
+                {indDigitalInputBathRoomMainButton,                         nameof(indDigitalInputBathRoomMainButton)                                   },
+                {indDigitalInputWindow,                                     nameof(indDigitalInputWindow)                                               },
+                {indDigitalOutputAnteRoomMainLight,                         nameof(indDigitalOutputAnteRoomMainLight)                                   },
+                {indDigitalOutputAnteRoomBackSide,                          nameof(indDigitalOutputAnteRoomBackSide)                                    },
+                {indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1, nameof(indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1)           },
+                {indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2, nameof(indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2)           },
+                {indDigitalOutputAnteRoomNightLight,                        nameof(indDigitalOutputAnteRoomNightLight)                                  },
+                {indDigitalOutputBathRoomCenterLight,                       nameof(indDigitalOutputBathRoomCenterLight)                                 },
+                {indDigitalOutputBathRoomCornerLeftLight,                   nameof(indDigitalOutputBathRoomCornerLeftLight)                             },
+                {indDigitalOutputBathRoomShowerLight,                       nameof(indDigitalOutputBathRoomShowerLight)                                 },
+                {indDigitalOutputBathRoomWindowLight,                       nameof(indDigitalOutputBathRoomWindowLight)                                 },
+                {indDigitalOutputBathRoomRBGPanelOverBathTub,               nameof(indDigitalOutputBathRoomRBGPanelOverBathTub)                         },
+                {indDigitalOutputBathRoomHeater,                            nameof(indDigitalOutputBathRoomHeater)                                      },
+                {indDigitalOutputWashRoomMainLight,                         nameof(indDigitalOutputWashRoomMainLight)                                   },
+                {indDigitalOutputWashRoomDimLight,                          nameof(indDigitalOutputWashRoomDimLight)                                    },
+        };
+
+        public static string GetDeviceName( int key )
+        {
+            IoDictionary.TryGetValue( key, out string devicename );
+            return ( devicename );
+        }
         #endregion
     }
 
