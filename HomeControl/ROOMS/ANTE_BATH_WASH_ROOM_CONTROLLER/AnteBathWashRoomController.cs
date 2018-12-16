@@ -59,6 +59,7 @@ namespace HomeControl.ROOMS
             _config    = config;
             _IOHandler = IOHandler;
             _IOHandler.EDigitalInputChanged += IOHandler__EDigitalInputChanged;
+            _IOHandler.EDigitalOutputChanged += _IOHandler_EDigitalOutputChanged;
             Constructor( );
             HeartBeat.EUpdate += _Commander_ExtUpdate;
             _Communicator = Communicator;
@@ -66,7 +67,6 @@ namespace HomeControl.ROOMS
             HeartBeat.Start( );
         }
 
- 
         public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler[] IOHandler ) : base( )
         {
             MultiIOCardsAvailable = true;
@@ -290,8 +290,35 @@ namespace HomeControl.ROOMS
             {
                 Console.WriteLine( TimeUtil.GetTimestamp_( ) + LogException.ToString( ) );
             }
-
          }
+
+        private void _IOHandler_EDigitalOutputChanged( object sender, DigitalOutputEventargs e )
+        {
+            try
+            {
+                if (e.Index == IOAssignmentControllerAnteBathWashRoom.indDigitalOutputReserverdForHeartBeat)
+                {
+                    return;
+                }
+                Console.WriteLine( TimeUtil.GetTimestamp_( ) +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.DeviceDigitalInput +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.BraceOpen +
+                       e.Index.ToString( ) +
+                       InfoString.BraceClose +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       IOAssignmentControllerAnteBathWashRoom.GetOutputDeviceName( e.Index ) +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.Is +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       e.Value.ToString( ) );
+            }
+            catch (Exception LogException)
+            {
+                Console.WriteLine( TimeUtil.GetTimestamp_( ) + LogException.ToString( ) );
+            }
+        }
 
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
         {

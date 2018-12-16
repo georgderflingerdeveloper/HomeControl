@@ -51,6 +51,10 @@ namespace HomeControl.ROOMS
          public const int indDigitalOutputWashRoomDimLight                          = 6;
         #endregion
 
+        #region DIGITAL_OUTPUTS_COMMON
+        public const int indDigitalOutputReserverdForHeartBeat = 15;
+        #endregion
+
         public static Dictionary<int, string> DigitalInputDictionary = new Dictionary<int, string>
         {
                 {indDigitalInputAnteRoomMainButton,                         nameof(indDigitalInputAnteRoomMainButton)                                   },
