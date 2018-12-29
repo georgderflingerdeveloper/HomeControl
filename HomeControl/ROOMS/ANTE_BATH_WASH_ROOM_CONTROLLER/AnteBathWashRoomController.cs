@@ -141,7 +141,6 @@ namespace HomeControl.ROOMS
 
             _DeviceScenarioControlAnteRoom           = new DeviceScenarioControl( Startindex, Lastindex, new Timer_( TimeNextScenario ), new Timer_( NotUsed ), new Timer_( IdleScenario ) );
             _DeviceScenarioControlAnteRoom.Scenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
-
             _DeviceControlTimerAnteRoom        = new DeviceControlTimer( new Timer_( TimeTurnOn ), new Timer_( TimeTurnAutomaticOff ), new Timer_( TimeTurnFinalOff ) );
             _LightCommanderAnteRoom            = new ExtendedLightCommander( _config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom );
             _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
@@ -205,12 +204,64 @@ namespace HomeControl.ROOMS
            switch( e.Message )
            {
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
-                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.ON, ScenarioConstantsAnteRoom.ScenarioMainLightOnly );
+                    _LightCommanderAnteRoom?.TurnSingleDevice( TurnDevice.ON, 
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomMainLight );
                     break;
+
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF:
-                    _ScenarioNumberAnteRoom = ( int ) _LightCommanderAnteRoom?.ScenarioTriggerPersitent( TurnDevice.OFF, ScenarioConstantsAnteRoom.ScenarioMainLightOnly );
+                    _LightCommanderAnteRoom?.TurnSingleDevice( TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomMainLight);
                     break;
-           }
+
+                case ComandoString.TURN_LIGHT_ANTEROOM_BACK_ON:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.ON,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomBackSide);
+                    break;
+
+                case ComandoString.TURN_LIGHT_ANTEROOM_BACK_OFF:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomBackSide);
+                    break;
+
+
+
+                case ComandoString.TURN_LIGHT_FLOOR_UP_ON:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.ON,
+                                                          IOAssignmentControllerAnteBathWashRoom
+                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.ON,
+                                                          IOAssignmentControllerAnteBathWashRoom
+                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2);
+                    break;
+
+                case ComandoString.TURN_LIGHT_FLOOR_UP_OFF:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2);
+
+                    break;
+
+                case ComandoString.TURN_LIGHT_WASHROOM_ON:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.ON,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputWashRoomMainLight);
+                    break;
+
+                case ComandoString.TURN_LIGHT_WASHROOM_OFF:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputWashRoomMainLight);
+                    break;
+
+
+            }
         }
         #endregion
 
@@ -323,6 +374,7 @@ namespace HomeControl.ROOMS
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
         {
             _RemoteControl( e );
+            Console.WriteLine(TimeUtil.GetTimestamp_() + " Received telegramm: " + e.Message + " from " + e.Adress + " : " + e.Port);
         }
         #endregion
 

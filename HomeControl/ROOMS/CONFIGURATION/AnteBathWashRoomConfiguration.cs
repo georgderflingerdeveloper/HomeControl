@@ -141,6 +141,7 @@ namespace HomeControl.ROOMS
     static class ScenarioConstantsAnteRoom
     {
         public const int ScenarioMainLightOnly = 3;
+        public const int ScenarionFloorUp = 2;
     }
 
     [Serializable]
