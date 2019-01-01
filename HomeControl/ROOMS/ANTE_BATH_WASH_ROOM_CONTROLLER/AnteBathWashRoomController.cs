@@ -228,7 +228,6 @@ namespace HomeControl.ROOMS
                     break;
 
 
-
                 case ComandoString.TURN_LIGHT_FLOOR_UP_ON:
                     _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.ON,
                                                           IOAssignmentControllerAnteBathWashRoom
@@ -260,6 +259,13 @@ namespace HomeControl.ROOMS
                                                          .indDigitalOutputWashRoomMainLight);
                     break;
 
+                case ComandoString.TURN_LIGHT_BATHROOM_ALL_ON:
+                    _LightCommanderBathRoom?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsBathRoom.ScenarioAllLights);
+                    break;
+
+                case ComandoString.TURN_LIGHT_BATHROOM_ALL_OFF:
+                    _LightCommanderBathRoom?.ScenarioTriggerPersitent(TurnDevice.OFF, ScenarioConstantsBathRoom.ScenarioAllLights);
+                    break;
 
             }
         }

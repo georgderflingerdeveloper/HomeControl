@@ -144,6 +144,11 @@ namespace HomeControl.ROOMS
         public const int ScenarionFloorUp = 2;
     }
 
+    static class ScenarioConstantsBathRoom
+    {
+        public const int ScenarioAllLights = 6;
+    }
+
     [Serializable]
     public class BaseConfiguration
     {
@@ -251,28 +256,38 @@ namespace HomeControl.ROOMS
                 DelayTimeNextScenario               = DefaultSettingsLightControlBathRoom.DelayTimeNextScenario,
                 Scenarios = new List<List<int>>
                 {
+                    // scenario 0
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCenterLight,
                               },
-
+                    // scenario 1
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomRBGPanelOverBathTub
                               },
-
+                    // scenario 2
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCenterLight,
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomRBGPanelOverBathTub
                               },
-
+                    // scenario 3
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCornerLeftLight,
                               },
-
+                    // scenario 4
                     new List<int> {
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomShowerLight,
                               },
-
+                    // scenario 5
                     new List<int> {
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomWindowLight,
+                              },
+                    // scenario 6
+                    new List<int> {
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCenterLight,
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomRBGPanelOverBathTub,
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCenterLight,
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomCornerLeftLight,
+                                IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomShowerLight,
                                 IOAssignmentControllerAnteBathWashRoom.indDigitalOutputBathRoomWindowLight,
                               },
                 }
