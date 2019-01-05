@@ -315,10 +315,6 @@ namespace HomeControl.ROOMS
                      {
                         _HeaterCommanderBathRoom.EventSwitch( PowerState.OFF );
                      }
-                     else
-                     {
-                        _HeaterCommanderBathRoom.EventSwitch( PowerState.ON );
-                     }
                      break;
             }
         }
@@ -359,7 +355,7 @@ namespace HomeControl.ROOMS
                 }
                 Console.WriteLine( TimeUtil.GetTimestamp_( ) +
                        HardConfig.COMMON.Seperators.WhiteSpace +
-                       InfoString.DeviceDigitalInput +
+                       InfoString.DeviceDigialOutput +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.BraceOpen +
                        e.Index.ToString( ) +
@@ -380,7 +376,7 @@ namespace HomeControl.ROOMS
         private void _Communicator_EDataReceived( object sender, DataReceivingEventArgs e )
         {
             _RemoteControl( e );
-            Console.WriteLine(TimeUtil.GetTimestamp_() + " Received telegramm: " + e.Message + " from " + e.Adress + " : " + e.Port);
+            Console.WriteLine(TimeUtil.GetTimestamp_() + " Received telegramm: " + e.Message + " from " + e.Adress + ":" + e.Port);
         }
         #endregion
 

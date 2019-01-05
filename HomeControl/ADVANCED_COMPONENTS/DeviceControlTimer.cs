@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Timers;
-using BASIC_COMPONENTS;
+﻿using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
-using HomeControl.ADVANCED_COMPONENTS;
+using System.Timers;
 
 namespace HomeControl.ADVANCED_COMPONENTS
 {
