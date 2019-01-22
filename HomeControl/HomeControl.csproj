@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HardConfig">
-      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Release\HardConfig.dll</HintPath>
+      <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Release\HardConfig.dll</HintPath>
     </Reference>
     <Reference Include="HomeAutomationProtocoll, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
