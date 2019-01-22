@@ -43,6 +43,11 @@ namespace HomeControl.ADVANCED_COMPONENTS
             int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber( );
             return ( ActualScenarioNumber );
         }
+
+        public void TurnSingleDevice( bool value, int index )
+        {
+            base.TurnSingleDevice(index, value);
+        }
         #endregion
 
         #region PRIVATE_METHODS
