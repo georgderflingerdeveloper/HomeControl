@@ -221,6 +221,12 @@ namespace HomeControl.ROOMS
                                                          .indDigitalOutputAnteRoomBackSide);
                     break;
 
+                case ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_OFF:
+                    _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomNightLight);
+                    break;
+
                 case ComandoString.TURN_LIGHT_ANTEROOM_BACK_OFF:
                     _LightCommanderAnteRoom?.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
