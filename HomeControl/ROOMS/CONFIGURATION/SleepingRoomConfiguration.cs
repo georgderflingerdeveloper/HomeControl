@@ -68,8 +68,90 @@ namespace HomeControl.ROOMS.CONFIGURATION
     {
     }
 
-    [Serializable]
-    public class SleepingRoomConfiguration
+    static class RangeIndexSleepingRoom
     {
+        public const int indAFirstLight = IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd;
+        public const int indALastLight  = IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling;
+    }
+
+    [Serializable]
+    public class SleepingRoomConfiguration : BaseConfiguration
+    {
+        public SleepingRoomConfiguration() : base()
+        {
+            base.CommunicationConfig = new CommunicationConfiguration() { };
+        }
+
+        #region COMMUNICATION_CONFIGURATION
+
+        #endregion
+
+        #region HARDWARECONFIGURATION 
+        HardwareConfiguration _HardwareConfiguration = new HardwareConfiguration()
+        {
+            IOPrimerIds = new List<int>()
+            {
+                 123456,
+                 789102
+            },
+        };
+        #endregion
+
+        #region SLEEPINGROOM_CONFIGURATION
+        RoomConfiguration _SleepingRoom = new RoomConfiguration()
+        {
+            // default settings
+            LightCommanderConfiguration = new CommanderConfiguration()
+            {
+                Startindex = RangeIndexSleepingRoom.indAFirstLight,
+                Lastindex = RangeIndexSleepingRoom.indALastLight,
+                DelayTimeAllOn = DefaultSettingsLightControlSleepingRoom.DelayTimeAllOn,
+                DelayTimeOffByMissingTriggerSignal = DefaultSettingsLightControlSleepingRoom.DelayTimeAutomaticOffViaPresenceDetector,
+                DelayTimeFinalOff = DefaultSettingsLightControlSleepingRoom.DelayTimeFinalOff,
+                DelayTimeDoingNothing = DefaultSettingsLightControlSleepingRoom.DelayTimeDoingNothing,
+                Modes = DeviceCommandos.ScenarioLight,
+                ModesAutomaticoff = DeviceCommanderAutomaticOff.WithMainTrigger,
+                DeviceRemainOnAfterAutomaticOff = new List<int>
+                {
+                }
+            },
+
+            ScenarioConfiguration = new ScenarioConfiguration()
+            {
+                DelayTimeNextScenario = DefaultSettingsLightControlAnteRoom.DelayTimeNextScenario,
+                Scenarios = new List<List<int>>
+                {
+                    // scenario 0
+                    new List<int>
+                        {
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowLeft,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight
+                        },
+
+                    // scenario 1
+                    new List<int>
+                        {
+
+                        },
+
+                    // scenario 2
+                    new List<int>
+                        {
+                        },
+
+                    // scenario 3
+                    new List<int>
+                        {
+                        },
+
+                }
+
+            }
+        };
+        #endregion
+
+
+
     }
 }
