@@ -6,7 +6,6 @@ using HomeControl.ROOMS.CONFIGURATION;
 
 namespace HomeControl.ROOMS
 {
- 
     static class IOAssignmentControllerAnteBathWashRoom
     {
         #region INPUTS
@@ -147,12 +146,6 @@ namespace HomeControl.ROOMS
     static class ScenarioConstantsBathRoom
     {
         public const int ScenarioAllLights = 6;
-    }
-
-    [Serializable]
-    public class BaseConfiguration
-    {
-        public CommunicationConfiguration CommunicationConfig { get; set; }
     }
 
     [Serializable]

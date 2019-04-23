@@ -102,11 +102,15 @@
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\UNIT_TEST\AnteBathWashRoomController_UnitTest.cs" />
     <Compile Include="ROOMS\CONFIGURATION\AnteBathWashRoomConfiguration.cs" />
     <Compile Include="ROOMS\ANTE_BATH_WASH_ROOM_CONTROLLER\AnteBathWashRoomController.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\CommonConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\CommunicationConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\ControllerConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\HardwareConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\RoomConfiguration.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\SleepingRoomConfiguration.cs" />
+    <Compile Include="ROOMS\SLEEPING_ROOM\INTERFACE\ISleepingRoomController.cs" />
     <Compile Include="ROOMS\SLEEPING_ROOM\SleepingRoomController.cs" />
+    <Compile Include="ROOMS\SLEEPING_ROOM\UNIT_TESTS\SleepingRoomController_UnitTests.cs" />
     <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_datahandling.cs" />
     <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_devicesequencer.cs" />
     <Compile Include="UNIT_TESTS\ADVANCED_COMPONENTS\unittest_deviceblinker.cs" />
@@ -138,7 +142,6 @@
   <ItemGroup>
     <Folder Include="ROOMS\POWERCENTER\INTERFACE\" />
     <Folder Include="ROOMS\POWERCENTER\UNIT_TESTS\" />
-    <Folder Include="ROOMS\SLEEPING_ROOM\UNIT_TESTS\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
