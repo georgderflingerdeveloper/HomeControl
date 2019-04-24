@@ -68,6 +68,10 @@ namespace HomeControl.ROOMS.CONFIGURATION
     {
     }
 
+    class DefaultSettingsHeaterControlSleepingRoom : DefaultSettingsHeaterControl
+    {
+    }
+
     static class RangeIndexSleepingRoom
     {
         public const int indAFirstLight = IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd;
@@ -97,7 +101,7 @@ namespace HomeControl.ROOMS.CONFIGURATION
         };
         #endregion
 
-        #region SLEEPINGROOM_CONFIGURATION
+        #region ROOM_CONFIGURATION
         RoomConfiguration _SleepingRoom = new RoomConfiguration()
         {
             // default settings
@@ -126,23 +130,29 @@ namespace HomeControl.ROOMS.CONFIGURATION
                         {
                            IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowLeft,
                            IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle,
-                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd
                         },
 
                     // scenario 1
                     new List<int>
                         {
-
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowLeft,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle,
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight,
                         },
 
                     // scenario 2
                     new List<int>
                         {
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle,
                         },
 
                     // scenario 3
                     new List<int>
                         {
+                           IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd
                         },
 
                 }
@@ -151,7 +161,23 @@ namespace HomeControl.ROOMS.CONFIGURATION
         };
         #endregion
 
+        #region HEATERCONFIGURATION
+        HeaterCommanderConfiguration _HeaterConfig = new HeaterCommanderConfiguration()
+        {
+            Startindex        = IOAssignmentControllerSleepingRoom.indDigitalOutputHeater,
+            Lastindex         = IOAssignmentControllerSleepingRoom.indDigitalOutputHeater,
+            Modes             = DeviceCommandos.SingleDeviceToggleRisingEdge,
+            Modesdelayedon    = DeviceCommanderDelayedOn.WithMainTrigger,
+            ModesAutomaticoff = DeviceCommanderAutomaticOff.WithMainTrigger,
+            DelayTimeAllOn    = DefaultSettingsHeaterControlSleepingRoom.DelayTimeAllOn,
+            DelayTimeFinalOff = DefaultSettingsHeaterControlSleepingRoom.DelayTimeFinalOff
+        };
+        #endregion
 
-
+        #region PROPERTIES
+        public RoomConfiguration             RoomConfig   { get => _SleepingRoom; set => _SleepingRoom = value; }
+        public HeaterCommanderConfiguration  HeaterConfig { get => _HeaterConfig; set => _HeaterConfig = value; }
+        #endregion
     }
 }
+
