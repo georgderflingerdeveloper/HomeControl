@@ -64,6 +64,7 @@ namespace HomeControl.ROOMS
             HeartBeat.EUpdate += _Commander_ExtUpdate;
             _Communicator = Communicator;
             _Communicator.EDataReceived += _Communicator_EDataReceived;
+
             HeartBeat.Start( );
         }
 
