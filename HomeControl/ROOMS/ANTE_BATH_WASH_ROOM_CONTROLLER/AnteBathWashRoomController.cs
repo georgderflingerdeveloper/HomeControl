@@ -37,6 +37,7 @@ namespace HomeControl.ROOMS
         LightCommander                 _PresenceLight;
         IDeviceControlTimer            _DeviceControlTimerPresenceLight;
         IUdpBasic                      _Communicator;
+        UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
 
         double TimeTurnOn;
         double TimeTurnAutomaticOff;
@@ -200,12 +201,12 @@ namespace HomeControl.ROOMS
             #endregion
         }
 
-        private void _RemoteControl( DataReceivingEventArgs e )
+        private UpdateEventArgs _RemoteControl( DataReceivingEventArgs e )
         {
            switch( e.Message )
            {
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
-                    _LightCommanderAnteRoom?.TurnSingleDevice( TurnDevice.ON, 
+                    _FeedbackArgs = _LightCommanderAnteRoom?.TurnSingleDevice( TurnDevice.ON, 
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomMainLight );
                     break;
@@ -275,6 +276,8 @@ namespace HomeControl.ROOMS
                     break;
 
             }
+
+            return (_FeedbackArgs);
         }
         #endregion
 
@@ -388,9 +391,9 @@ namespace HomeControl.ROOMS
         #endregion
 
         #region PUBLIC
-        public void RemoteControl( DataReceivingEventArgs e )
+        public UpdateEventArgs RemoteControl( DataReceivingEventArgs e )
         {
-            _RemoteControl( e );
+            return (_FeedbackArgs = _RemoteControl( e ) );
         }
         #endregion
     }

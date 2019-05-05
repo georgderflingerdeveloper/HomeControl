@@ -7,6 +7,7 @@ using LibUdp;
 using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
 using HomeAutomationProtocoll;
+using HomeControl.BASIC_CONSTANTS;
 
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
@@ -16,15 +17,18 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
     {
         static int                     IndexDigitalOutputReserverdForHeartBeat = 15;
         static double                  TestIntervallTimeHeartBeat              = 500;
-        static int AnyUnknownScenarioNumber = 999;
+        static int                     AnyUnknownScenarioNumber = 999;
+        static int                     AnyUnknownIndex = 999;
+        static bool FakeTrueForTesting = true;
 
-        AnteBathWashRoomController       _TestAnteBathWashRoomController;
+        AnteBathWashRoomController _TestAnteBathWashRoomController;
         AnteBathWashRoomConfiguration    _TestAnteBathWashRoomConfiguration;
         DeviceBlinker                    _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
         DigitalInputEventargs            _TestArgs      = new DigitalInputEventargs();
         Mock<IIOHandler>                 _MockTestIOHandler;
         Mock<IUdpBasic>                  _MockUdpCommunicator;
         Mock<AnteBathWashRoomController> _MockAnteBathWashRoomController;
+        UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
 
         public UnitTest_AnteBathWashRoomController( )
         {
@@ -66,17 +70,23 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         [Test]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_ON_Received_( )
         {
-            _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = AnyUnknownScenarioNumber;
-            _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON } );
-            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
+           _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON } );
+           Assert.AreEqual(TurnDevice.ON, _TestFeedbackArgs.Value );
+           Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight,
+                           _TestFeedbackArgs.Index);
+
         }
 
         [Test]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_OFF_Received_()
         {
-            _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = AnyUnknownScenarioNumber;
-            _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF } );
-            Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
+            _TestFeedbackArgs.Value = FakeTrueForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF } );
+            Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight,
+                            _TestFeedbackArgs.Index);
         }
 
     }

@@ -6,6 +6,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
 {
     public delegate void ExtUpdate( object sender, UpdateEventArgs e );
 
+ 
     class ExtendedLightCommander : LightCommander, IExtendedLightCommander
     {
         #region DECLARATIONS
@@ -44,9 +45,12 @@ namespace HomeControl.ADVANCED_COMPONENTS
             return ( ActualScenarioNumber );
         }
 
-        public void TurnSingleDevice( bool value, int index )
+        public UpdateEventArgs TurnSingleDevice( bool value, int index )
         {
-            base.TurnSingleDevice(index, value);
+           UpdateArgs.Index = index;
+           UpdateArgs.Value = value;
+           base.TurnSingleDevice(index, value);
+           return (UpdateArgs);
         }
         #endregion
 
