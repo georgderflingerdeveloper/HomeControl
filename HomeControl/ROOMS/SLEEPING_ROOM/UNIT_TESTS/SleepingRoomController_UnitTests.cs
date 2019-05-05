@@ -36,7 +36,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         {
             // prepare test
             _TestSleepingRoomController.ScenarioNumber = AnyUnknownScenarioNumber;
-            _TestArgs.Index = IOAssignmentControllerAnteBathWashRoom.indDigitalInputBathRoomMainButton;
+            _TestArgs.Index = IOAssignmentControllerSleepingRoom.indDigitalInputMainButton;
             _TestArgs.Value = true;
 
             // action
