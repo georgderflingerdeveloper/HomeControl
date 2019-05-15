@@ -44,7 +44,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             _IOHandler = IOHandler;
             _IOHandler.EDigitalInputChanged  += IOHandler_EDigitalInputChanged;
             _IOHandler.EDigitalOutputChanged += IOHandler_EDigitalOutputChanged;
-            //Constructor();
             _Communicator = Communicator;
             _Communicator.EDataReceived += Communicator_EDataReceived;
         }
@@ -53,7 +52,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         {
             #region LIGHTCOMMANDER_ANTEROOM
             _config = (SleepingRoomConfiguration) config;
-            TimeTurnOn           =  _config.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn           = _config.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.RoomConfig.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
             TimeTurnFinalOff     = _config.RoomConfig.LightCommanderConfiguration.DelayTimeFinalOff;
             Startindex           = _config.RoomConfig.LightCommanderConfiguration.Startindex;
