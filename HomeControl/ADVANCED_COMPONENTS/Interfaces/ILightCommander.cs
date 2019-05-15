@@ -1,7 +1,7 @@
 ﻿
 namespace HomeControl.ADVANCED_COMPONENTS
 {
-    interface ILightCommander
+    public interface ILightCommander
     {
         void MainTrigger( bool edge );
         void PresenceTrigger( bool edge );
