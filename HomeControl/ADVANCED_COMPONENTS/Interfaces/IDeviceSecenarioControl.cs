@@ -2,7 +2,7 @@
 
 namespace HomeControl.ADVANCED_COMPONENTS
 {
-    interface IDeviceScenarioControl
+    public interface IDeviceScenarioControl
     {
         void  WatchForInputValueChange( bool trigger );
         void  Turn( bool command, int number );

@@ -19,12 +19,15 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
     {
         #region DECLARATION
         SleepingRoomConfiguration _config;
-        DeviceScenarioControl _DeviceScenarioControl;
-        ExtendedLightCommander _LightCommander;
-        IDeviceControlTimer _DeviceControlTimer;
+        DeviceScenarioControl     _DeviceScenarioControl;
+        ExtendedLightCommander    _LightCommander;
 
-        IIOHandler _IOHandler;
-        IUdpBasic _Communicator;
+        IDeviceControlTimer       DeviceControlTimer;
+        IIOHandler                IOHandler;
+        IUdpBasic                 Communicator;
+        IExtendedLightCommander   LightCommander;
+        IDeviceScenarioControl    DeviceScenarioControl;
+
         int    _ScenarioNumber;
         double TimeTurnOn;
         double TimeTurnAutomaticOff;
@@ -35,24 +38,27 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         double IdleScenario;
         double NotUsed;
 
-
         #endregion
-
-        public SleepingRoomController(SleepingRoomConfiguration config, IIOHandler IOHandler, IUdpBasic Communicator) : base()
+        public SleepingRoomController( SleepingRoomConfiguration config, 
+                                       IIOHandler                iOHandler, 
+                                       IUdpBasic                 communicator,
+                                       IExtendedLightCommander   lightCommander, 
+                                       IDeviceScenarioControl    deviceScenarioControl ) : base()
         {
+            IOHandler = iOHandler;
+            LightCommander = lightCommander;
             Constructor(config);
-            _IOHandler = IOHandler;
-            _IOHandler.EDigitalInputChanged  += IOHandler_EDigitalInputChanged;
-            _IOHandler.EDigitalOutputChanged += IOHandler_EDigitalOutputChanged;
-            _Communicator = Communicator;
-            _Communicator.EDataReceived += Communicator_EDataReceived;
+            IOHandler.EDigitalInputChanged  += IOHandler_EDigitalInputChanged;
+            IOHandler.EDigitalOutputChanged += IOHandler_EDigitalOutputChanged;
+            Communicator = communicator;
+            Communicator.EDataReceived += Communicator_EDataReceived;
         }
 
         void Constructor(BaseConfiguration config)
         {
             #region LIGHTCOMMANDER_ANTEROOM
             _config = (SleepingRoomConfiguration) config;
-            TimeTurnOn           = _config.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn           =  _config.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.RoomConfig.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
             TimeTurnFinalOff     = _config.RoomConfig.LightCommanderConfiguration.DelayTimeFinalOff;
             Startindex           = _config.RoomConfig.LightCommanderConfiguration.Startindex;
@@ -62,11 +68,11 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             NotUsed              = 1; // TODO
 
             _DeviceScenarioControl             = new DeviceScenarioControl(Startindex, Lastindex, new Timer_(TimeNextScenario), new Timer_(NotUsed), new Timer_(IdleScenario));
-            _DeviceControlTimer                = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
-            _LightCommander                    = new ExtendedLightCommander(_config.RoomConfig.LightCommanderConfiguration, _DeviceControlTimer, _DeviceScenarioControl);
+            DeviceControlTimer                 = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
+            //_LightCommander                    = new ExtendedLightCommander(_config.RoomConfig.LightCommanderConfiguration, DeviceControlTimer, _DeviceScenarioControl);
             _DeviceScenarioControl.Scenarios   = _config.RoomConfig.ScenarioConfiguration.Scenarios;
-            _LightCommander.AvailableScenarios = _config.RoomConfig.ScenarioConfiguration.Scenarios;
-            _LightCommander.ExtUpdate += _LightCommander_ExtUpdate; ;
+            //LightCommander.AvailableScenarios = _config.RoomConfig.ScenarioConfiguration.Scenarios;
+            LightCommander.ExtUpdate += _LightCommander_ExtUpdate; ;
             #endregion
         }
 
@@ -75,7 +81,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             switch (index)
             {
                 case IOAssignmentControllerSleepingRoom.indDigitalInputMainButton:
-                    _ScenarioNumber = (int)_LightCommander?.ScenarioTrigger(value);
+                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger(value);
                     break;
             }
         }
@@ -85,7 +91,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         #region EVENTHANDLERS
         private void _LightCommander_ExtUpdate(object sender, UpdateEventArgs e)
         {
-            _IOHandler?.UpdateDigitalOutputs(e.Index, e.Value);
+            IOHandler?.UpdateDigitalOutputs(e.Index, e.Value);
         }
 
         private void Communicator_EDataReceived(object sender, DataReceivingEventArgs e)
