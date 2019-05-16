@@ -1,5 +1,4 @@
 ﻿using Moq;
-using NUnit.Framework;
 using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
@@ -10,11 +9,13 @@ using HomeAutomationProtocoll;
 using HomeControl.ROOMS.CONFIGURATION;
 using System.Threading.Tasks;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
 {
-    [TestFixture]
-    class SleepingRoomController_UnitTests
+    [TestClass]
+    public class SleepingRoomController_UnitTests
     {
         static int AnyUnknownScenarioNumber = 999;
         SleepingRoomController       _TestSleepingRoomController;
@@ -42,7 +43,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
                                                                       _MockDeviceScenarioControl.Object );
         }
 
-        [Test]
+        [TestMethod]
         public void Test_MainButtonLightControl()
         {
             // prepare test
@@ -57,7 +58,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _MockLightCommander.Verify(obj => obj.ScenarioTrigger(_TestArgs.Value), Times.Exactly(1));
         }
 
-        [Test]
+        [TestMethod]
         public void Test_FirstScenario()
         {
             // prepare test
