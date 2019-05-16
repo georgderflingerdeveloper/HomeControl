@@ -44,15 +44,18 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                                        IIOHandler                iOHandler, 
                                        IUdpBasic                 communicator,
                                        IExtendedLightCommander   lightCommander, 
-                                       IDeviceScenarioControl    deviceScenarioControl ) : base()
+                                       IDeviceScenarioControl    deviceScenarioControl,
+                                       IHeaterCommander          heaterCommander ) : base()
         {
             IOHandler = iOHandler;
             LightCommander = lightCommander;
+            Heater = heaterCommander;
             Constructor(config);
             IOHandler.EDigitalInputChanged  += DigitalInputChanged;
             IOHandler.EDigitalOutputChanged += DigitalOutputChanged;
             Communicator = communicator;
             Communicator.EDataReceived += DataReceived;
+            Heater.EUpdate += ExtUpdate;
         }
 
         void Constructor(BaseConfiguration config)
@@ -89,7 +92,8 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             switch (index)
             {
                 case IOAssignmentControllerSleepingRoom.indDigitalInputMainButton:
-                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger(value);
+                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger( value );
+                    Heater?.MainTrigger( value );
                     break;
             }
         }

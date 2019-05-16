@@ -1,6 +1,6 @@
 ﻿namespace HomeControl.ADVANCED_COMPONENTS
 {
-    interface IDeviceCommander
+    public interface IDeviceCommander
     {
         void MainTrigger( bool edge );
         void PresenceTrigger( bool edge );

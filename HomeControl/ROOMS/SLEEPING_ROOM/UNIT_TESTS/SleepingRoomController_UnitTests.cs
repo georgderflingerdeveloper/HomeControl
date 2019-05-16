@@ -18,13 +18,14 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
     public class SleepingRoomController_UnitTests
     {
         static int AnyUnknownScenarioNumber = 999;
-        SleepingRoomController       _TestSleepingRoomController;
-        SleepingRoomConfiguration    _TestSleepingRoomConfiguration;
-        DigitalInputEventargs        _TestArgs = new DigitalInputEventargs();
-        Mock<IIOHandler>             _MockTestIOHandler;
-        Mock<IUdpBasic>              _MockUdpCommunicator;
-        Mock<IExtendedLightCommander>        _MockLightCommander;
-        Mock<IDeviceScenarioControl> _MockDeviceScenarioControl;
+        SleepingRoomController        _TestSleepingRoomController;
+        SleepingRoomConfiguration     _TestSleepingRoomConfiguration;
+        DigitalInputEventargs         _TestArgs = new DigitalInputEventargs();
+        Mock<IIOHandler>              _MockTestIOHandler;
+        Mock<IUdpBasic>               _MockUdpCommunicator;
+        Mock<IExtendedLightCommander> _MockLightCommander;
+        Mock<IDeviceScenarioControl>  _MockDeviceScenarioControl;
+        Mock<IHeaterCommander>        _MockHeaterCommander;
 
         Mock<SleepingRoomController> _MockSleepingRoomController;
 
@@ -34,13 +35,15 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _MockTestIOHandler         = new Mock<IIOHandler>();
             _MockLightCommander        = new Mock<IExtendedLightCommander>();
             _MockDeviceScenarioControl = new Mock<IDeviceScenarioControl>();
+            _MockHeaterCommander       = new Mock<IHeaterCommander>();
             _TestSleepingRoomConfiguration = new SleepingRoomConfiguration();
 
             _TestSleepingRoomController = new SleepingRoomController( _TestSleepingRoomConfiguration,
                                                                       _MockTestIOHandler.Object, 
                                                                       _MockUdpCommunicator.Object,
                                                                       _MockLightCommander.Object,
-                                                                      _MockDeviceScenarioControl.Object );
+                                                                      _MockDeviceScenarioControl.Object,
+                                                                      _MockHeaterCommander.Object);
         }
 
         [TestMethod]
@@ -71,6 +74,19 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
 
             // proove
             Assert.AreEqual(0, _TestSleepingRoomController.ScenarioNumber );
+        }
+
+        [TestMethod]
+        public void Test_HeaterOn()
+        {
+            _TestArgs.Index = IOAssignmentControllerSleepingRoom.indDigitalInputMainButton;
+            _TestArgs.Value = true;
+
+            // action
+            _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
+
+            _MockHeaterCommander.Verify(obj => obj.MainTrigger(true), Times.Exactly(1));
+
         }
 
     }
