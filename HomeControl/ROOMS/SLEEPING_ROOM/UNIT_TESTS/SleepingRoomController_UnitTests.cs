@@ -52,7 +52,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _TestArgs.Value = true;
 
             // action
-            _MockTestIOHandler.Raise(DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs);
+            _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
 
             // proove
             _MockLightCommander.Verify(obj => obj.ScenarioTrigger(_TestArgs.Value), Times.Exactly(1));
@@ -67,7 +67,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _TestArgs.Value = true;
 
             // action
-            _MockTestIOHandler.Raise(DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs);
+            _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
 
             // proove
             Assert.AreEqual(0, _TestSleepingRoomController.ScenarioNumber );

@@ -1,6 +1,7 @@
 ﻿using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 using System.Timers;
 using System.Collections.Generic;
+using HomeControl.ROOMS.CONFIGURATION;
 
 namespace HomeControl.ADVANCED_COMPONENTS
 {
@@ -10,8 +11,8 @@ namespace HomeControl.ADVANCED_COMPONENTS
     class ExtendedLightCommander : LightCommander, IExtendedLightCommander
     {
         #region DECLARATIONS
-        IDeviceScenarioControl  _devicescenariocontrol;
-        UpdateEventArgs         UpdateArgs = new UpdateEventArgs();
+        readonly IDeviceScenarioControl  _devicescenariocontrol;
+        readonly UpdateEventArgs         UpdateArgs = new UpdateEventArgs();
         CommanderConfiguration  _configuration;
         public event ExtUpdate  ExtUpdate;
         #endregion
@@ -21,12 +22,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
         {
             _configuration                               = config;
             _devicescenariocontrol                       = devicescenariocontrol;
-            _devicescenariocontrol.EScenario            += _devicescenariocontrol_EScenario;
-            _devicescenariocontrol.EScenarioControlInfo += _devicescenariocontrol_EScenarioControlInfo;
-            EUpdate                                     += ExtendedLightCommander_EUpdate;
-            _devicecontroltimer.EControlFinalOff        += _devicecontroltimer_EControlFinalOff;
-
-            _devicecontroltimer.EControlOff += _devicecontroltimer_EControlOff;
+            Register();
         }
         #endregion
 
@@ -52,9 +48,22 @@ namespace HomeControl.ADVANCED_COMPONENTS
            base.TurnSingleDevice(index, value);
            return (UpdateArgs);
         }
+
+        public void UpdateConfig(BaseConfiguration config)
+        {
+
+        }
         #endregion
 
         #region PRIVATE_METHODS
+        void Register()
+        {
+            _devicescenariocontrol.EScenario += _devicescenariocontrol_EScenario;
+            _devicescenariocontrol.EScenarioControlInfo += _devicescenariocontrol_EScenarioControlInfo;
+            EUpdate += ExtendedLightCommander_EUpdate;
+            _devicecontroltimer.EControlFinalOff += _devicecontroltimer_EControlFinalOff;
+            _devicecontroltimer.EControlOff += _devicecontroltimer_EControlOff;
+        }
         #endregion
 
         #region EVENTHANDLERS
@@ -149,6 +158,8 @@ namespace HomeControl.ADVANCED_COMPONENTS
                 _AvailableScenarios = value;
             }
         }
+
+        public CommanderConfiguration Configuration { get => _configuration; set => _configuration = value; }
 
         #endregion
     }

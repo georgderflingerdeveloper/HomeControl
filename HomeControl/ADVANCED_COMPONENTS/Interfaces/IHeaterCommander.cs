@@ -1,7 +1,7 @@
 ﻿
 namespace HomeControl.ADVANCED_COMPONENTS
 {
-    interface IHeaterCommander
+    interface IHeaterCommander : IDeviceCommander
     {
         void EventSwitch( bool command );
     }
