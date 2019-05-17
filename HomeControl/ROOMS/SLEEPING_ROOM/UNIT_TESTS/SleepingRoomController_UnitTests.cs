@@ -55,7 +55,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _MockTestIOHandler.Raise(DigitalInputChanged => DigitalInputChanged.EDigitalInputChanged += null, _TestArgs);
 
             // proove
-            _MockLightCommander.Verify(obj => obj.ScenarioTrigger(_TestArgs.Value), Times.Exactly(1));
+            _MockLightCommander.Verify(obj => obj.ScenarioTrigger(true), Times.Exactly(1));
         }
 
         [TestMethod]
