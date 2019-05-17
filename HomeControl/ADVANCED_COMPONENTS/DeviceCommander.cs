@@ -69,7 +69,6 @@ namespace HomeControl.ADVANCED_COMPONENTS
         protected UpdateEventArgs        _UpdateEventArgs = new UpdateEventArgs();
         protected CommanderConfiguration _config;
         protected IDeviceControlTimer    _devicecontroltimer;
-        private DeviceState              _state;
 
         #region CONSTRUCTOR
         public DeviceCommander( CommanderConfiguration config, IDeviceControlTimer devicecontroltimer )
@@ -80,7 +79,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
             _devicecontroltimer = devicecontroltimer;
             devicecontroltimer.EControlOff += Devicecontroltimer_EControlOff;
             devicecontroltimer.EControlOn  += Devicecontroltimer_EControlOn;
-            _state = DeviceState.Inactive;
+            State = DeviceState.Inactive;
         }
         #endregion
 
@@ -198,7 +197,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
                 _UpdateEventArgs.Index = index;
                 _UpdateEventArgs.Value = value;
                 EUpdate?.Invoke( this, _UpdateEventArgs );
-                _state = value ? DeviceState.Activated : DeviceState.Inactive;
+                State = value ? DeviceState.Activated : DeviceState.Inactive;
             }
         }
 
@@ -264,18 +263,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
             }
         }
 
-        public DeviceState State
-        {
-            get
-            {
-                return _state;
-            }
-
-            set
-            {
-                _state = value;
-            }
-        }
+        public DeviceState State { get; set; }
         #endregion
 
         #region EVENTHANDLERS

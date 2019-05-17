@@ -1,5 +1,6 @@
 ﻿
 using HomeControl.ADVANCED_COMPONENTS;
+using HomeControl.ROOMS.CONFIGURATION;
 namespace HomeControl.ADVANCED_COMPONENTS.Interfaces
 {
     public interface IExtendedLightCommander :ILightCommander
@@ -7,5 +8,6 @@ namespace HomeControl.ADVANCED_COMPONENTS.Interfaces
         int   ScenarioTrigger( bool trigger );
         new void  PresenceTrigger( bool edge );
         event ExtUpdate  ExtUpdate;
+        void UpdateConfig(BaseConfiguration config);
     }
 }

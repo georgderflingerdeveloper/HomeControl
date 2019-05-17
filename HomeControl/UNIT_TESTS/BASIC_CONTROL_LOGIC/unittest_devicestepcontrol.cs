@@ -2,13 +2,14 @@
 using System.Timers;
 using Moq;
 using BASIC_COMPONENTS;
-using NUnit.Framework;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 
 namespace BASIC_CONTROL_LOGIC
 {
-    [TestFixture]
+    [TestClass]
     public class unittest_lightstepcontrol
     {
         const uint NumberOfDevices           = 16;
@@ -30,7 +31,7 @@ namespace BASIC_CONTROL_LOGIC
             StepControl.WatchForInputValueChange( false );
         }
 
-        [Test]
+        [TestMethod]
         public void Test_DeviceValueSwitch( )
         {
             StepControl = new devicestepcontrol( StartIndex, NumberOfDevices, timernext );
@@ -47,7 +48,7 @@ namespace BASIC_CONTROL_LOGIC
         }
 
  
-        [Test]
+        [TestMethod]
         public void Test_StartDeviceValueWhenSwitchingToNextElement( )
         {
             EventRaisedCounter = 1;
@@ -78,7 +79,7 @@ namespace BASIC_CONTROL_LOGIC
             EventRaisedCounter++;
         }
 
-        [Test]
+        [TestMethod]
         public void Test_DeviceValueWhenSwitchingToNextElement( )
         {
             StartIndex = 0;

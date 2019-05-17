@@ -425,6 +425,15 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         }
 
         [TestMethod]
+        public void TestConfiguration()
+        {
+            TestCommander = new ExtendedLightCommander( TestConfig, new DeviceControlTimer(MockTimer_On.Object, MockTimer_Off.Object),
+                                                        TestScenarioControl);
+            TestCommander.Configuration = TestConfig;
+
+        }
+
+        [TestMethod]
         public void TestAutomaticOff_SomeLightsRemainON( )
         {
             TestCommander.ScenarioTrigger( Edge.Falling );

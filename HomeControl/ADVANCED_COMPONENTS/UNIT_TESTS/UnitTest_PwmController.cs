@@ -1,12 +1,12 @@
 ﻿using Moq;
-using NUnit.Framework;
 using BASIC_COMPONENTS;
 using System;
 using System.Timers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
 {
-    [TestFixture]
+    [TestClass]
     public class UnitTest_PwmController
     {
         Mock<ITimer> MockedTimerOn  = new Mock<ITimer>();
@@ -37,7 +37,7 @@ namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
         }
 
 
-        [Test]
+        [TestMethod]
         public void PwmStatus_On_Start( )
         {
             SetupMockedPwmController( );
@@ -47,7 +47,7 @@ namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
             Assert.AreEqual( PwmStatus.eActive, TestPwmControllerEventArgs.Status );
         }
 
-        [Test]
+        [TestMethod]
         public void SwitchStatus_On_Start( )
         {
             SetupMockedPwmController( );
@@ -57,17 +57,17 @@ namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
             Assert.AreEqual( SwitchStatus.eOn, TestPwmControllerEventArgs.SwitchStatus );
         }
 
-        [Test]
+        [TestMethod]
         public void SwitchStatus_On_IsStarted( )
         {
             SetupPwmControllerWithTimeBaseZero( );
 
             TestController.Start( );
 
-            Assert.True( TestController.TimerOnIsStarted );
+            Assert.IsTrue( TestController.TimerOnIsStarted );
         }
 
-        [Test]
+        [TestMethod]
         public void SwitchStatus_On_TimeElapsed( )
         {
             SetupMockedPwmController( );
@@ -79,7 +79,7 @@ namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
             Assert.AreEqual( SwitchStatus.eOff, TestPwmControllerEventArgs.SwitchStatus );
         }
 
-        [Test]
+        [TestMethod]
         public void SwitchStatus_On_TimeElapsed_TimerOnIsStopped( )
         {
             SetupMockedPwmController( );
@@ -88,7 +88,7 @@ namespace HomeControl.ADVANCED_COMPONENTS.UNIT_TESTS
 
             MockedTimerOn.Raise( timer => timer.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
-            Assert.False( TestController.TimerOnIsStarted );
+            Assert.IsFalse( TestController.TimerOnIsStarted );
         }
 
         private void TestController_EAnyStatusChanged( object sender, PwmControllerEventArgs e )

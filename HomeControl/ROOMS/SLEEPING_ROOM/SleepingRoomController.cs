@@ -27,6 +27,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         IUdpBasic                 Communicator;
         IExtendedLightCommander   LightCommander;
         IDeviceScenarioControl    DeviceScenarioControl;
+        IHeaterCommander          Heater;
 
         int    _ScenarioNumber;
         double TimeTurnOn;
@@ -43,15 +44,18 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                                        IIOHandler                iOHandler, 
                                        IUdpBasic                 communicator,
                                        IExtendedLightCommander   lightCommander, 
-                                       IDeviceScenarioControl    deviceScenarioControl ) : base()
+                                       IDeviceScenarioControl    deviceScenarioControl,
+                                       IHeaterCommander          heaterCommander ) : base()
         {
             IOHandler = iOHandler;
             LightCommander = lightCommander;
+            Heater = heaterCommander;
             Constructor(config);
-            IOHandler.EDigitalInputChanged  += IOHandler_EDigitalInputChanged;
-            IOHandler.EDigitalOutputChanged += IOHandler_EDigitalOutputChanged;
+            IOHandler.EDigitalInputChanged  += DigitalInputChanged;
+            IOHandler.EDigitalOutputChanged += DigitalOutputChanged;
             Communicator = communicator;
-            Communicator.EDataReceived += Communicator_EDataReceived;
+            Communicator.EDataReceived += DataReceived;
+            Heater.EUpdate += ExtUpdate;
         }
 
         void Constructor(BaseConfiguration config)
@@ -67,12 +71,19 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             IdleScenario         = _config.RoomConfig.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed              = 1; // TODO
 
-            _DeviceScenarioControl             = new DeviceScenarioControl(Startindex, Lastindex, new Timer_(TimeNextScenario), new Timer_(NotUsed), new Timer_(IdleScenario));
-            DeviceControlTimer                 = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
+            _DeviceScenarioControl             = new DeviceScenarioControl(Startindex, 
+                                                                           Lastindex,
+                                                                           new Timer_(TimeNextScenario), 
+                                                                           new Timer_(NotUsed), 
+                                                                           new Timer_(IdleScenario));
+
+            DeviceControlTimer                 = new DeviceControlTimer(new Timer_(TimeTurnOn), 
+                                                                        new Timer_(TimeTurnAutomaticOff), 
+                                                                        new Timer_(TimeTurnFinalOff));
             //_LightCommander                    = new ExtendedLightCommander(_config.RoomConfig.LightCommanderConfiguration, DeviceControlTimer, _DeviceScenarioControl);
             _DeviceScenarioControl.Scenarios   = _config.RoomConfig.ScenarioConfiguration.Scenarios;
             //LightCommander.AvailableScenarios = _config.RoomConfig.ScenarioConfiguration.Scenarios;
-            LightCommander.ExtUpdate += _LightCommander_ExtUpdate; ;
+            LightCommander.ExtUpdate += ExtUpdate; ;
             #endregion
         }
 
@@ -81,7 +92,8 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             switch (index)
             {
                 case IOAssignmentControllerSleepingRoom.indDigitalInputMainButton:
-                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger(value);
+                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger( value );
+                    Heater?.MainTrigger( value );
                     break;
             }
         }
@@ -89,22 +101,22 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
 
         #region EVENTHANDLERS
-        private void _LightCommander_ExtUpdate(object sender, UpdateEventArgs e)
+        private void ExtUpdate(object sender, UpdateEventArgs e)
         {
             IOHandler?.UpdateDigitalOutputs(e.Index, e.Value);
         }
 
-        private void Communicator_EDataReceived(object sender, DataReceivingEventArgs e)
+        private void DataReceived(object sender, DataReceivingEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void IOHandler_EDigitalInputChanged(object sender, DigitalInputEventargs e)
+        private void DigitalInputChanged(object sender, DigitalInputEventargs e)
         {
             RoomController(e.Index, e.Value);
         }
 
-        private void IOHandler_EDigitalOutputChanged(object sender, DigitalOutputEventargs e)
+        private void DigitalOutputChanged(object sender, DigitalOutputEventargs e)
         {
             throw new NotImplementedException();
         }

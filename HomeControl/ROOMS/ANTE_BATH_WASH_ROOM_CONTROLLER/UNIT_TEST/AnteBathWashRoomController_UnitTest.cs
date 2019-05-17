@@ -1,5 +1,5 @@
 ﻿using Moq;
-using NUnit.Framework;
+
 using BASIC_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
@@ -8,11 +8,13 @@ using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
 using HomeAutomationProtocoll;
 using HomeControl.BASIC_CONSTANTS;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 {
-    [TestFixture]
+    [TestClass]
     class UnitTest_AnteBathWashRoomController
     {
         static int                     IndexDigitalOutputReserverdForHeartBeat = 15;
@@ -40,7 +42,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         }
 
 
-        [Test]
+        [TestMethod]
         public void TestBathRoomLight_FirstScenario( )
         {
             // prepare test
@@ -55,7 +57,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
             Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberBathRoom );
         }
 
-        [Test]
+        [TestMethod]
         public void TestAnteRoomLight_FirstScenario( )
         {
             _TestAnteBathWashRoomController.ScenarioNumberAnteRoom = 1;
@@ -67,7 +69,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
             Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
         }
 
-        [Test]
+        [TestMethod]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_ON_Received_( )
         {
            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl( new DataReceivingEventArgs( ) { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON } );
@@ -77,7 +79,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 
         }
 
-        [Test]
+        [TestMethod]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_OFF_Received_()
         {
             _TestFeedbackArgs.Value = FakeTrueForTesting;
