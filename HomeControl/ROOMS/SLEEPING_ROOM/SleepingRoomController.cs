@@ -20,7 +20,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         #region DECLARATION
         SleepingRoomConfiguration _config;
         DeviceScenarioControl     _DeviceScenarioControl;
-        ExtendedLightCommander    _LightCommander;
         UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
 
         IDeviceControlTimer       DeviceControlTimer;
@@ -104,8 +103,8 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         {
             switch (e.Message)
             {
-                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
-                    _LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
+                case ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON:
+                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
             }

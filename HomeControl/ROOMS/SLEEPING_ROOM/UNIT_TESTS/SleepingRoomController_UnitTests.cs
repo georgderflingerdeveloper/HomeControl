@@ -108,7 +108,9 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         {
             _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
 
-            _MockLightCommander.Verify(obj => obj.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights));
+            _MockLightCommander.Verify(obj => obj.ScenarioTriggerPersitent(TurnDevice.ON,
+                                                                           ScenarioConstantsSleepingRoom.ScenarionAllLights), 
+                                                                           Times.Exactly(1));
         }
     }
 }
