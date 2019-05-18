@@ -107,6 +107,18 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                     LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
+                case ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF:
+                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.OFF, ScenarioConstantsSleepingRoom.ScenarionAllLights);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM1_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON, IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM1_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF, IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
+                    break;
+
             }
             return (_FeedbackArgs);
         }

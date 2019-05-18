@@ -106,11 +106,53 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         [TestMethod]
         public void Test_TURN_ALL_LIGHTS_ON_Received_()
         {
-            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
+            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
+                                                     { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
 
-            _MockLightCommander.Verify(obj => obj.ScenarioTriggerPersitent(TurnDevice.ON,
-                                                                           ScenarioConstantsSleepingRoom.ScenarionAllLights), 
-                                                                           Times.Exactly(1));
+            _MockLightCommander.Verify(obj => 
+                                       obj.ScenarioTriggerPersitent(TurnDevice.ON,
+                                                                    ScenarioConstantsSleepingRoom.ScenarionAllLights), 
+                                                                    Times.Exactly(1));
         }
+
+
+        [TestMethod]
+        public void Test_TURN_ALL_LIGHTS_OFF_Received_()
+        {
+            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
+                                                      { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF});
+
+            _MockLightCommander.Verify(obj => 
+                                       obj.ScenarioTriggerPersitent(TurnDevice.OFF,
+                                                                    ScenarioConstantsSleepingRoom.ScenarionAllLights),
+                                                                    Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void Test_TURN_LIGHT1_ON_Received_()
+        {
+            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
+                                                     { Message = ComandoString.TURN_LIGHT_KIDROOM1_ON});
+
+            _MockLightCommander.Verify(obj =>
+                                       obj.TurnSingleDevice(TurnDevice.ON,
+                                                            IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling),
+                                                            Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void Test_TURN_LIGHT1_OFF_Received_()
+        {
+            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
+            { Message = ComandoString.TURN_LIGHT_KIDROOM1_OFF });
+
+            _MockLightCommander.Verify(obj =>
+                                       obj.TurnSingleDevice(TurnDevice.OFF,
+                                                            IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling),
+                                                            Times.Exactly(1));
+        }
+
+
+
     }
 }
