@@ -7,7 +7,10 @@ namespace HomeControl.ADVANCED_COMPONENTS.Interfaces
     {
         int   ScenarioTrigger( bool trigger );
         new void  PresenceTrigger( bool edge );
+
         event ExtUpdate  ExtUpdate;
         void UpdateConfig(BaseConfiguration config);
+
+        int ScenarioTriggerPersitent(bool edge, int number);
     }
 }

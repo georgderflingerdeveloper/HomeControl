@@ -9,6 +9,7 @@ using HomeAutomationProtocoll;
 using HomeControl.ROOMS.CONFIGURATION;
 using System.Threading.Tasks;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
+using HomeControl.BASIC_CONSTANTS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -28,6 +29,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         Mock<IHeaterCommander>        _MockHeaterCommander;
 
         Mock<SleepingRoomController> _MockSleepingRoomController;
+        UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
 
         public SleepingRoomController_UnitTests()
         {
@@ -89,5 +91,24 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
 
         }
 
+        [TestMethod]
+        public void Test_HeaterOff()
+        {
+            _TestArgs.Index = IOAssignmentControllerSleepingRoom.indDigitalInputMainButton;
+ 
+            // action
+            _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
+
+            _MockHeaterCommander.Verify(obj => obj.MainTrigger(false), Times.Exactly(1));
+
+        }
+
+        [TestMethod]
+        public void Test_TURN_ALL_LIGHTS_ON_Received_()
+        {
+            _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
+
+            _MockLightCommander.Verify(obj => obj.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights));
+        }
     }
 }

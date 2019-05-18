@@ -21,6 +21,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         SleepingRoomConfiguration _config;
         DeviceScenarioControl     _DeviceScenarioControl;
         ExtendedLightCommander    _LightCommander;
+        UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
 
         IDeviceControlTimer       DeviceControlTimer;
         IIOHandler                IOHandler;
@@ -87,6 +88,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             #endregion
         }
 
+        #region PRIVATE
         void RoomController(int index, bool value)
         {
             switch (index)
@@ -97,6 +99,19 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                     break;
             }
         }
+
+        private UpdateEventArgs _RemoteControl(DataReceivingEventArgs e)
+        {
+            switch (e.Message)
+            {
+                case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
+                    _LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
+                    break;
+
+            }
+            return (_FeedbackArgs);
+        }
+        #endregion
 
 
 
@@ -124,6 +139,13 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         #region PROPERTIES
         public int ScenarioNumber { get => _ScenarioNumber; set => _ScenarioNumber = value; }
+        #endregion
+
+        #region PUBLIC
+        public UpdateEventArgs RemoteControl(DataReceivingEventArgs e)
+        {
+            return (_FeedbackArgs = _RemoteControl(e));
+        }
         #endregion
     }
 }

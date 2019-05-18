@@ -148,6 +148,11 @@ namespace HomeControl.ROOMS
         public const int ScenarioAllLights = 6;
     }
 
+    static class ScenarioConstantsSleepingRoom
+    {
+        public const int ScenarionAllLights = 0;
+    }
+
     [Serializable]
     public class AnteBathWashRoomConfiguration : BaseConfiguration
     {
