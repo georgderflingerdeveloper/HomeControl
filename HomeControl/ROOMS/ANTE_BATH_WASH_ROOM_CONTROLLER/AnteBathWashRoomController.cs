@@ -54,7 +54,10 @@ namespace HomeControl.ROOMS
         #endregion
 
         #region CONSTRUCTOR
-        public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler IOHandler, IUdpBasic Communicator ) : base()
+        public AnteBathWashRoomController(AnteBathWashRoomConfiguration config,
+                                          IDeviceBlinker HeartBeat,
+                                          IIOHandler IOHandler,
+                                          IUdpBasic Communicator) : base()
         {
             _HeartBeat = HeartBeat;
             _config    = config;
@@ -69,7 +72,9 @@ namespace HomeControl.ROOMS
             HeartBeat.Start( );
         }
 
-        public AnteBathWashRoomController( AnteBathWashRoomConfiguration config, IDeviceBlinker HeartBeat, IIOHandler[] IOHandler ) : base( )
+        public AnteBathWashRoomController(AnteBathWashRoomConfiguration config,
+                                          IDeviceBlinker HeartBeat,
+                                          IIOHandler[] IOHandler) : base( )
         {
             MultiIOCardsAvailable = true;
             _HeartBeat            = HeartBeat;

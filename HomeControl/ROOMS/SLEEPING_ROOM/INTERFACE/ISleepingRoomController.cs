@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibUdp.BASIC.RECEIVE;
+using HomeControl.ADVANCED_COMPONENTS;
 
 namespace HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE
 {
     interface ISleepingRoomController
     {
+        UpdateEventArgs RemoteControl(DataReceivingEventArgs e);
     }
 }

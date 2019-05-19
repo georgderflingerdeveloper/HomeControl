@@ -15,15 +15,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 {
     [TestClass]
-    class UnitTest_AnteBathWashRoomController
+    public class UnitTest_AnteBathWashRoomController
     {
         static int                     IndexDigitalOutputReserverdForHeartBeat = 15;
         static double                  TestIntervallTimeHeartBeat              = 500;
         static int                     AnyUnknownScenarioNumber = 999;
         static int                     AnyUnknownIndex = 999;
-        static bool FakeTrueForTesting = true;
+        static bool                    FakeTrueForTesting = true;
 
-        AnteBathWashRoomController _TestAnteBathWashRoomController;
+        AnteBathWashRoomController       _TestAnteBathWashRoomController;
         AnteBathWashRoomConfiguration    _TestAnteBathWashRoomConfiguration;
         DeviceBlinker                    _TestHeartBeat = new DeviceBlinker( new BlinkerConfiguration( IndexDigitalOutputReserverdForHeartBeat, StartBlinker.eWithOnPeriode ), new Timer_( TestIntervallTimeHeartBeat ) );
         DigitalInputEventargs            _TestArgs      = new DigitalInputEventargs();

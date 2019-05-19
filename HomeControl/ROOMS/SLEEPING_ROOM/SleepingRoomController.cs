@@ -20,7 +20,8 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         #region DECLARATION
         SleepingRoomConfiguration _config;
         DeviceScenarioControl     _DeviceScenarioControl;
-        UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
+        UpdateEventArgs           _FeedbackArgs = new UpdateEventArgs();
+        DataReceivingEventArgs    _FeedbackReceivedArgs = new DataReceivingEventArgs();
 
         IDeviceControlTimer       DeviceControlTimer;
         IIOHandler                IOHandler;
@@ -99,7 +100,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             }
         }
 
-        private UpdateEventArgs _RemoteControl(DataReceivingEventArgs e)
+        private DataReceivingEventArgs _RemoteControl(DataReceivingEventArgs e)
         {
             switch (e.Message)
             {
@@ -119,8 +120,13 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                     LightCommander?.TurnSingleDevice(TurnDevice.OFF, IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
                     break;
 
+                default:
+                    return (e);
+
+
             }
-            return (_FeedbackArgs);
+            LightCommander?.Reset();
+            return (e);
         }
         #endregion
 
@@ -134,7 +140,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         private void DataReceived(object sender, DataReceivingEventArgs e)
         {
-            throw new NotImplementedException();
+            _FeedbackReceivedArgs = _RemoteControl(e);
         }
 
         private void DigitalInputChanged(object sender, DigitalInputEventargs e)
@@ -150,12 +156,14 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         #region PROPERTIES
         public int ScenarioNumber { get => _ScenarioNumber; set => _ScenarioNumber = value; }
+        public DataReceivingEventArgs FeedbackReceivedArgs { get => _FeedbackReceivedArgs; set => _FeedbackReceivedArgs = value; }
         #endregion
 
         #region PUBLIC
-        public UpdateEventArgs RemoteControl(DataReceivingEventArgs e)
+        public DataReceivingEventArgs RemoteControl(DataReceivingEventArgs e)
         {
-            return (_FeedbackArgs = _RemoteControl(e));
+            _RemoteControl(e);
+            return ( e );
         }
         #endregion
     }

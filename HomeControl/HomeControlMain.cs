@@ -44,12 +44,10 @@ namespace HomeControl
 
             switch( _SelectedRoomMode?.ToUpper() )  // .ToUpper() is only for TEXT formatting reasons, because I like ROOM NAMES in UPPER CASE ....
             {
-                   #region MODEANTEROOM
                    case InfoOperationMode.ANTEROOM:
                         AnteRoom( );
                         break;
-                   #endregion
-            }
+             }
 
             Finish( );
         }
