@@ -1,17 +1,14 @@
-﻿using Moq;
-using BASIC_COMPONENTS;
+﻿using BASIC_COMPONENTS;
+using HomeAutomationProtocoll;
 using HomeControl.ADVANCED_COMPONENTS;
+using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
-using LibUdp;
+using HomeControl.BASIC_CONSTANTS;
+using HomeControl.ROOMS.CONFIGURATION;
 using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
-using HomeAutomationProtocoll;
-using HomeControl.ROOMS.CONFIGURATION;
-using System.Threading.Tasks;
-using HomeControl.ADVANCED_COMPONENTS.Interfaces;
-using HomeControl.BASIC_CONSTANTS;
-using HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 
 namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
@@ -20,28 +17,28 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
     public class SleepingRoomController_UnitTests
     {
         static int AnyUnknownScenarioNumber = 999;
-        SleepingRoomController        _TestSleepingRoomController;
-        SleepingRoomConfiguration     _TestSleepingRoomConfiguration;
-        DigitalInputEventargs         _TestArgs = new DigitalInputEventargs();
-        DataReceivingEventArgs        _TestReceivedArgs = new DataReceivingEventArgs();
-        Mock<IIOHandler>              _MockTestIOHandler;
-        Mock<IUdpBasic>               _MockUdpCommunicator;
+        SleepingRoomController _TestSleepingRoomController;
+        SleepingRoomConfiguration _TestSleepingRoomConfiguration;
+        DigitalInputEventargs _TestArgs = new DigitalInputEventargs();
+        DataReceivingEventArgs _TestReceivedArgs = new DataReceivingEventArgs();
+        Mock<IIOHandler> _MockTestIOHandler;
+        Mock<IUdpBasic> _MockUdpCommunicator;
         Mock<IExtendedLightCommander> _MockLightCommander;
-        Mock<IDeviceScenarioControl>  _MockDeviceScenarioControl;
-        Mock<IHeaterCommander>        _MockHeaterCommander;
+        Mock<IDeviceScenarioControl> _MockDeviceScenarioControl;
+        Mock<IHeaterCommander> _MockHeaterCommander;
         UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
 
         public SleepingRoomController_UnitTests()
         {
-            _MockUdpCommunicator           = new Mock<IUdpBasic>();
-            _MockTestIOHandler             = new Mock<IIOHandler>();
-            _MockLightCommander            = new Mock<IExtendedLightCommander>();
-            _MockDeviceScenarioControl     = new Mock<IDeviceScenarioControl>();
-            _MockHeaterCommander           = new Mock<IHeaterCommander>();
+            _MockUdpCommunicator = new Mock<IUdpBasic>();
+            _MockTestIOHandler = new Mock<IIOHandler>();
+            _MockLightCommander = new Mock<IExtendedLightCommander>();
+            _MockDeviceScenarioControl = new Mock<IDeviceScenarioControl>();
+            _MockHeaterCommander = new Mock<IHeaterCommander>();
             _TestSleepingRoomConfiguration = new SleepingRoomConfiguration();
 
-            _TestSleepingRoomController = new SleepingRoomController( _TestSleepingRoomConfiguration,
-                                                                      _MockTestIOHandler.Object, 
+            _TestSleepingRoomController = new SleepingRoomController(_TestSleepingRoomConfiguration,
+                                                                      _MockTestIOHandler.Object,
                                                                       _MockUdpCommunicator.Object,
                                                                       _MockLightCommander.Object,
                                                                       _MockDeviceScenarioControl.Object,
@@ -75,7 +72,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
 
             // proove
-            Assert.AreEqual(0, _TestSleepingRoomController.ScenarioNumber );
+            Assert.AreEqual(0, _TestSleepingRoomController.ScenarioNumber);
         }
 
         [TestMethod]
@@ -95,7 +92,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         public void Test_HeaterOff()
         {
             _TestArgs.Index = IOAssignmentControllerSleepingRoom.indDigitalInputMainButton;
- 
+
             // action
             _MockTestIOHandler.Raise(obj => obj.EDigitalInputChanged += null, _TestArgs);
 
@@ -107,11 +104,11 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         public void Test_TURN_ALL_LIGHTS_ON_Received_()
         {
             _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
-                                                     { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
+            { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON });
 
-            _MockLightCommander.Verify(obj => 
+            _MockLightCommander.Verify(obj =>
                                        obj.ScenarioTriggerPersitent(TurnDevice.ON,
-                                                                    ScenarioConstantsSleepingRoom.ScenarionAllLights), 
+                                                                    ScenarioConstantsSleepingRoom.ScenarionAllLights),
                                                                     Times.Exactly(1));
         }
 
@@ -130,9 +127,9 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         public void Test_TURN_ALL_LIGHTS_OFF_Received_()
         {
             _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
-                                                      { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF});
+            { Message = ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF });
 
-            _MockLightCommander.Verify(obj => 
+            _MockLightCommander.Verify(obj =>
                                        obj.ScenarioTriggerPersitent(TurnDevice.OFF,
                                                                     ScenarioConstantsSleepingRoom.ScenarionAllLights),
                                                                     Times.Exactly(1));
@@ -142,7 +139,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         public void Test_TURN_LIGHT1_ON_Received_()
         {
             _TestSleepingRoomController.RemoteControl(new DataReceivingEventArgs()
-                                                     { Message = ComandoString.TURN_LIGHT_KIDROOM1_ON});
+            { Message = ComandoString.TURN_LIGHT_KIDROOM1_ON });
 
             _MockLightCommander.Verify(obj =>
                                        obj.TurnSingleDevice(TurnDevice.ON,
