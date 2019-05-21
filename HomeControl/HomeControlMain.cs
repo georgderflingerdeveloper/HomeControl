@@ -9,7 +9,7 @@ using BASIC_COMPONENTS;
 using HomeControl.BASIC_COMPONENTS;
 using System.Threading;
 using LibUdp;
-using LibUdp.BASIC;
+using HomeControl.ROOMS.CONFIGURATION;
 
 namespace HomeControl
 {
@@ -18,6 +18,7 @@ namespace HomeControl
         static string                        _SelectedRoomMode;
         static AnteBathWashRoomController    _AnteBathWashRoomController;
         static AnteBathWashRoomConfiguration _AnteBathWashRoomConfiguration;
+        static SleepingRoomConfiguration     _SleepingRoomConfiguration;
         static object                        _RoomConfiguration;
         static int                           IndexDigitalOutputReserverdForHeartBeat = 15;
         static double                        IntervallTimeHeartBeat                  = 500;
@@ -36,6 +37,7 @@ namespace HomeControl
         static void Main( string[] args )
         {
             InitConsoleOutput( );
+
             SystemInformation( );
 
             LoadConfigurationData_Controller( );
@@ -47,6 +49,8 @@ namespace HomeControl
                    case InfoOperationMode.ANTEROOM:
                         AnteRoom( );
                         break;
+                case InfoOperationMode.SLEEPING_ROOM:
+                    break;
              }
 
             Finish( );
@@ -119,8 +123,6 @@ namespace HomeControl
 
             if( IOHandler_.Attached )
             {
-                IOHandler_.EDigitalInputChanged  += IOHandler__EDigitalInputChanged;
-                IOHandler_.EDigitalOutputChanged += IOHandler__EDigitalOutputChanged;
                 IOHandler_.SetAllOutputs( false );
                 Console.WriteLine( );
                 Console.WriteLine( basicstringconstants.OperationMode + _SelectedRoomMode );
@@ -130,6 +132,17 @@ namespace HomeControl
                 IOHandler_.SetAllOutputs( false );
                 Environment.Exit( 0 );
             }
+        }
+
+        static void SleepingRoom()
+        {
+            _SleepingRoomConfiguration = new SleepingRoomConfiguration();
+            _RoomConfiguration = LoadConfigurationData_Room(_SelectedRoomMode.ToLower(), _SleepingRoomConfiguration);
+            if (_RoomConfiguration != null)
+            {
+                _SleepingRoomConfiguration = (_RoomConfiguration as SleepingRoomConfiguration);
+            }
+
         }
         #endregion
 
@@ -154,23 +167,7 @@ namespace HomeControl
         }
 
         #region EVENTHANDLERS
-        private static void IOHandler__EDigitalInputChanged( object sender, DigitalInputEventargs e )
-        {
-            switch( _SelectedRoomMode.ToUpper() )
-            {
-                case InfoOperationMode.ANTEROOM:
-                     break;
-            }
-        }
-
-        private static void IOHandler__EDigitalOutputChanged( object sender, DigitalOutputEventargs e )
-        {
-            switch( _SelectedRoomMode.ToUpper() )
-            {
-                case InfoOperationMode.ANTEROOM:
-                     break;
-            }
-        }
+  
         #endregion
     }
 }

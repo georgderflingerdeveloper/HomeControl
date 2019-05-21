@@ -18,27 +18,15 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
     class SleepingRoomController : Controller
     {
         #region DECLARATION
-        SleepingRoomConfiguration _config;
-        DeviceScenarioControl     _DeviceScenarioControl;
         UpdateEventArgs           _FeedbackArgs = new UpdateEventArgs();
         DataReceivingEventArgs    _FeedbackReceivedArgs = new DataReceivingEventArgs();
 
-        IDeviceControlTimer       DeviceControlTimer;
         IIOHandler                IOHandler;
         IUdpBasic                 Communicator;
         IExtendedLightCommander   LightCommander;
-        IDeviceScenarioControl    DeviceScenarioControl;
         IHeaterCommander          Heater;
 
         int    _ScenarioNumber;
-        double TimeTurnOn;
-        double TimeTurnAutomaticOff;
-        double TimeTurnFinalOff;
-        int    Startindex;
-        int    Lastindex;
-        double TimeNextScenario;
-        double IdleScenario;
-        double NotUsed;
 
         #endregion
         public SleepingRoomController( SleepingRoomConfiguration config, 
@@ -48,45 +36,18 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                                        IDeviceScenarioControl    deviceScenarioControl,
                                        IHeaterCommander          heaterCommander ) : base()
         {
-            IOHandler = iOHandler;
+            IOHandler      = iOHandler;
             LightCommander = lightCommander;
-            Heater = heaterCommander;
-            Constructor(config);
+            Heater         = heaterCommander;
+            Communicator   = communicator;
             IOHandler.EDigitalInputChanged  += DigitalInputChanged;
             IOHandler.EDigitalOutputChanged += DigitalOutputChanged;
-            Communicator = communicator;
-            Communicator.EDataReceived += DataReceived;
-            Heater.EUpdate += ExtUpdate;
+            Communicator.EDataReceived      += DataReceived;
+            Heater.EUpdate                  += ExtUpdate;
+            LightCommander.ExtUpdate        += ExtUpdate;
         }
 
-        void Constructor(BaseConfiguration config)
-        {
-            #region LIGHTCOMMANDER_ANTEROOM
-            _config = (SleepingRoomConfiguration) config;
-            TimeTurnOn           =  _config.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
-            TimeTurnAutomaticOff = _config.RoomConfig.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
-            TimeTurnFinalOff     = _config.RoomConfig.LightCommanderConfiguration.DelayTimeFinalOff;
-            Startindex           = _config.RoomConfig.LightCommanderConfiguration.Startindex;
-            Lastindex            = _config.RoomConfig.LightCommanderConfiguration.Lastindex;
-            TimeNextScenario     = _config.RoomConfig.ScenarioConfiguration.DelayTimeNextScenario;
-            IdleScenario         = _config.RoomConfig.LightCommanderConfiguration.DelayTimeDoingNothing;
-            NotUsed              = 1; // TODO
-
-            _DeviceScenarioControl             = new DeviceScenarioControl(Startindex, 
-                                                                           Lastindex,
-                                                                           new Timer_(TimeNextScenario), 
-                                                                           new Timer_(NotUsed), 
-                                                                           new Timer_(IdleScenario));
-
-            DeviceControlTimer                 = new DeviceControlTimer(new Timer_(TimeTurnOn), 
-                                                                        new Timer_(TimeTurnAutomaticOff), 
-                                                                        new Timer_(TimeTurnFinalOff));
-            //_LightCommander                    = new ExtendedLightCommander(_config.RoomConfig.LightCommanderConfiguration, DeviceControlTimer, _DeviceScenarioControl);
-            _DeviceScenarioControl.Scenarios   = _config.RoomConfig.ScenarioConfiguration.Scenarios;
-            //LightCommander.AvailableScenarios = _config.RoomConfig.ScenarioConfiguration.Scenarios;
-            LightCommander.ExtUpdate += ExtUpdate; ;
-            #endregion
-        }
+        
 
         #region PRIVATE
         void RoomController(int index, bool value)
@@ -102,6 +63,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         private DataReceivingEventArgs _RemoteControl(DataReceivingEventArgs e)
         {
+            LightCommander?.Reset();
             switch (e.Message)
             {
                 case ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON:
@@ -122,10 +84,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
                 default:
                     return (e);
-
-
             }
-            LightCommander?.Reset();
             return (e);
         }
         #endregion

@@ -22,11 +22,15 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         DigitalInputEventargs _TestArgs = new DigitalInputEventargs();
         DataReceivingEventArgs _TestReceivedArgs = new DataReceivingEventArgs();
         Mock<IIOHandler> _MockTestIOHandler;
-        Mock<IUdpBasic> _MockUdpCommunicator;
+        Mock<IUdpBasic>        _MockUdpCommunicator;
         Mock<IExtendedLightCommander> _MockLightCommander;
         Mock<IDeviceScenarioControl> _MockDeviceScenarioControl;
         Mock<IHeaterCommander> _MockHeaterCommander;
         UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
+
+        IDeviceControlTimer    ControlTimer;
+        IDeviceScenarioControl ScenarioControl;
+        IExtendedLightCommander ExtendedLightCommander;
 
         public SleepingRoomController_UnitTests()
         {
@@ -37,12 +41,38 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
             _MockHeaterCommander = new Mock<IHeaterCommander>();
             _TestSleepingRoomConfiguration = new SleepingRoomConfiguration();
 
-            _TestSleepingRoomController = new SleepingRoomController(_TestSleepingRoomConfiguration,
+            _TestSleepingRoomController = new SleepingRoomController( _TestSleepingRoomConfiguration,
                                                                       _MockTestIOHandler.Object,
                                                                       _MockUdpCommunicator.Object,
                                                                       _MockLightCommander.Object,
                                                                       _MockDeviceScenarioControl.Object,
                                                                       _MockHeaterCommander.Object);
+
+            double TimeAllOn = _TestSleepingRoomConfiguration.
+                                                           RoomConfig.
+                                                           LightCommanderConfiguration.
+                                                           DelayTimeAllOn;
+
+            double TimeNextScenario = _TestSleepingRoomConfiguration.
+                                                          RoomConfig.
+                                               ScenarioConfiguration.
+                                               DelayTimeNextScenario;
+
+            CommanderConfiguration CommanderConfig = _TestSleepingRoomConfiguration.
+                                                         RoomConfig.LightCommanderConfiguration;
+
+
+            ControlTimer           = new DeviceControlTimer( new Timer_(TimeAllOn) );
+
+            ScenarioControl        = new DeviceScenarioControl(0, 
+                                                               1, 
+                                                               new Timer_(TimeNextScenario),
+                                                               new Timer_(0), 
+                                                               new Timer_(0) );
+
+            ExtendedLightCommander = new ExtendedLightCommander(CommanderConfig,
+                                                                ControlTimer,
+                                                                ScenarioControl);
         }
 
         [TestMethod]
