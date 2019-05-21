@@ -10,15 +10,20 @@ using HomeControl.BASIC_COMPONENTS;
 using System.Threading;
 using LibUdp;
 using HomeControl.ROOMS.CONFIGURATION;
+using HomeControl.ROOMS.SLEEPING_ROOM;
 
 namespace HomeControl
 {
     class HomeControlMain
     {
         static string                        _SelectedRoomMode;
+
         static AnteBathWashRoomController    _AnteBathWashRoomController;
         static AnteBathWashRoomConfiguration _AnteBathWashRoomConfiguration;
+
+        static SleepingRoomController        _SleepingRoomController;
         static SleepingRoomConfiguration     _SleepingRoomConfiguration;
+
         static object                        _RoomConfiguration;
         static int                           IndexDigitalOutputReserverdForHeartBeat = 15;
         static double                        IntervallTimeHeartBeat                  = 500;
@@ -143,10 +148,22 @@ namespace HomeControl
                 _SleepingRoomConfiguration = (_RoomConfiguration as SleepingRoomConfiguration);
             }
 
+            int PortFromWhereDataIsReceived = _SleepingRoomConfiguration.CommunicationConfig.PortFromWhereDataIsReceived;
+            string IpAdressWhereDataIsSent  = _SleepingRoomConfiguration.CommunicationConfig.IpAdressWhereDataIsSent;
+            int PortToWhereDataIsSent       = _SleepingRoomConfiguration.CommunicationConfig.PortWhereDataIsSentTo;
+
+            UdpBasicSenderReceiver SenderReceiver
+              = new UdpBasicSenderReceiver( PortFromWhereDataIsReceived,
+                                            IpAdressWhereDataIsSent,
+                                            PortToWhereDataIsSent
+                                           );
+
+            IOHandler IOHandler_ = new IOHandler(HandlerMode.eHardware);
+
         }
         #endregion
 
-        static void Debug_()
+        static void DebugAnteRoomConfiguration()
         {
             Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.LightCommanderConfiguration.DelayTimeAllOn.ToString( ) );
             Console.WriteLine( _AnteBathWashRoomConfiguration.AnteRoom.LightCommanderConfiguration.DelayTimeAutomaticFinalOff.ToString( ) );
