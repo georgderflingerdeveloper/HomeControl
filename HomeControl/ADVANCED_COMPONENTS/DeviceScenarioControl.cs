@@ -172,7 +172,7 @@ namespace HomeControl.ADVANCED_COMPONENTS
     public delegate void Scenario( object sender, ScenarioEventArgs e );
     public delegate void ScenarioControlInfo( object sender, ScenarioControlEventArgs e );
 
-    class DeviceScenarioControl : IDeviceScenarioControl
+    public class DeviceScenarioControl : IDeviceScenarioControl
     {
         #region DECLARATION
         ITimer   _NextScenario;

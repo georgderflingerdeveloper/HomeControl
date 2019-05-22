@@ -11,6 +11,8 @@ using System.Threading;
 using LibUdp;
 using HomeControl.ROOMS.CONFIGURATION;
 using HomeControl.ROOMS.SLEEPING_ROOM;
+using HomeControl.ADVANCED_COMPONENTS.Interfaces;
+using HomeControl.ADVANCED_COMPONENTS;
 
 namespace HomeControl
 {
@@ -109,6 +111,13 @@ namespace HomeControl
             Environment.Exit( 0 );
         }
 
+        static void InfoMode()
+        {
+            Console.WriteLine();
+            Console.WriteLine(basicstringconstants.OperationMode + _SelectedRoomMode);
+            Console.WriteLine();
+        }
+
         static void AnteRoom( )
         {
             _AnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
@@ -129,10 +138,11 @@ namespace HomeControl
             if( IOHandler_.Attached )
             {
                 IOHandler_.SetAllOutputs( false );
-                Console.WriteLine( );
-                Console.WriteLine( basicstringconstants.OperationMode + _SelectedRoomMode );
-                Console.WriteLine( );
-                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, _HeartBeat, IOHandler_, SenderReceiver );
+                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, 
+                                                                              _HeartBeat, 
+                                                                              IOHandler_, 
+                                                                              SenderReceiver );
+                InfoMode();
                 WaitUntilKeyPressed( );
                 IOHandler_.SetAllOutputs( false );
                 Environment.Exit( 0 );
@@ -159,6 +169,28 @@ namespace HomeControl
                                            );
 
             IOHandler IOHandler_ = new IOHandler(HandlerMode.eHardware);
+
+            double TimeAllOn        
+                = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
+            double TimeNextScenario 
+                = _SleepingRoomConfiguration.RoomConfig.ScenarioConfiguration.DelayTimeNextScenario;
+
+            CommanderConfiguration 
+                CommanderConfig = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration;
+
+            IDeviceControlTimer
+                ControlTimer = new DeviceControlTimer(new Timer_(TimeAllOn));
+
+            int DeviceStartIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Startindex;
+            int DeviceFinalIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Lastindex;
+
+            IDeviceScenarioControl
+                ScenarioControl = new DeviceScenarioControl(DeviceStartIndex, 
+                                                            DeviceFinalIndex,
+                                                            new Timer_(TimeNextScenario),
+                                                            new Timer_(0),
+                                                            new Timer_(0) ); 
+
 
         }
         #endregion
