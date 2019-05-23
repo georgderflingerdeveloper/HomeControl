@@ -12,10 +12,11 @@ using System;
 using SystemServices;
 using HardConfig;
 using HomeControl.ROOMS.CONFIGURATION;
+using HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE;
 
 namespace HomeControl.ROOMS.SLEEPING_ROOM
 {
-    class SleepingRoomController : Controller
+    class SleepingRoomController : Controller, ISleepingRoomController
     {
         #region DECLARATION
         UpdateEventArgs           _FeedbackArgs = new UpdateEventArgs();
@@ -33,7 +34,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                                        IIOHandler                iOHandler, 
                                        IUdpBasic                 communicator,
                                        IExtendedLightCommander   lightCommander, 
-                                       IDeviceScenarioControl    deviceScenarioControl,
                                        IHeaterCommander          heaterCommander ) : base()
         {
             IOHandler      = iOHandler;

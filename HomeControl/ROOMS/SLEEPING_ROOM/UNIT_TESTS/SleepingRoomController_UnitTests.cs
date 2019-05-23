@@ -45,7 +45,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
                                                                       _MockTestIOHandler.Object,
                                                                       _MockUdpCommunicator.Object,
                                                                       _MockLightCommander.Object,
-                                                                      _MockDeviceScenarioControl.Object,
                                                                       _MockHeaterCommander.Object);
 
             double TimeAllOn = _TestSleepingRoomConfiguration.

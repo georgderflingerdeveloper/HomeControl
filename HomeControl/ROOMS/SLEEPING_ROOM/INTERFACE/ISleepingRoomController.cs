@@ -5,6 +5,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE
 {
     interface ISleepingRoomController
     {
-        UpdateEventArgs RemoteControl(DataReceivingEventArgs e);
+        DataReceivingEventArgs RemoteControl(DataReceivingEventArgs e);
     }
 }

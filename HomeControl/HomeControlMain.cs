@@ -13,6 +13,7 @@ using HomeControl.ROOMS.CONFIGURATION;
 using HomeControl.ROOMS.SLEEPING_ROOM;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 using HomeControl.ADVANCED_COMPONENTS;
+using HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE;
 
 namespace HomeControl
 {
@@ -183,14 +184,29 @@ namespace HomeControl
 
             int DeviceStartIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Startindex;
             int DeviceFinalIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Lastindex;
+            HeaterCommanderConfiguration HeaterConfig = _SleepingRoomConfiguration.HeaterConfig;
 
             IDeviceScenarioControl
-                ScenarioControl = new DeviceScenarioControl(DeviceStartIndex, 
+                ScenarioControl = new DeviceScenarioControl(
+                                                            DeviceStartIndex, 
                                                             DeviceFinalIndex,
                                                             new Timer_(TimeNextScenario),
                                                             new Timer_(0),
-                                                            new Timer_(0) ); 
+                                                            new Timer_(0) 
+                                                            );
 
+            IExtendedLightCommander ExtendedLightCommander = new ExtendedLightCommander(CommanderConfig,
+                                                                ControlTimer,
+                                                                ScenarioControl);
+
+            IHeaterCommander HeaterCommander = new HeaterCommander(HeaterConfig, ControlTimer);
+
+            ISleepingRoomController SleepingRoom =   new SleepingRoomController(
+                                                                 _SleepingRoomConfiguration,
+                                                                 IOHandler_, 
+                                                                 SenderReceiver,
+                                                                 ExtendedLightCommander, 
+                                                                 HeaterCommander );
 
         }
         #endregion
