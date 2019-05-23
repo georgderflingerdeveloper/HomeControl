@@ -195,7 +195,8 @@ namespace HomeControl
                                                             new Timer_(0) 
                                                             );
 
-            IExtendedLightCommander ExtendedLightCommander = new ExtendedLightCommander(CommanderConfig,
+            IExtendedLightCommander ExtendedLightCommander = new ExtendedLightCommander(
+                                                                CommanderConfig,
                                                                 ControlTimer,
                                                                 ScenarioControl);
 
