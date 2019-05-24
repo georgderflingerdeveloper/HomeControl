@@ -63,14 +63,15 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         private DataReceivingEventArgs _RemoteControl(DataReceivingEventArgs e)
         {
-            LightCommander?.Reset();
             switch (e.Message)
             {
                 case ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON:
+                    LightCommander?.Reset();
                     LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
                 case ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF:
+                    LightCommander?.Reset();
                     LightCommander?.ScenarioTriggerPersitent(TurnDevice.OFF, ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
@@ -99,17 +100,68 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         private void DataReceived(object sender, DataReceivingEventArgs e)
         {
-            _FeedbackReceivedArgs = _RemoteControl(e);
+           _FeedbackReceivedArgs = _RemoteControl(e);
+
+           Console.WriteLine(
+                             TimeUtil.GetTimestamp_() + 
+                             " Received data from: "  +
+                             e.Adress.ToString()      + 
+                             " : "                    + 
+                             e.Port.ToString());
         }
 
         private void DigitalInputChanged(object sender, DigitalInputEventargs e)
         {
             RoomController(e.Index, e.Value);
+
+            try
+            {
+                Console.WriteLine(TimeUtil.GetTimestamp_() +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.DeviceDigitalInput +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.BraceOpen +
+                       e.Index.ToString() +
+                       InfoString.BraceClose +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       IOAssignmentControllerSleepingRoom.GetInputDeviceName(e.Index) +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.Is +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       e.Value.ToString());
+            }
+            catch (Exception LogException)
+            {
+                Console.WriteLine(TimeUtil.GetTimestamp_() + LogException.ToString());
+            }
         }
 
         private void DigitalOutputChanged(object sender, DigitalOutputEventargs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //if (e.Index == IOAssignmentControllerAnteBathWashRoom.indDigitalOutputReserverdForHeartBeat)
+                //{
+                //    return;
+                //}
+                Console.WriteLine(TimeUtil.GetTimestamp_() +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.DeviceDigialOutput +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.BraceOpen +
+                       e.Index.ToString() +
+                       InfoString.BraceClose +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       IOAssignmentControllerSleepingRoom.GetOutputDeviceName(e.Index) +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       InfoString.Is +
+                       HardConfig.COMMON.Seperators.WhiteSpace +
+                       e.Value.ToString());
+            }
+            catch (Exception LogException)
+            {
+                Console.WriteLine(TimeUtil.GetTimestamp_() + LogException.ToString());
+            }
         }
         #endregion
 
