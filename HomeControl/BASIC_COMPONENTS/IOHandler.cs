@@ -110,7 +110,7 @@ namespace BASIC_COMPONENTS
     public class IOHandler : InterfaceKit, IIOHandler
     {
         #region DECLARATION
-        const int WaitForAttachTime = 2000;
+        const int WaitForAttachTime = 600000;
         public event DigitalInputChanged EDigitalInputChanged;
         public event DigitalOutputChanged EDigitalOutputChanged;
         DigitalInputEventargs _DigitalInputEventargs   = new DigitalInputEventargs();

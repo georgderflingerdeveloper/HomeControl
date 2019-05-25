@@ -57,8 +57,10 @@ namespace HomeControl
                    case InfoOperationMode.ANTEROOM:
                         AnteRoom( );
                         break;
-                case InfoOperationMode.SLEEPING_ROOM:
-                    break;
+
+                   case InfoOperationMode.SLEEPING_ROOM:
+                        SleepingRoom();
+                        break;
              }
 
             Finish( );
@@ -119,6 +121,11 @@ namespace HomeControl
             Console.WriteLine();
         }
 
+        static void InfoWait()
+        {
+            Console.WriteLine("Waiting for attaching IO primer ....");
+        }
+
         static void AnteRoom( )
         {
             _AnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
@@ -133,10 +140,12 @@ namespace HomeControl
                                               _AnteBathWashRoomConfiguration.CommunicationConfig.IpAdressWhereDataIsSent,
                                               _AnteBathWashRoomConfiguration.CommunicationConfig.PortWhereDataIsSentTo
                                              );
+            InfoWait();
 
             IOHandler IOHandler_ = new IOHandler( HandlerMode.eHardware );
 
-            if( IOHandler_.Attached )
+
+            if ( IOHandler_.Attached )
             {
                 IOHandler_.SetAllOutputs( false );
                 _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, 
@@ -169,8 +178,6 @@ namespace HomeControl
                                             PortToWhereDataIsSent
                                            );
 
-            IOHandler IOHandler_ = new IOHandler(HandlerMode.eHardware);
-
             double TimeAllOn        
                 = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
             double TimeNextScenario 
@@ -202,14 +209,25 @@ namespace HomeControl
 
             IHeaterCommander HeaterCommander = new HeaterCommander(HeaterConfig, ControlTimer);
 
-            ISleepingRoomController SleepingRoom =   new SleepingRoomController(
+            InfoWait();
+
+            IOHandler IOHandler_ = new IOHandler(HandlerMode.eHardware);
+
+            if (IOHandler_.Attached)
+            {
+                IOHandler_.SetAllOutputs(false);
+                ISleepingRoomController SleepingRoom =   new SleepingRoomController(
                                                                  _SleepingRoomConfiguration,
                                                                  IOHandler_, 
                                                                  SenderReceiver,
                                                                  ExtendedLightCommander, 
                                                                  HeaterCommander );
-
-        }
+                InfoMode();
+                WaitUntilKeyPressed();
+                IOHandler_.SetAllOutputs(false);
+                Environment.Exit(0);
+            }
+         }
         #endregion
 
         static void DebugAnteRoomConfiguration()

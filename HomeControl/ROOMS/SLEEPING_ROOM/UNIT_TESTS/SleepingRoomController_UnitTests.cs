@@ -192,6 +192,8 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         public void Test_ReceivedData()
         {
             _TestReceivedArgs.Message = "Hello";
+            _TestReceivedArgs.Adress = "127.0.0.1";
+            _TestReceivedArgs.Port = "55101";
             _MockUdpCommunicator.Raise(obj => obj.EDataReceived += null, _TestReceivedArgs);
             Assert.AreEqual("Hello", _TestSleepingRoomController.FeedbackReceivedArgs.Message);
         }
