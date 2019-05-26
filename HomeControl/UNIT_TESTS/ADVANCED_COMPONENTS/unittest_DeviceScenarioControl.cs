@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HomeControl.BASIC_CONSTANTS;
+using SystemServices;
+
 
 namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
 {
@@ -21,6 +23,27 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         Mock<ITimer> _MockNextScenario = new Mock<ITimer>();
         Mock<ITimer> _MockAutoScenario = new Mock<ITimer>();
         Mock<ITimer> _MockIdleScenario = new Mock<ITimer>();
+
+        [TestMethod]
+        public void ScenarioInitialisation()
+        {
+            TestIndex = 0;
+
+            int FirstIndex = TestDevice1;
+            int LastIndex = TestDevice6;
+            List<List<int>>  Scenarios = new List<List<int>>()
+            {
+              // scenario 1
+              new List<int> { TestDevice1, TestDevice2, TestDevice3 },
+              // scenario 2
+              new List<int> { TestDevice4, TestDevice5, TestDevice6 }
+            };
+
+            TestScenarioControl = new DeviceScenarioControl(Scenarios, FirstIndex, LastIndex, new Timer_(1), new Timer_(1), new Timer_(1));
+
+            Assert.IsTrue(Memory.CompareObjects(Scenarios, TestScenarioControl.Scenarios));
+
+        }
 
         [TestMethod]
         public void SelectOneScenario_UnitTest()

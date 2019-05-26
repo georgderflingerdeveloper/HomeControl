@@ -207,7 +207,10 @@ namespace HomeControl
             HeaterCommanderConfiguration HeaterConfig = _SleepingRoomConfiguration.HeaterConfig;
 
             IDeviceScenarioControl
-                ScenarioControl = new DeviceScenarioControl(
+                ScenarioControl = new DeviceScenarioControl(_SleepingRoomConfiguration.
+                                                                            RoomConfig.
+                                                                 ScenarioConfiguration.
+                                                                             Scenarios,
                                                             DeviceStartIndex, 
                                                             DeviceFinalIndex,
                                                             new Timer_(TimeNextScenario),
@@ -215,8 +218,7 @@ namespace HomeControl
                                                             new Timer_(TimeIdleScenario) 
                                                             );
 
-            ScenarioControl.GetScenarioConfiguration(_SleepingRoomConfiguration.RoomConfig.ScenarioConfiguration.Scenarios);
-
+ 
             IExtendedLightCommander ExtendedLightCommander = new ExtendedLightCommander(
                                                                 CommanderConfig,
                                                                 ControlTimer,

@@ -197,6 +197,17 @@ namespace HomeControl.ADVANCED_COMPONENTS
         #region CONSTRUCTOR
         public DeviceScenarioControl( int beginswithindex, int endswithindex, ITimer NextScenario, ITimer AutoScenario, ITimer IdleScenario )
         {
+            ConstructorInitialise(beginswithindex, endswithindex, NextScenario, AutoScenario, IdleScenario);
+        }
+
+        public DeviceScenarioControl(List<List<int>> Scenarios, int beginswithindex, int endswithindex, ITimer NextScenario, ITimer AutoScenario, ITimer IdleScenario)
+        {
+            _scenarios = Scenarios;
+            ConstructorInitialise(beginswithindex, endswithindex, NextScenario, AutoScenario, IdleScenario);
+        }
+
+        void ConstructorInitialise(int beginswithindex, int endswithindex, ITimer NextScenario, ITimer AutoScenario, ITimer IdleScenario)
+        {
             _NextScenario           = NextScenario;
             _beginswithindex        = beginswithindex;
             _endswithindex          = endswithindex;
@@ -206,8 +217,9 @@ namespace HomeControl.ADVANCED_COMPONENTS
             _ScenarioCntrl.State    = ScenarioState.Toggle;
             _ScenarioCntrl.Property = ScenarioProperty.SingleStep;
             _value = false;
+
         }
-       #endregion
+        #endregion
 
         #region PRIVATE_METHODS
         void Watcher( bool trigger )

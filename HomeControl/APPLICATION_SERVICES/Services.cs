@@ -12,7 +12,7 @@ using System.Threading;
 namespace SystemServices
 {
     // pool of common usefull methods
-    class Services
+    public class Services
     {
         public static void TraceMessage( string message,
                                  [System.Runtime.CompilerServices.CallerMemberName] string memberName    = "",
@@ -287,7 +287,7 @@ namespace SystemServices
         }
     }
 
-    static class Memory
+    public static class Memory
     {
         public static bool CompareStreams( MemoryStream ms1, MemoryStream ms2 )
         {
