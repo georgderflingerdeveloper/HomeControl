@@ -1,64 +1,66 @@
 ﻿using BASIC_COMPONENTS;
+using BASIC_CONTROL_LOGIC;
+using HardConfig;
+using HomeAutomationProtocoll;
+using HomeControl.ADVANCED_COMPONENTS;
 using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 using HomeControl.BASIC_COMPONENTS.Interfaces;
-using HomeControl.ADVANCED_COMPONENTS;
-using BASIC_CONTROL_LOGIC;
 using HomeControl.BASIC_CONSTANTS;
-using LibUdp.BASIC.INTERFACE;
-using LibUdp.BASIC.RECEIVE;
-using HomeAutomationProtocoll;
-using System;
-using SystemServices;
-using HardConfig;
 using HomeControl.ROOMS.CONFIGURATION;
 using HomeControl.ROOMS.SLEEPING_ROOM.INTERFACE;
+using LibUdp.BASIC.INTERFACE;
+using LibUdp.BASIC.RECEIVE;
+using System;
+using SystemServices;
 
 namespace HomeControl.ROOMS.SLEEPING_ROOM
 {
     class SleepingRoomController : Controller, ISleepingRoomController
     {
         #region DECLARATION
-        UpdateEventArgs           _FeedbackArgs = new UpdateEventArgs();
-        DataReceivingEventArgs    _FeedbackReceivedArgs = new DataReceivingEventArgs();
+        UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
+        DataReceivingEventArgs _FeedbackReceivedArgs = new DataReceivingEventArgs();
 
-        IIOHandler                IOHandler;
-        IUdpBasic                 Communicator;
-        IExtendedLightCommander   LightCommander;
-        IHeaterCommander          Heater;
-        IDeviceBlinker            HeartBeat;
+        IIOHandler IOHandler;
+        IUdpBasic Communicator;
+        IExtendedLightCommander LightCommander;
+        IHeaterCommander Heater;
+        IDeviceBlinker HeartBeat;
 
-        int    _ScenarioNumber;
+        int _ScenarioNumber;
 
         #endregion
-        public SleepingRoomController( SleepingRoomConfiguration config,
-                                       IDeviceBlinker            heartBeat,
-                                       IIOHandler                iOHandler, 
-                                       IUdpBasic                 communicator,
-                                       IExtendedLightCommander   lightCommander, 
-                                       IHeaterCommander          heaterCommander ) : base()
+        public SleepingRoomController(SleepingRoomConfiguration config,
+                                       IDeviceBlinker heartBeat,
+                                       IIOHandler iOHandler,
+                                       IUdpBasic communicator,
+                                       IExtendedLightCommander lightCommander,
+                                       IHeaterCommander heaterCommander) : base()
         {
-            IOHandler      = iOHandler;
-            HeartBeat      = heartBeat;
+
+            IOHandler = iOHandler;
+            HeartBeat = heartBeat;
             LightCommander = lightCommander;
-            Heater         = heaterCommander;
-            Communicator   = communicator;
-            IOHandler.EDigitalInputChanged  += DigitalInputChanged;
+            Heater = heaterCommander;
+            Communicator = communicator;
+
+            IOHandler.EDigitalInputChanged += DigitalInputChanged;
             IOHandler.EDigitalOutputChanged += DigitalOutputChanged;
-            Communicator.EDataReceived      += DataReceived;
-            Heater.EUpdate                  += ExtUpdate;
-            LightCommander.ExtUpdate        += ExtUpdate;
-            HeartBeat.EUpdate               += ExtUpdate;
+            Communicator.EDataReceived += DataReceived;
+            Heater.EUpdate += ExtUpdate;
+            LightCommander.ExtUpdate += ExtUpdate;
+            HeartBeat.EUpdate += ExtUpdate;
             HeartBeat.Start();
         }
- 
+
         #region PRIVATE
         void RoomController(int index, bool value)
         {
             switch (index)
             {
                 case IOAssignmentControllerSleepingRoom.indDigitalInputMainButton:
-                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger( value );
-                    Heater?.MainTrigger( value );
+                    _ScenarioNumber = (int)LightCommander?.ScenarioTrigger(value);
+                    Heater?.MainTrigger(value);
                     break;
             }
         }
@@ -69,20 +71,24 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             {
                 case ComandoString.TURN_ALL_LIGHTS_KIDROOM_ON:
                     LightCommander?.Reset();
-                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsSleepingRoom.ScenarionAllLights);
+                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.ON, 
+                        ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
                 case ComandoString.TURN_ALL_LIGHTS_KIDROOM_OFF:
                     LightCommander?.Reset();
-                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.OFF, ScenarioConstantsSleepingRoom.ScenarionAllLights);
+                    LightCommander?.ScenarioTriggerPersitent(TurnDevice.OFF, 
+                        ScenarioConstantsSleepingRoom.ScenarionAllLights);
                     break;
 
                 case ComandoString.TURN_LIGHT_KIDROOM1_ON:
-                    LightCommander?.TurnSingleDevice(TurnDevice.ON, IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON, 
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
                     break;
 
                 case ComandoString.TURN_LIGHT_KIDROOM1_OFF:
-                    LightCommander?.TurnSingleDevice(TurnDevice.OFF, IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
                     break;
 
                 default:
@@ -100,14 +106,18 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
 
         private void DataReceived(object sender, DataReceivingEventArgs e)
         {
-           _FeedbackReceivedArgs = _RemoteControl(e);
+            _FeedbackReceivedArgs = _RemoteControl(e);
 
-           Console.WriteLine(
-                             TimeUtil.GetTimestamp_() + 
-                             " Received data from: "  +
-                             e.Adress.ToString()      + 
-                             " : "                    + 
+            if (e.Message.Contains("TURN_"))
+            {
+                Console.WriteLine(
+                             TimeUtil.GetTimestamp_() +
+                             " Received data from: " +
+                             e.Adress.ToString() +
+                             " : " +
                              e.Port.ToString());
+            }
+
         }
 
         private void DigitalInputChanged(object sender, DigitalInputEventargs e)
@@ -174,7 +184,7 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         public DataReceivingEventArgs RemoteControl(DataReceivingEventArgs e)
         {
             _RemoteControl(e);
-            return ( e );
+            return (e);
         }
         #endregion
     }

@@ -134,7 +134,7 @@ namespace HomeControl
             {
                 _AnteBathWashRoomConfiguration = (_RoomConfiguration as AnteBathWashRoomConfiguration);
             }
-            LibUdp.UdpBasicSenderReceiver SenderReceiver
+            UdpBasicSenderReceiver SenderReceiver
                 = new UdpBasicSenderReceiver(
                                               _AnteBathWashRoomConfiguration.CommunicationConfig.PortFromWhereDataIsReceived,
                                               _AnteBathWashRoomConfiguration.CommunicationConfig.IpAdressWhereDataIsSent,
