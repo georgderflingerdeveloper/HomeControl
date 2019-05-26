@@ -25,17 +25,20 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         IUdpBasic                 Communicator;
         IExtendedLightCommander   LightCommander;
         IHeaterCommander          Heater;
+        IDeviceBlinker            HeartBeat;
 
         int    _ScenarioNumber;
 
         #endregion
-        public SleepingRoomController( SleepingRoomConfiguration config, 
+        public SleepingRoomController( SleepingRoomConfiguration config,
+                                       IDeviceBlinker            heartBeat,
                                        IIOHandler                iOHandler, 
                                        IUdpBasic                 communicator,
                                        IExtendedLightCommander   lightCommander, 
                                        IHeaterCommander          heaterCommander ) : base()
         {
             IOHandler      = iOHandler;
+            HeartBeat      = heartBeat;
             LightCommander = lightCommander;
             Heater         = heaterCommander;
             Communicator   = communicator;
@@ -44,10 +47,10 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             Communicator.EDataReceived      += DataReceived;
             Heater.EUpdate                  += ExtUpdate;
             LightCommander.ExtUpdate        += ExtUpdate;
+            HeartBeat.EUpdate               += ExtUpdate;
+            HeartBeat.Start();
         }
-
-        
-
+ 
         #region PRIVATE
         void RoomController(int index, bool value)
         {
@@ -88,8 +91,6 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
             return (e);
         }
         #endregion
-
-
 
         #region EVENTHANDLERS
         private void ExtUpdate(object sender, UpdateEventArgs e)
@@ -139,10 +140,10 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
         {
             try
             {
-                //if (e.Index == IOAssignmentControllerAnteBathWashRoom.indDigitalOutputReserverdForHeartBeat)
-                //{
-                //    return;
-                //}
+                if (e.Index == IOAssignmentControllerSleepingRoom.indDigitalOutputReserverdForHeartBeat)
+                {
+                    return;
+                }
                 Console.WriteLine(TimeUtil.GetTimestamp_() +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.DeviceDigialOutput +

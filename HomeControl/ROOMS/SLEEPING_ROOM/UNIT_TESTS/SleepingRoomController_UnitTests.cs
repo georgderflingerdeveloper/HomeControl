@@ -26,22 +26,25 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM.UNIT_TESTS
         Mock<IExtendedLightCommander> _MockLightCommander;
         Mock<IDeviceScenarioControl> _MockDeviceScenarioControl;
         Mock<IHeaterCommander> _MockHeaterCommander;
+        Mock<IDeviceBlinker> _MockHeartBeat;
         UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
 
-        IDeviceControlTimer    ControlTimer;
-        IDeviceScenarioControl ScenarioControl;
+        IDeviceControlTimer     ControlTimer;
+        IDeviceScenarioControl  ScenarioControl;
         IExtendedLightCommander ExtendedLightCommander;
-
+ 
         public SleepingRoomController_UnitTests()
         {
-            _MockUdpCommunicator = new Mock<IUdpBasic>();
-            _MockTestIOHandler = new Mock<IIOHandler>();
-            _MockLightCommander = new Mock<IExtendedLightCommander>();
+            _MockUdpCommunicator       = new Mock<IUdpBasic>();
+            _MockTestIOHandler         = new Mock<IIOHandler>();
+            _MockLightCommander        = new Mock<IExtendedLightCommander>();
             _MockDeviceScenarioControl = new Mock<IDeviceScenarioControl>();
-            _MockHeaterCommander = new Mock<IHeaterCommander>();
+            _MockHeaterCommander       = new Mock<IHeaterCommander>();
+            _MockHeartBeat             = new Mock<IDeviceBlinker>();
             _TestSleepingRoomConfiguration = new SleepingRoomConfiguration();
 
             _TestSleepingRoomController = new SleepingRoomController( _TestSleepingRoomConfiguration,
+                                                                      _MockHeartBeat.Object,
                                                                       _MockTestIOHandler.Object,
                                                                       _MockUdpCommunicator.Object,
                                                                       _MockLightCommander.Object,

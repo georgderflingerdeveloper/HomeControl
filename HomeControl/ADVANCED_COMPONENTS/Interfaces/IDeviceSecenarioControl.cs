@@ -14,5 +14,6 @@ namespace HomeControl.ADVANCED_COMPONENTS
         event ScenarioControlInfo EScenarioControlInfo;
         int   GetActualScenarioNumber( );
         void SetSecenarioNumber( int desiredscenario );
+        void GetScenarioConfiguration(List<List<int>> Scenarios);
     }
 }

@@ -434,6 +434,11 @@ namespace HomeControl.ADVANCED_COMPONENTS
         {
            _ActualScenarioNumber = desiredscenario;
         }
+
+        public void GetScenarioConfiguration(List<List<int>> Scenarios)
+        {
+            _scenarios = Scenarios;
+        }
         #endregion
 
         #region PROPERTIES

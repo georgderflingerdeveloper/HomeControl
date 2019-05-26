@@ -1,7 +1,7 @@
 ﻿
 namespace HomeControl.ADVANCED_COMPONENTS
 {
-    interface IDeviceBlinker
+    public interface IDeviceBlinker
     {
         void Start( );
         void Stop();

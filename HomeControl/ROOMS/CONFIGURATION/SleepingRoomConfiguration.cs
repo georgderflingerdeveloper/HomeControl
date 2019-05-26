@@ -23,6 +23,7 @@ namespace HomeControl.ROOMS.CONFIGURATION
         public const int indDigitalOutputLightBarMansardWindowLeft   = 3;  // Led Balken Mansarden Fenster rechter Rand 
         public const int indDigitalOutputLightCeiling                = 4;  // Leuchte an der Decke
         public const int indDigitalOutputHeater                      = 5;  // Heizkörper
+        public const int indDigitalOutputReserverdForHeartBeat       = 15;
         #endregion
 
         public static Dictionary<int, string> DigitalInputDictionary = new Dictionary<int, string>

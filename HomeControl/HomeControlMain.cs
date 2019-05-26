@@ -180,14 +180,27 @@ namespace HomeControl
 
             double TimeAllOn        
                 = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeAllOn;
+
+            double TimeFinalOff
+                = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeFinalOff;
+
+            double TimeTurnAutomaticOff 
+                = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
+
             double TimeNextScenario 
                 = _SleepingRoomConfiguration.RoomConfig.ScenarioConfiguration.DelayTimeNextScenario;
+
+            double TimeIdleScenario
+                = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.DelayTimeDoingNothing;
+
 
             CommanderConfiguration 
                 CommanderConfig = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration;
 
             IDeviceControlTimer
-                ControlTimer = new DeviceControlTimer(new Timer_(TimeAllOn));
+                ControlTimer = new DeviceControlTimer(new Timer_(TimeAllOn), 
+                                                      new Timer_(TimeTurnAutomaticOff), 
+                                                      new Timer_(TimeFinalOff));
 
             int DeviceStartIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Startindex;
             int DeviceFinalIndex = _SleepingRoomConfiguration.RoomConfig.LightCommanderConfiguration.Lastindex;
@@ -199,8 +212,10 @@ namespace HomeControl
                                                             DeviceFinalIndex,
                                                             new Timer_(TimeNextScenario),
                                                             new Timer_(0),
-                                                            new Timer_(0) 
+                                                            new Timer_(TimeIdleScenario) 
                                                             );
+
+            ScenarioControl.GetScenarioConfiguration(_SleepingRoomConfiguration.RoomConfig.ScenarioConfiguration.Scenarios);
 
             IExtendedLightCommander ExtendedLightCommander = new ExtendedLightCommander(
                                                                 CommanderConfig,
@@ -218,6 +233,7 @@ namespace HomeControl
                 IOHandler_.SetAllOutputs(false);
                 ISleepingRoomController SleepingRoom =   new SleepingRoomController(
                                                                  _SleepingRoomConfiguration,
+                                                                 _HeartBeat,
                                                                  IOHandler_, 
                                                                  SenderReceiver,
                                                                  ExtendedLightCommander, 
