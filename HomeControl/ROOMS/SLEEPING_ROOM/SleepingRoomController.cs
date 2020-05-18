@@ -91,6 +91,56 @@ namespace HomeControl.ROOMS.SLEEPING_ROOM
                         IOAssignmentControllerSleepingRoom.indDigitalOutputLightCeiling);
                     break;
 
+                case ComandoString.TURN_LIGHT_KIDROOM2_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM2_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightMansardRightEnd);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM3_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowLeft);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM3_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowLeft);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM4_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM4_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowMiddle);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM5_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight);
+                    break;
+
+                case ComandoString.TURN_LIGHT_KIDROOM5_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputLightBarMansardWindowRight);
+                    break;
+
+                case ComandoString.TURN_HEATER_KID_ROOM_ON:
+                    LightCommander?.TurnSingleDevice(TurnDevice.ON,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputHeater);
+                    break;
+
+                case ComandoString.TURN_HEATER_KID_ROOM_OFF:
+                    LightCommander?.TurnSingleDevice(TurnDevice.OFF,
+                        IOAssignmentControllerSleepingRoom.indDigitalOutputHeater);
+                    break;
+
                 default:
                     return (e);
             }
