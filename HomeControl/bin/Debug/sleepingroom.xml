@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <SleepingRoomConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CommunicationConfig>
-    <IpAdressWhereDataIsSent>127.0.0.1</IpAdressWhereDataIsSent>
-    <PortFromWhereDataIsReceived>0</PortFromWhereDataIsReceived>
-    <PortWhereDataIsSentTo>0</PortWhereDataIsSentTo>
+    <IpAdressWhereDataIsSent>192.168.0.103</IpAdressWhereDataIsSent>
+    <PortFromWhereDataIsReceived>10000</PortFromWhereDataIsReceived>
+    <PortWhereDataIsSentTo>5000</PortWhereDataIsSentTo>
   </CommunicationConfig>
   <RoomConfig>
     <LightCommanderConfiguration>
@@ -17,7 +17,7 @@
       <DeviceRemainOnAfterAutomaticOff />
       <Modesdelayedon>None</Modesdelayedon>
       <DelayTimeDoingNothing>1500</DelayTimeDoingNothing>
-      <DelayTimeFinalOff>5000</DelayTimeFinalOff>
+      <DelayTimeFinalOff>10800000</DelayTimeFinalOff>
       <IndexSelectedHardware>0</IndexSelectedHardware>
     </LightCommanderConfiguration>
     <ScenarioConfiguration>
