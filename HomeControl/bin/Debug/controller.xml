@@ -2,5 +2,5 @@
 <ControllerConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IpAdressServer>192.168.0.111</IpAdressServer>
   <PortServer>55100</PortServer>
-  <SelectedRoom>SLEEPINGROOM</SelectedRoom>
+  <SelectedRoom>ANTEROOM</SelectedRoom>
 </ControllerConfiguration>

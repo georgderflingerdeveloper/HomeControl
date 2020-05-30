@@ -2,7 +2,7 @@
 <SleepingRoomConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CommunicationConfig>
     <IpAdressWhereDataIsSent>127.0.0.1</IpAdressWhereDataIsSent>
-    <PortFromWhereDataIsReceived>10000</PortFromWhereDataIsReceived>
+    <PortFromWhereDataIsReceived>0</PortFromWhereDataIsReceived>
     <PortWhereDataIsSentTo>0</PortWhereDataIsSentTo>
   </CommunicationConfig>
   <RoomConfig>
