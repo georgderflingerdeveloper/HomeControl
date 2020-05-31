@@ -11,7 +11,7 @@
       <Lastindex>4</Lastindex>
       <DelayTimeAllOn>1300</DelayTimeAllOn>
       <DelayTimeAutomaticFinalOff>0</DelayTimeAutomaticFinalOff>
-      <DelayTimeOffByMissingTriggerSignal>600000</DelayTimeOffByMissingTriggerSignal>
+      <DelayTimeOffByMissingTriggerSignal>10800000</DelayTimeOffByMissingTriggerSignal>
       <Modes>ScenarioLight</Modes>
       <ModesAutomaticoff>WithMainTrigger</ModesAutomaticoff>
       <DeviceRemainOnAfterAutomaticOff />
