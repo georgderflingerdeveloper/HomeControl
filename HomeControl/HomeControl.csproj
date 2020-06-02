@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="HomeAutomationProtocoll">
       <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HomeAutomationProtocoll\bin\Release\HomeAutomationProtocoll.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="LibUdp">
       <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Release\LibUdp.dll</HintPath>

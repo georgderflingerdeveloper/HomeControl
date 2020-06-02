@@ -51,6 +51,7 @@ namespace HomeControl.ROOMS
         int _ScenarioNumberAnteRoom;
         int _ScenarioNumberBathRoom;
         int _ScenarioNumberWashRoom;
+        const int InvalidIndex = 999;
         #endregion
 
         #region CONSTRUCTOR
@@ -208,6 +209,9 @@ namespace HomeControl.ROOMS
 
         private UpdateEventArgs _RemoteControl(DataReceivingEventArgs e)
         {
+            _FeedbackArgs.Index = InvalidIndex;
+            _FeedbackArgs.Value = false;
+
             switch (e.Message)
             {
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON:
@@ -217,63 +221,70 @@ namespace HomeControl.ROOMS
                     break;
 
                 case ComandoString.TURN_LIGHT_ANTEROOM_MAIN_OFF:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomMainLight);
                     break;
 
                 case ComandoString.TURN_LIGHT_ANTEROOM_BACK_ON:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomBackSide);
                     break;
 
                 case ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_OFF:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomNightLight);
                     break;
 
                 case ComandoString.TURN_LIGHT_ANTEROOM_BACK_OFF:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomBackSide);
                     break;
 
 
-                case ComandoString.TURN_LIGHT_FLOOR_UP_ON:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
+                case ComandoString.TURN_LIGHT_FLOOR_UP1_ON:
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                           IOAssignmentControllerAnteBathWashRoom
-                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
+                                                         .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
+                    break;
+               
+                case ComandoString.TURN_LIGHT_FLOOR_UP2_ON:
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                           IOAssignmentControllerAnteBathWashRoom
                                                           .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2);
                     break;
 
-                case ComandoString.TURN_LIGHT_FLOOR_UP_OFF:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                case ComandoString.TURN_LIGHT_FLOOR_UP1_OFF:
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                    break;
+
+                case ComandoString.TURN_LIGHT_FLOOR_UP2_OFF:
+
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2);
 
                     break;
 
                 case ComandoString.TURN_LIGHT_WASHROOM_ON:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputWashRoomMainLight);
                     break;
 
                 case ComandoString.TURN_LIGHT_WASHROOM_OFF:
-                    _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputWashRoomMainLight);
                     break;
 
                 case ComandoString.TURN_LIGHT_BATHROOM_ALL_ON:
-                    _LightCommanderBathRoom.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsBathRoom.ScenarioAllLights);
+                     _LightCommanderBathRoom.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsBathRoom.ScenarioAllLights);
                     break;
 
                 case ComandoString.TURN_LIGHT_BATHROOM_ALL_OFF:
@@ -288,6 +299,9 @@ namespace HomeControl.ROOMS
                 case ComandoString.TURN_HEATER_BATH_OFF:
                     _HeaterCommanderBathRoom.Reset();
                     _HeaterCommanderBathRoom.MainTrigger(TurnDevice.OFF);
+                    break;
+
+                default:
                     break;
 
 
