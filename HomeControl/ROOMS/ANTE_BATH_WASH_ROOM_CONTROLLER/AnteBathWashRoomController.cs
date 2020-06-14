@@ -9,10 +9,11 @@ using HomeControl.BASIC_CONSTANTS;
 using HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.INTERFACE;
 using LibUdp.BASIC.INTERFACE;
 using LibUdp.BASIC.RECEIVE;
+using NUnit.Framework;
 using System;
 using SystemServices;
-
-
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HomeControl.ROOMS
 {
@@ -153,6 +154,7 @@ namespace HomeControl.ROOMS
             _LightCommanderAnteRoom = new ExtendedLightCommander(_config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom);
             _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
             _LightCommanderAnteRoom.AvailableScenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
+            
             #endregion
 
             #region LIGHTCOMMANDER_BATHROOM
@@ -207,10 +209,83 @@ namespace HomeControl.ROOMS
             #endregion
         }
 
+        // ALTERNATIVE WITH POLYMORPHISM
+
+        //Remote = new RemoteController(_LightCommanderAnteRoom);
+
+        //interface IRemote
+        //{
+        //    UpdateEventArgs Execute();
+        //}
+
+        //class MainLightOn : IRemote
+        //{
+        //    IExtendedLightCommander _Commander;
+        //    public MainLightOn( IExtendedLightCommander Commander )
+        //    {
+        //        _Commander = Commander;
+
+        //    }
+        //    public UpdateEventArgs Execute()
+        //    {
+        //        return _Commander.TurnSingleDevice(TurnDevice.ON,
+        //                                                 IOAssignmentControllerAnteBathWashRoom
+        //                                                 .indDigitalOutputAnteRoomMainLight);
+        //    }
+        //}
+
+        //class HeaterBath : IRemote
+        //{
+        //    IHeaterCommander _Commander;
+        //    public HeaterBath(IHeaterCommander Commander)
+        //    {
+        //        _Commander = Commander;
+
+        //    }
+        //    public UpdateEventArgs Execute()
+        //    {
+        //        _Commander.Reset();
+        //        _Commander.MainTrigger(TurnDevice.ON);
+        //        return null;
+        //    }
+        //}
+
+        //class RemoteController
+        //{
+        //    Dictionary<string, IRemote> Controller = new Dictionary<string, IRemote>();
+
+        //    IExtendedLightCommander _LightCommander;
+        //    IHeaterCommander _HeaterCommander;
+        //    public RemoteController(IExtendedLightCommander LightCommander )
+        //    {
+        //        _LightCommander = LightCommander;
+        //        Controller.Add(ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON, new MainLightOn(_LightCommander));
+        //    }
+
+        //    public RemoteController(IExtendedLightCommander LightCommander, IHeaterCommander HeaterCommander)
+        //    {
+        //        _HeaterCommander = HeaterCommander;
+        //        _LightCommander = LightCommander;
+        //        Controller.Add(ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON, new MainLightOn(_LightCommander));
+        //        Controller.Add(ComandoString.TURN_HEATER_BATH_ON, new HeaterBath(_HeaterCommander));
+        //    }
+
+        //    public UpdateEventArgs Execute( string command )
+        //    {
+        //        return Controller[command].Execute();
+        //    }
+
+        //}
+
+        // call this at the end
+        // _FeedbackArgs = Remote.Execute(e.Message);
+
         private UpdateEventArgs _RemoteControl(DataReceivingEventArgs e)
         {
             _FeedbackArgs.Index = InvalidIndex;
             _FeedbackArgs.Value = false;
+
+            
 
             switch (e.Message)
             {
@@ -250,7 +325,7 @@ namespace HomeControl.ROOMS
                                                           IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1);
                     break;
-               
+
                 case ComandoString.TURN_LIGHT_FLOOR_UP2_ON:
                     _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                           IOAssignmentControllerAnteBathWashRoom
@@ -284,7 +359,7 @@ namespace HomeControl.ROOMS
                     break;
 
                 case ComandoString.TURN_LIGHT_BATHROOM_ALL_ON:
-                     _LightCommanderBathRoom.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsBathRoom.ScenarioAllLights);
+                    _LightCommanderBathRoom.ScenarioTriggerPersitent(TurnDevice.ON, ScenarioConstantsBathRoom.ScenarioAllLights);
                     break;
 
                 case ComandoString.TURN_LIGHT_BATHROOM_ALL_OFF:
@@ -307,7 +382,7 @@ namespace HomeControl.ROOMS
 
             }
 
-            return (_FeedbackArgs);
+            return _FeedbackArgs;
         }
         #endregion
 

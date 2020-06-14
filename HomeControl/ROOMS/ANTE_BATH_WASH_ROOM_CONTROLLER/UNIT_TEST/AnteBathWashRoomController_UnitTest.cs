@@ -9,8 +9,7 @@ using LibUdp.BASIC.RECEIVE;
 using HomeAutomationProtocoll;
 using HomeControl.BASIC_CONSTANTS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
+using HomeControl.ADVANCED_COMPONENTS.Interfaces;
 
 namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 {
@@ -30,6 +29,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         DigitalInputEventargs            _TestArgs      = new DigitalInputEventargs();
         Mock<IIOHandler>                 _MockTestIOHandler;
         Mock<IUdpBasic>                  _MockUdpCommunicator;
+        Mock<IExtendedLightCommander>    _MockLightCommander;
         Mock<AnteBathWashRoomController> _MockAnteBathWashRoomController;
         UpdateEventArgs _TestFeedbackArgs = new UpdateEventArgs();
 
@@ -37,6 +37,7 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         {
             _MockUdpCommunicator               = new Mock<IUdpBasic>( );
             _MockTestIOHandler                 = new Mock<IIOHandler>( );
+            _MockLightCommander                = new Mock<IExtendedLightCommander>();
             _TestAnteBathWashRoomConfiguration = new AnteBathWashRoomConfiguration( );
             _TestAnteBathWashRoomController    = new AnteBathWashRoomController( _TestAnteBathWashRoomConfiguration, _TestHeartBeat, _MockTestIOHandler.Object, _MockUdpCommunicator.Object );
             _MockAnteBathWashRoomController    = new Mock<AnteBathWashRoomController>( );
@@ -70,6 +71,14 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
             Assert.AreEqual( 0, _TestAnteBathWashRoomController.ScenarioNumberAnteRoom );
         }
 
+        //[TestMethod]
+        //public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_ON_()
+        //{
+        //    _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_ANTEROOM_MAIN_ON });
+        //    _MockLightCommander.Verify(obj => obj.TurnSingleDevice(TurnDevice.ON, IOAssignmentControllerAnteBathWashRoom
+        //                                                .indDigitalOutputAnteRoomMainLight), Times.Once);
+        //}
+
         [TestMethod]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MAIN_ON_Received_( )
         {
@@ -102,6 +111,18 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
 
             _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_ANTEROOM_BACK_ON });
             Assert.AreEqual(TurnDevice.ON, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomBackSide,
+                            _TestFeedbackArgs.Index);
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_OFF_BACK_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeFalseForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_ANTEROOM_BACK_OFF });
+            Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
             Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomBackSide,
                             _TestFeedbackArgs.Index);
         }
