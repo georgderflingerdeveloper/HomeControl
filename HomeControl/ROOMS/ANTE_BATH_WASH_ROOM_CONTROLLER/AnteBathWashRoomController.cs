@@ -139,19 +139,33 @@ namespace HomeControl.ROOMS
         void Constructor()
         {
             #region LIGHTCOMMANDER_ANTEROOM
-            TimeTurnOn = _config.AnteRoom.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn           = _config.AnteRoom.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.AnteRoom.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
-            TimeTurnFinalOff = _config.AnteRoom.LightCommanderConfiguration.DelayTimeFinalOff;
-            Startindex = _config.AnteRoom.LightCommanderConfiguration.Startindex;
-            Lastindex = _config.AnteRoom.LightCommanderConfiguration.Lastindex;
-            TimeNextScenario = _config.AnteRoom.ScenarioConfiguration.DelayTimeNextScenario;
-            IdleScenario = _config.AnteRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
+            TimeTurnFinalOff     = _config.AnteRoom.LightCommanderConfiguration.DelayTimeFinalOff;
+            Startindex           = _config.AnteRoom.LightCommanderConfiguration.Startindex;
+            Lastindex            = _config.AnteRoom.LightCommanderConfiguration.Lastindex;
+            TimeNextScenario     = _config.AnteRoom.ScenarioConfiguration.DelayTimeNextScenario;
+            IdleScenario         = _config.AnteRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlAnteRoom = new DeviceScenarioControl(Startindex, Lastindex, new Timer_(TimeNextScenario), new Timer_(NotUsed), new Timer_(IdleScenario));
+            _DeviceScenarioControlAnteRoom = 
+                new DeviceScenarioControl(Startindex, 
+                                          Lastindex, 
+                                          new Timer_(TimeNextScenario), 
+                                          new Timer_(NotUsed), 
+                                          new Timer_(IdleScenario));
+
             _DeviceScenarioControlAnteRoom.Scenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
-            _DeviceControlTimerAnteRoom = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
-            _LightCommanderAnteRoom = new ExtendedLightCommander(_config.AnteRoom.LightCommanderConfiguration, _DeviceControlTimerAnteRoom, _DeviceScenarioControlAnteRoom);
+
+            _DeviceControlTimerAnteRoom = 
+                new DeviceControlTimer(new Timer_(TimeTurnOn), 
+                                       new Timer_(TimeTurnAutomaticOff), 
+                                       new Timer_(TimeTurnFinalOff));
+            _LightCommanderAnteRoom = 
+                new ExtendedLightCommander(_config.AnteRoom.LightCommanderConfiguration,
+                                           _DeviceControlTimerAnteRoom, 
+                                           _DeviceScenarioControlAnteRoom);
+
             _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
             _LightCommanderAnteRoom.AvailableScenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
             
@@ -309,6 +323,12 @@ namespace HomeControl.ROOMS
 
                 case ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_OFF:
                     _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.OFF,
+                                                         IOAssignmentControllerAnteBathWashRoom
+                                                         .indDigitalOutputAnteRoomNightLight);
+                    break;
+
+                case ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_ON:
+                    _FeedbackArgs = _LightCommanderAnteRoom.TurnSingleDevice(TurnDevice.ON,
                                                          IOAssignmentControllerAnteBathWashRoom
                                                          .indDigitalOutputAnteRoomNightLight);
                     break;

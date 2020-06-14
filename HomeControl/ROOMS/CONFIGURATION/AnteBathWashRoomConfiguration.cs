@@ -242,7 +242,7 @@ namespace HomeControl.ROOMS
                 Startindex                          = RangeIndexBathRoom.indBFirstLight,
                 Lastindex                           = RangeIndexBathRoom.indBLastLight,
                 DelayTimeAllOn                      = DefaultSettingsLightControlBathRoom.DelayTimeAllOn,
-                DelayTimeOffByMissingTriggerSignal = DefaultSettingsLightControlBathRoom.DelayTimeAutomaticOffViaPresenceDetector,
+                DelayTimeOffByMissingTriggerSignal  = DefaultSettingsLightControlBathRoom.DelayTimeAutomaticOffViaPresenceDetector,
                 DelayTimeFinalOff                   = DefaultSettingsLightControlBathRoom.DelayTimeFinalOff,
                 DelayTimeDoingNothing               = DefaultSettingsLightControlBathRoom.DelayTimeDoingNothing,
                 Modes                               = DeviceCommandos.ScenarioLight,

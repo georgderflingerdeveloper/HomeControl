@@ -32,21 +32,21 @@ namespace HomeControl.ADVANCED_COMPONENTS
             _devicescenariocontrol.WatchForInputValueChange( edge );
             ControlAutomaticOff( );
             int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber();
-            return ( ActualScenarioNumber );
+            return  ActualScenarioNumber ;
         }
         public int ScenarioTriggerPersitent( bool edge, int number )
         {
             _devicescenariocontrol.TurnScenario( edge, number );
             int ActualScenarioNumber = _devicescenariocontrol.GetActualScenarioNumber( );
-            return ( ActualScenarioNumber );
+            return  ActualScenarioNumber ;
         }
 
         public UpdateEventArgs TurnSingleDevice( bool value, int index )
         {
            UpdateArgs.Index = index;
            UpdateArgs.Value = value;
-           base.TurnSingleDevice(index, value);
-           return (UpdateArgs);
+           TurnSingleDevice(index, value);
+           return UpdateArgs;
         }
 
         public void UpdateConfig(BaseConfiguration config)

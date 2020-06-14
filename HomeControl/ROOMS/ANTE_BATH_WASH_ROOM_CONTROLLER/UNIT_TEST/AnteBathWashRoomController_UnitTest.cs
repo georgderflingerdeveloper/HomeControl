@@ -116,6 +116,30 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
         }
 
         [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MIDDLE_LIGHT_ON_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeFalseForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_ON });
+            Assert.AreEqual(TurnDevice.ON, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomNightLight,
+                            _TestFeedbackArgs.Index);
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_MIDDLE_LIGHT_OFF_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeFalseForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_ANTEROOM_MIDDLE_OFF });
+            Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomNightLight,
+                            _TestFeedbackArgs.Index);
+        }
+
+        [TestMethod]
         public void TestAnteRoomLight_TURN_LIGHT_ANTEROOM_OFF_BACK_Received_()
         {
             _TestFeedbackArgs.Value = FakeFalseForTesting;
@@ -125,6 +149,54 @@ namespace HomeControl.ROOMS.ANTE_BATH_WASH_ROOM_CONTROLLER.UNIT_TEST
             Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
             Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomBackSide,
                             _TestFeedbackArgs.Index);
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_FLOOR1_ON_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeFalseForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_FLOOR_UP1_ON });
+            Assert.AreEqual(TurnDevice.ON, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1,
+                            _TestFeedbackArgs.Index);
+
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_FLOOR1_OFF_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeTrueForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_FLOOR_UP1_OFF });
+            Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle1,
+                            _TestFeedbackArgs.Index);
+
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_FLOOR2_ON_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeFalseForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_FLOOR_UP2_ON });
+            Assert.AreEqual(TurnDevice.ON, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2,
+                            _TestFeedbackArgs.Index);
+
+        }
+
+        [TestMethod]
+        public void TestAnteRoomLight_TURN_LIGHT_FLOOR2_OFF_Received_()
+        {
+            _TestFeedbackArgs.Value = FakeTrueForTesting;
+            _TestFeedbackArgs.Index = AnyUnknownIndex;
+            _TestFeedbackArgs = _TestAnteBathWashRoomController.RemoteControl(new DataReceivingEventArgs() { Message = ComandoString.TURN_LIGHT_FLOOR_UP2_OFF });
+            Assert.AreEqual(TurnDevice.OFF, _TestFeedbackArgs.Value);
+            Assert.AreEqual(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomRoofBackSideFloorSpotGroupMiddle2,
+                            _TestFeedbackArgs.Index);
+
         }
 
 
