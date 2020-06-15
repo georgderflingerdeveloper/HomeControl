@@ -64,8 +64,8 @@ namespace HomeControl.ROOMS
             _HeartBeat = HeartBeat;
             _config = config;
             _IOHandler = IOHandler;
-            _IOHandler.EDigitalInputChanged += IOHandler__EDigitalInputChanged;
-            _IOHandler.EDigitalOutputChanged += _IOHandler_EDigitalOutputChanged;
+            _IOHandler.EDigitalInputChanged  += IOHandlerDigitalInputChanged;
+            _IOHandler.EDigitalOutputChanged += IOHandlerDigitalOutputChanged;
             Constructor();
             HeartBeat.EUpdate += _Commander_ExtUpdate;
             _Communicator = Communicator;
@@ -85,7 +85,7 @@ namespace HomeControl.ROOMS
 
             for (int i = 0; i < IOHandler.Length; i++)
             {
-                _IOHandlerMulti[i].EDigitalInputChanged += IOHandler__EDigitalInputChanged;
+                _IOHandlerMulti[i].EDigitalInputChanged += IOHandlerDigitalInputChanged;
             }
 
             Constructor();
@@ -172,53 +172,87 @@ namespace HomeControl.ROOMS
             #endregion
 
             #region LIGHTCOMMANDER_BATHROOM
-            TimeTurnOn = _config.BathRoom.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn           = _config.BathRoom.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.BathRoom.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
-            TimeTurnFinalOff = _config.BathRoom.LightCommanderConfiguration.DelayTimeFinalOff;
-            Startindex = _config.BathRoom.LightCommanderConfiguration.Startindex;
-            Lastindex = _config.BathRoom.LightCommanderConfiguration.Lastindex;
-            TimeNextScenario = _config.BathRoom.ScenarioConfiguration.DelayTimeNextScenario;
-            IdleScenario = _config.BathRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
+            TimeTurnFinalOff     = _config.BathRoom.LightCommanderConfiguration.DelayTimeFinalOff;
+            Startindex           = _config.BathRoom.LightCommanderConfiguration.Startindex;
+            Lastindex            = _config.BathRoom.LightCommanderConfiguration.Lastindex;
+            TimeNextScenario     = _config.BathRoom.ScenarioConfiguration.DelayTimeNextScenario;
+            IdleScenario         = _config.BathRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlBathRoom = new DeviceScenarioControl(Startindex, Lastindex, new Timer_(TimeNextScenario), new Timer_(NotUsed), new Timer_(IdleScenario));
-            _DeviceScenarioControlBathRoom.Scenarios = _config.BathRoom.ScenarioConfiguration.Scenarios;
+            _DeviceScenarioControlBathRoom 
+                = new DeviceScenarioControl(Startindex, 
+                                            Lastindex, 
+                                            new Timer_(TimeNextScenario), 
+                                            new Timer_(NotUsed), 
+                                            new Timer_(IdleScenario));
 
-            _DeviceControlTimerBathRoom = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
-            _LightCommanderBathRoom = new ExtendedLightCommander(_config.BathRoom.LightCommanderConfiguration, _DeviceControlTimerBathRoom, _DeviceScenarioControlBathRoom);
+            _DeviceScenarioControlBathRoom.Scenarios 
+                = _config.BathRoom.ScenarioConfiguration.Scenarios;
+
+            _DeviceControlTimerBathRoom 
+                = new DeviceControlTimer(new Timer_(TimeTurnOn), 
+                                         new Timer_(TimeTurnAutomaticOff), 
+                                         new Timer_(TimeTurnFinalOff));
+
+            _LightCommanderBathRoom 
+                = new ExtendedLightCommander(
+                    _config.BathRoom.LightCommanderConfiguration,
+                    _DeviceControlTimerBathRoom, 
+                    _DeviceScenarioControlBathRoom);
+
             _LightCommanderBathRoom.ExtUpdate += _Commander_ExtUpdate;
             #endregion
 
             #region LIGHTCOMMANDER_WASHROOM
-            TimeTurnOn = _config.WashRoom.LightCommanderConfiguration.DelayTimeAllOn;
+            TimeTurnOn           = _config.WashRoom.LightCommanderConfiguration.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.WashRoom.LightCommanderConfiguration.DelayTimeOffByMissingTriggerSignal;
-            TimeTurnFinalOff = _config.WashRoom.LightCommanderConfiguration.DelayTimeFinalOff;
-            Startindex = _config.WashRoom.LightCommanderConfiguration.Startindex;
-            Lastindex = _config.WashRoom.LightCommanderConfiguration.Lastindex;
-            TimeNextScenario = _config.WashRoom.ScenarioConfiguration.DelayTimeNextScenario;
-            IdleScenario = _config.WashRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
+            TimeTurnFinalOff     = _config.WashRoom.LightCommanderConfiguration.DelayTimeFinalOff;
+            Startindex           = _config.WashRoom.LightCommanderConfiguration.Startindex;
+            Lastindex            = _config.WashRoom.LightCommanderConfiguration.Lastindex;
+            TimeNextScenario     = _config.WashRoom.ScenarioConfiguration.DelayTimeNextScenario;
+            IdleScenario         = _config.WashRoom.LightCommanderConfiguration.DelayTimeDoingNothing;
             NotUsed = 1; // TODO
 
-            _DeviceScenarioControlWashRoom = new DeviceScenarioControl(Startindex, Lastindex, new Timer_(TimeNextScenario), new Timer_(NotUsed), new Timer_(IdleScenario));
+            _DeviceScenarioControlWashRoom 
+                = new DeviceScenarioControl(Startindex, 
+                                            Lastindex, 
+                                            new Timer_(TimeNextScenario), 
+                                            new Timer_(NotUsed), 
+                                            new Timer_(IdleScenario));
+
             _DeviceScenarioControlWashRoom.Scenarios = _config.WashRoom.ScenarioConfiguration.Scenarios;
 
-            _DeviceControlTimerWashRoom = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff), new Timer_(TimeTurnFinalOff));
-            _LightCommanderWashRoom = new ExtendedLightCommander(_config.WashRoom.LightCommanderConfiguration, _DeviceControlTimerWashRoom, _DeviceScenarioControlWashRoom);
+            _DeviceControlTimerWashRoom 
+                = new DeviceControlTimer(new Timer_(TimeTurnOn), 
+                                         new Timer_(TimeTurnAutomaticOff),
+                                         new Timer_(TimeTurnFinalOff));
+
+            _LightCommanderWashRoom 
+                = new ExtendedLightCommander(_config.WashRoom.LightCommanderConfiguration, 
+                                             _DeviceControlTimerWashRoom, 
+                                             _DeviceScenarioControlWashRoom);
             _LightCommanderWashRoom.ExtUpdate += _Commander_ExtUpdate;
             #endregion
 
             #region LIGHTCOMMANDER_PRESENCE
             TimeTurnAutomaticOff = _config.PresenceLightConfiguration.DelayTimeOffByMissingTriggerSignal;
             _DeviceControlTimerPresenceLight = new DeviceControlTimer(new Timer_(TimeTurnAutomaticOff));
-            _PresenceLight = new LightCommander(_config.PresenceLightConfiguration, _DeviceControlTimerPresenceLight);
+            _PresenceLight = new LightCommander(_config.PresenceLightConfiguration, 
+                                                _DeviceControlTimerPresenceLight);
             _PresenceLight.EUpdate += _Commander_ExtUpdate;
             #endregion
 
             #region HEATERCOMMANDER_BATHROOM
             TimeTurnOn = _config.HeaterBathRoom.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.HeaterBathRoom.DelayTimeFinalOff;
-            _DeviceControlTimerHeaterBathRoom = new DeviceControlTimer(new Timer_(TimeTurnOn), new Timer_(TimeTurnAutomaticOff));
-            _HeaterCommanderBathRoom = new HeaterCommander(_config.HeaterBathRoom, _DeviceControlTimerHeaterBathRoom);
+            _DeviceControlTimerHeaterBathRoom
+                = new DeviceControlTimer(new Timer_(TimeTurnOn),
+                                         new Timer_(TimeTurnAutomaticOff));
+
+            _HeaterCommanderBathRoom = new HeaterCommander(_config.HeaterBathRoom, 
+                                                           _DeviceControlTimerHeaterBathRoom);
             _HeaterCommanderBathRoom.EUpdate += _Commander_ExtUpdate;
             #endregion
         }
@@ -454,7 +488,7 @@ namespace HomeControl.ROOMS
             }
         }
 
-        private void IOHandler__EDigitalInputChanged(object sender, DigitalInputEventargs e)
+        private void IOHandlerDigitalInputChanged(object sender, DigitalInputEventargs e)
         {
             RoomController(e.Index, e.Value);
 
@@ -480,7 +514,7 @@ namespace HomeControl.ROOMS
             }
         }
 
-        private void _IOHandler_EDigitalOutputChanged(object sender, DigitalOutputEventargs e)
+        private void IOHandlerDigitalOutputChanged(object sender, DigitalOutputEventargs e)
         {
             try
             {
