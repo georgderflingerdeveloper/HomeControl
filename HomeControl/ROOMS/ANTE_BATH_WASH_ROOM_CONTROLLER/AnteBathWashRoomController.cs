@@ -21,24 +21,24 @@ namespace HomeControl.ROOMS
     {
         #region DECLARATION
         AnteBathWashRoomConfiguration _config;
-        IIOHandler _IOHandler;
-        IIOHandler[] _IOHandlerMulti;
-        ExtendedLightCommander _LightCommanderAnteRoom;
-        ExtendedLightCommander _LightCommanderBathRoom;
-        HeaterCommander _HeaterCommanderBathRoom;
-        IDeviceControlTimer _DeviceControlTimerHeaterBathRoom;
-        ExtendedLightCommander _LightCommanderWashRoom;
-        DeviceScenarioControl _DeviceScenarioControlAnteRoom;
-        IDeviceControlTimer _DeviceControlTimerAnteRoom;
-        DeviceScenarioControl _DeviceScenarioControlBathRoom;
-        IDeviceControlTimer _DeviceControlTimerBathRoom;
-        DeviceScenarioControl _DeviceScenarioControlWashRoom;
-        IDeviceControlTimer _DeviceControlTimerWashRoom;
-        IDeviceBlinker _HeartBeat;
-        LightCommander _PresenceLight;
-        IDeviceControlTimer _DeviceControlTimerPresenceLight;
-        IUdpBasic _Communicator;
-        UpdateEventArgs _FeedbackArgs = new UpdateEventArgs();
+        IIOHandler                    _IOHandler;
+        IIOHandler[]                  _IOHandlerMulti;
+        ExtendedLightCommander        _LightCommanderAnteRoom;
+        ExtendedLightCommander        _LightCommanderBathRoom;
+        HeaterCommander               _HeaterCommanderBathRoom;
+        IDeviceControlTimer           _DeviceControlTimerHeaterBathRoom;
+        ExtendedLightCommander        _LightCommanderWashRoom;
+        DeviceScenarioControl         _DeviceScenarioControlAnteRoom;
+        IDeviceControlTimer           _DeviceControlTimerAnteRoom;
+        DeviceScenarioControl         _DeviceScenarioControlBathRoom;
+        IDeviceControlTimer           _DeviceControlTimerBathRoom;
+        DeviceScenarioControl         _DeviceScenarioControlWashRoom;
+        IDeviceControlTimer           _DeviceControlTimerWashRoom;
+        IDeviceBlinker                _HeartBeat;
+        LightCommander                _PresenceLight;
+        IDeviceControlTimer           _DeviceControlTimerPresenceLight;
+        IUdpBasic                     _Communicator;
+        UpdateEventArgs               _FeedbackArgs = new UpdateEventArgs();
 
         double TimeTurnOn;
         double TimeTurnAutomaticOff;
@@ -58,14 +58,14 @@ namespace HomeControl.ROOMS
         #region CONSTRUCTOR
         public AnteBathWashRoomController(AnteBathWashRoomConfiguration config,
                                           IDeviceBlinker HeartBeat,
-                                          IIOHandler IOHandler,
-                                          IUdpBasic Communicator) : base()
+                                          IIOHandler     IOHandler,
+                                          IUdpBasic      Communicator) : base()
         {
             _HeartBeat = HeartBeat;
             _config    = config;
             _IOHandler = IOHandler;
-            _IOHandler.EDigitalInputChanged  += IOHandlerDigitalInputChanged;
-            _IOHandler.EDigitalOutputChanged += IOHandlerDigitalOutputChanged;
+            _IOHandler.EDigitalInputChanged  += DigitalInputChanged;
+            _IOHandler.EDigitalOutputChanged += DigitalOutputChanged;
             Constructor();
             HeartBeat.EUpdate += Update;
             _Communicator = Communicator;
@@ -79,13 +79,13 @@ namespace HomeControl.ROOMS
                                           IIOHandler[] IOHandler) : base()
         {
             MultiIOCardsAvailable = true;
-            _HeartBeat = HeartBeat;
-            _config = config;
+            _HeartBeat      = HeartBeat;
+            _config         = config;
             _IOHandlerMulti = IOHandler;
 
             for (int i = 0; i < IOHandler.Length; i++)
             {
-                _IOHandlerMulti[i].EDigitalInputChanged += IOHandlerDigitalInputChanged;
+                _IOHandlerMulti[i].EDigitalInputChanged += DigitalInputChanged;
             }
 
             Constructor();
@@ -245,7 +245,7 @@ namespace HomeControl.ROOMS
             #endregion
 
             #region HEATERCOMMANDER_BATHROOM
-            TimeTurnOn = _config.HeaterBathRoom.DelayTimeAllOn;
+            TimeTurnOn           = _config.HeaterBathRoom.DelayTimeAllOn;
             TimeTurnAutomaticOff = _config.HeaterBathRoom.DelayTimeFinalOff;
             _DeviceControlTimerHeaterBathRoom
                 = new DeviceControlTimer(new Timer_(TimeTurnOn),
@@ -454,7 +454,7 @@ namespace HomeControl.ROOMS
             }
         }
 
-        void RoomController(int index, bool value)
+        void Controller(int index, bool value)
         {
             switch (index)
             {
@@ -477,7 +477,7 @@ namespace HomeControl.ROOMS
                     break;
 
                 case IOAssignmentControllerAnteBathWashRoom.indDigitalInputWindow:
-                    bool WindowIsOpen = (value == false);
+                    bool WindowIsOpen = value == false;
                     if (WindowIsOpen)
                     {
                         _HeaterCommanderBathRoom.EventSwitch(PowerState.OFF);
@@ -486,12 +486,11 @@ namespace HomeControl.ROOMS
             }
         }
 
-        private void IOHandlerDigitalInputChanged(object sender, DigitalInputEventargs e)
+        private void DigitalInputChanged(object sender, DigitalInputEventargs e)
         {
-            RoomController(e.Index, e.Value);
-
             try
-            {
+            {   
+                Controller(e.Index, e.Value);
                 string DeviceName = IOAssignmentControllerAnteBathWashRoom.GetInputDeviceName(e.Index);
                 Console.WriteLine(TimeUtil.GetTimestamp_() +
                        HardConfig.COMMON.Seperators.WhiteSpace +
@@ -513,11 +512,9 @@ namespace HomeControl.ROOMS
             {
                 Console.WriteLine(TimeUtil.GetTimestamp_() + LogException.ToString());
             }
-
-  
         }
 
-        private void IOHandlerDigitalOutputChanged(object sender, DigitalOutputEventargs e)
+        private void DigitalOutputChanged(object sender, DigitalOutputEventargs e)
         {
             try
             {

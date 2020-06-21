@@ -142,16 +142,16 @@ namespace HomeControl
                                              );
             InfoWait();
 
-            IOHandler IOHandler_ = new IOHandler( HandlerMode.eHardware );
+            IOHandler IOHandler_ = new IOHandler(HandlerMode.eHardware);
 
 
-            if ( IOHandler_.Attached )
+            if (IOHandler_.Attached)
             {
-                IOHandler_.SetAllOutputs( false );
-                _AnteBathWashRoomController = new AnteBathWashRoomController( _AnteBathWashRoomConfiguration, 
-                                                                              _HeartBeat, 
-                                                                              IOHandler_, 
-                                                                              SenderReceiver );
+                IOHandler_.SetAllOutputs(false);
+                _AnteBathWashRoomController = new AnteBathWashRoomController(_AnteBathWashRoomConfiguration,
+                                                                             _HeartBeat, 
+                                                                             IOHandler_, 
+                                                                             SenderReceiver );
                 InfoMode();
                 WaitUntilKeyPressed( );
                 IOHandler_.SetAllOutputs( false );
