@@ -62,14 +62,14 @@ namespace HomeControl.ROOMS
                                           IUdpBasic Communicator) : base()
         {
             _HeartBeat = HeartBeat;
-            _config = config;
+            _config    = config;
             _IOHandler = IOHandler;
             _IOHandler.EDigitalInputChanged  += IOHandlerDigitalInputChanged;
             _IOHandler.EDigitalOutputChanged += IOHandlerDigitalOutputChanged;
             Constructor();
-            HeartBeat.EUpdate += _Commander_ExtUpdate;
+            HeartBeat.EUpdate += Update;
             _Communicator = Communicator;
-            _Communicator.EDataReceived += _Communicator_EDataReceived;
+            _Communicator.EDataReceived += DataReceived;
 
             HeartBeat.Start();
         }
@@ -89,7 +89,7 @@ namespace HomeControl.ROOMS
             }
 
             Constructor();
-            HeartBeat.EUpdate += _Commander_ExtUpdate;
+            HeartBeat.EUpdate += Update;
             HeartBeat.Start();
         }
         #endregion
@@ -166,7 +166,7 @@ namespace HomeControl.ROOMS
                                            _DeviceControlTimerAnteRoom, 
                                            _DeviceScenarioControlAnteRoom);
 
-            _LightCommanderAnteRoom.ExtUpdate += _Commander_ExtUpdate;
+            _LightCommanderAnteRoom.ExtUpdate += Update;
             _LightCommanderAnteRoom.AvailableScenarios = _config.AnteRoom.ScenarioConfiguration.Scenarios;
             
             #endregion
@@ -202,7 +202,7 @@ namespace HomeControl.ROOMS
                     _DeviceControlTimerBathRoom, 
                     _DeviceScenarioControlBathRoom);
 
-            _LightCommanderBathRoom.ExtUpdate += _Commander_ExtUpdate;
+            _LightCommanderBathRoom.ExtUpdate += Update;
             #endregion
 
             #region LIGHTCOMMANDER_WASHROOM
@@ -233,7 +233,7 @@ namespace HomeControl.ROOMS
                 = new ExtendedLightCommander(_config.WashRoom.LightCommanderConfiguration, 
                                              _DeviceControlTimerWashRoom, 
                                              _DeviceScenarioControlWashRoom);
-            _LightCommanderWashRoom.ExtUpdate += _Commander_ExtUpdate;
+            _LightCommanderWashRoom.ExtUpdate += Update;
             #endregion
 
             #region LIGHTCOMMANDER_PRESENCE
@@ -241,7 +241,7 @@ namespace HomeControl.ROOMS
             _DeviceControlTimerPresenceLight = new DeviceControlTimer(new Timer_(TimeTurnAutomaticOff));
             _PresenceLight = new LightCommander(_config.PresenceLightConfiguration, 
                                                 _DeviceControlTimerPresenceLight);
-            _PresenceLight.EUpdate += _Commander_ExtUpdate;
+            _PresenceLight.EUpdate += Update;
             #endregion
 
             #region HEATERCOMMANDER_BATHROOM
@@ -253,7 +253,7 @@ namespace HomeControl.ROOMS
 
             _HeaterCommanderBathRoom = new HeaterCommander(_config.HeaterBathRoom, 
                                                            _DeviceControlTimerHeaterBathRoom);
-            _HeaterCommanderBathRoom.EUpdate += _Commander_ExtUpdate;
+            _HeaterCommanderBathRoom.EUpdate += Update;
             #endregion
         }
 
@@ -332,8 +332,6 @@ namespace HomeControl.ROOMS
         {
             _FeedbackArgs.Index = InvalidIndex;
             _FeedbackArgs.Value = false;
-
-            
 
             switch (e.Message)
             {
@@ -441,7 +439,7 @@ namespace HomeControl.ROOMS
         #endregion
 
         #region EVENTHANDLERS
-        private void _Commander_ExtUpdate(object sender, UpdateEventArgs e)
+        private void Update(object sender, UpdateEventArgs e)
         {
             if (MultiIOCardsAvailable)
             {
@@ -494,6 +492,7 @@ namespace HomeControl.ROOMS
 
             try
             {
+                string DeviceName = IOAssignmentControllerAnteBathWashRoom.GetInputDeviceName(e.Index);
                 Console.WriteLine(TimeUtil.GetTimestamp_() +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.DeviceDigitalInput +
@@ -502,16 +501,20 @@ namespace HomeControl.ROOMS
                        e.Index.ToString() +
                        InfoString.BraceClose +
                        HardConfig.COMMON.Seperators.WhiteSpace +
-                       IOAssignmentControllerAnteBathWashRoom.GetInputDeviceName(e.Index) +
+                       DeviceName +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.Is +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        e.Value.ToString());
+                 string SendData = TimeUtil.GetTimestamp_() + "_" + DeviceName + "_" + e.Value.ToString();
+                _Communicator?.SendString(SendData);          
             }
             catch (Exception LogException)
             {
                 Console.WriteLine(TimeUtil.GetTimestamp_() + LogException.ToString());
             }
+
+  
         }
 
         private void IOHandlerDigitalOutputChanged(object sender, DigitalOutputEventargs e)
@@ -542,7 +545,7 @@ namespace HomeControl.ROOMS
             }
         }
 
-        private void _Communicator_EDataReceived(object sender, DataReceivingEventArgs e)
+        private void DataReceived(object sender, DataReceivingEventArgs e)
         {
             _RemoteControl(e);
             Console.WriteLine(TimeUtil.GetTimestamp_() + " Received telegramm: " + e.Message + " from " + e.Adress + ":" + e.Port);
