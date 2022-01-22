@@ -39,14 +39,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HardConfig">
-      <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Release\HardConfig.dll</HintPath>
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HardConfig\bin\Release\HardConfig.dll</HintPath>
     </Reference>
     <Reference Include="HomeAutomationProtocoll">
-      <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HomeAutomationProtocoll\bin\Release\HomeAutomationProtocoll.dll</HintPath>
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\HomeAutomationProtocoll\bin\Release\HomeAutomationProtocoll.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LibUdp">
-      <HintPath>..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Release\LibUdp.dll</HintPath>
+      <HintPath>..\..\..\HomeAutomationLibraries\HomeAutomationLibraries-master\LibUdp\bin\Release\LibUdp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Phidget21.NET">

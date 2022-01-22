@@ -522,6 +522,8 @@ namespace HomeControl.ROOMS
                 {
                     return;
                 }
+                string DeviceName = IOAssignmentControllerAnteBathWashRoom.GetOutputDeviceName(e.Index);
+
                 Console.WriteLine(TimeUtil.GetTimestamp_() +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.DeviceDigialOutput +
@@ -530,11 +532,15 @@ namespace HomeControl.ROOMS
                        e.Index.ToString() +
                        InfoString.BraceClose +
                        HardConfig.COMMON.Seperators.WhiteSpace +
-                       IOAssignmentControllerAnteBathWashRoom.GetOutputDeviceName(e.Index) +
+                       DeviceName +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        InfoString.Is +
                        HardConfig.COMMON.Seperators.WhiteSpace +
                        e.Value.ToString());
+
+                string SendData = TimeUtil.GetTimestamp_() + "_" + DeviceName + "_" + e.Value.ToString();
+                _Communicator?.SendString(SendData);
+
             }
             catch (Exception LogException)
             {

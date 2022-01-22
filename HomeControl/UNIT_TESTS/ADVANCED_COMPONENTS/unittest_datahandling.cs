@@ -23,13 +23,13 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
            DataHandler_.Store( AnteBathWashRoomConfiguration_, FileNameAnteRoom );
         }
 
-        [TestMethod]
-        public void LoadTestData( )
-        {
-            object readdata =  DataHandler_.Load( LoadedAnteBathWashRoomConfiguration_, FileNameAnteRoom );
-            LoadedAnteBathWashRoomConfiguration_ = readdata as AnteBathWashRoomConfiguration;
-            Assert.IsTrue( Memory.CompareObjects( AnteBathWashRoomConfiguration_, LoadedAnteBathWashRoomConfiguration_ ) );
-        }
+        //[TestMethod]
+        //public void LoadTestData( )
+        //{
+        //    object readdata =  DataHandler_.Load( LoadedAnteBathWashRoomConfiguration_, FileNameAnteRoom );
+        //    LoadedAnteBathWashRoomConfiguration_ = readdata as AnteBathWashRoomConfiguration;
+        //    Assert.IsTrue( Memory.CompareObjects( AnteBathWashRoomConfiguration_, LoadedAnteBathWashRoomConfiguration_ ) );
+        //}
 
         // create xml file only
         [TestMethod]
@@ -59,13 +59,13 @@ namespace HomeControl.UNIT_TESTS.ADVANCED_COMPONENTS
         DataHandler_.Store(SleepingRoomConfiguration_, FileNameAnteRoom);
     }
 
-    [TestMethod]
-    public void LoadTestData()
-    {
-        object readdata = DataHandler_.Load(LoadedSleepingRoomconfig_, FileNameAnteRoom);
-        LoadedSleepingRoomconfig_ = readdata as SleepingRoomConfiguration;
-        Assert.IsTrue(Memory.CompareObjects(SleepingRoomConfiguration_, LoadedSleepingRoomconfig_));
-    }
+    //[TestMethod]
+    //public void LoadTestData()
+    //{
+    //    object readdata = DataHandler_.Load(LoadedSleepingRoomconfig_, FileNameAnteRoom);
+    //    LoadedSleepingRoomconfig_ = readdata as SleepingRoomConfiguration;
+    //    Assert.IsTrue(Memory.CompareObjects(SleepingRoomConfiguration_, LoadedSleepingRoomconfig_));
+    //}
 
     // create xml file only
     [TestMethod]
