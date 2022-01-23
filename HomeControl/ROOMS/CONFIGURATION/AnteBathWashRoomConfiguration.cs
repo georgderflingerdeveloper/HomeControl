@@ -82,8 +82,17 @@ namespace HomeControl.ROOMS
 
         static string GetDeviceName( Dictionary<int, string> IoDictionary, int key )
         {
-             IoDictionary.TryGetValue( key, out string devicename );
-             return ( devicename );
+            string DeviceName = "";
+            try
+            {
+                IoDictionary.TryGetValue(key, out string DevNameFromDictionary );
+                DeviceName = DevNameFromDictionary;
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("Key"+ key.ToString()+ "is not found");
+            }
+            return (DeviceName);
         }
 
         public static string GetInputDeviceName( int key )

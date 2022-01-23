@@ -104,6 +104,7 @@
     <Compile Include="ROOMS\CONFIGURATION\HardwareConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\RoomConfiguration.cs" />
     <Compile Include="ROOMS\CONFIGURATION\SleepingRoomConfiguration.cs" />
+    <Compile Include="ROOMS\CONFIGURATION\UNIT_TEST\AnteBathWashRoomConfiguration_UnitTest.cs" />
     <Compile Include="ROOMS\SLEEPING_ROOM\INTERFACE\ISleepingRoomController.cs" />
     <Compile Include="ROOMS\SLEEPING_ROOM\SleepingRoomController.cs" />
     <Compile Include="ROOMS\SLEEPING_ROOM\UNIT_TESTS\SleepingRoomController_UnitTests.cs" />
