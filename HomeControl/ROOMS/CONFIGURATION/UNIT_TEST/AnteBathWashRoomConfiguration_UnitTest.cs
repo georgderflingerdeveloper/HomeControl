@@ -13,5 +13,13 @@ namespace HomeControl.ROOMS.CONFIGURATION.UNIT_TEST
             string TestDeviceName = IOAssignmentControllerAnteBathWashRoom.GetOutputDeviceName(0);
             Assert.AreEqual(nameof(IOAssignmentControllerAnteBathWashRoom.indDigitalOutputAnteRoomMainLight), TestDeviceName);
         }
+
+        [TestMethod]
+        public void TestDeviceName_DigitalInput_InvalidNegaive()
+        {
+            string TestDeviceName = IOAssignmentControllerAnteBathWashRoom.GetOutputDeviceName(-1);
+            string ExpectedInfo = "Key" + "-1" + "is not found";
+            Assert.AreEqual(ExpectedInfo, TestDeviceName);
+        }
     }
 }
